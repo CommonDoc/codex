@@ -26,7 +26,19 @@ The package name determines what kind of link will be generated:
 **Examples:**
 
 ```tex
-... we use the \clref{cl:find} function in \clref{myapp:my-function} to find ...
+... we use the \clref{cl:find} function in \clref{myapp:my-function} to find...
+```
+
+### `arg`
+
+**TeX Syntax:** `\arg{name}`
+
+Refers to a parameter of a function, macro or method.
+
+**Examples:**
+
+```tex
+... the \arg{points} argument is a vector of points of...
 ```
 
 # Implementation

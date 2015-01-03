@@ -28,8 +28,7 @@ The package name determines what kind of link will be generated:
   [Common Lisp HyperSpec][clhs] will be generated.
 * If the symbol comes from a package that's part of the project, a link to the
   symbol in the proper document will be generated.
-* If the symbol belongs to an external package, a link to the [Quickdocs][qd]
-  page will be generated.
+* If the symbol belongs to an external package, no link is generated.
 
 **Examples:**
 

@@ -18,7 +18,7 @@ documentation and converting it to other formats, respectively.
 
 ### `clref`
 
-**TeX Syntax:** `\clref{<package>:<symbol>}`
+**TeX Syntax:** `\clref{<package>:<symbol>}`, `\clref{<symbol>}`
 
 Reference a symbol by name. The name must have the full package name.
 

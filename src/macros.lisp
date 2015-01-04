@@ -9,7 +9,26 @@
                 :text)
   (:import-from :common-doc.macro
                 :<macro-node>
-                :expand-macro))
+                :expand-macro)
+  (:export :<cl-ref>
+           :<documentation-node>
+           :<operator>
+           :<function>
+           :<macro>
+           :<generic-function>
+           :<variable>
+           :<slot>
+           :<record>
+           :<struct>
+           :<class>
+           :name
+           :doc
+           :lambda-list
+           :accessors
+           :readers
+           :writers
+           :slots)
+  (:documentation "CommonDoc macros for representing documentation."))
 (in-package :codex.macros)
 
 ;;; Macros in user input (Docstrings, files, etc.)

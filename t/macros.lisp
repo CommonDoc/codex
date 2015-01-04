@@ -17,34 +17,22 @@
   (:export :tests))
 (in-package :codex-test.macros)
 
+;;; Utilities
+
+(defun test-equal (vertex-input vertex-output)
+  (common-doc.ops:node-equal
+   (expand-macro
+    (common-doc.format:parse-document (make-instance 'vertex:<vertex>)
+                                      vertex-input))
+    (common-doc.format:parse-document (make-instance 'vertex:<vertex>)
+                                      vertex-output)))
+
+;;; Suite
+
 (def-suite tests
   :description "Codex macro tests.")
 (in-suite tests)
 
 (test cl-ref
-  (let* ((ref (make-instance 'codex.macros:<cl-ref>
-                             :children
-                             (list
-                              (make-text "test"))))
-         (expanded-ref))
-    (finishes
-      (setf expanded-ref (expand-macro ref)))
-    (is
-     (typep expanded-ref '<document-link>))
-    (is
-     (equal (document-reference expanded-ref) "package-common-lisp"))
-    (is
-     (equal (section-reference expanded-ref) "symbol-test")))
-  (let* ((ref (make-instance 'codex.macros:<cl-ref>
-                             :children
-                             (list
-                              (make-text "pack:sym"))))
-         (expanded-ref))
-    (finishes
-      (setf expanded-ref (expand-macro ref)))
-    (is
-     (typep expanded-ref '<document-link>))
-    (is
-     (equal (document-reference expanded-ref) "package-pack"))
-    (is
-     (equal (section-reference expanded-ref) "symbol-sym"))))
+  (test-equal "\\clref{sym}"
+              "\\ref[doc=common-lisp, sec=symbol-sym]"))

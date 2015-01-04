@@ -10,7 +10,8 @@
                 :serial t
                 :components
                 ((:file "macros")
-                 (:file "parser"))))
+                 (:file "parser")
+                 (:file "manifest"))))
   :description "A documentation system for Common Lisp."
   :long-description
   #.(uiop:read-file-string

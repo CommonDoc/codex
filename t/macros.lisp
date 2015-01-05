@@ -34,5 +34,9 @@
 (in-suite tests)
 
 (test cl-ref
-  (test-equal "\\clref{sym}"
-              "\\ref[doc=common-lisp, sec=symbol-sym]"))
+  (is-true
+   (test-equal "\\clref{sym}"
+               "\\ref[doc=common-lisp, sec=symbol-sym]"))
+  (is-true
+   (test-equal "\\clref{pack:sym}"
+               "\\ref[doc=pack, sec=symbol-sym]")))

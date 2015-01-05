@@ -140,11 +140,10 @@
                             (subseq symbol (1+ colon-pos))
                             symbol)))
       (make-instance '<document-link>
-                     :document-reference (concatenate 'string
-                                                      "package-"
-                                                      package-name)
+                     :document-reference package-name
                      :section-reference (concatenate 'string
-                                                     "symbol-" symbol-name)))))
+                                                     "symbol-"
+                                                     symbol-name)))))
 
 (defmethod expand-macro ((slot <slot>))
   (labels ((list-of-strings-to-list (strings)

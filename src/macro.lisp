@@ -1,5 +1,5 @@
 (in-package :cl-user)
-(defpackage codex.macros
+(defpackage codex.macro
   (:use :cl :trivial-types)
   (:import-from :common-doc
                 :<document-node>
@@ -25,6 +25,7 @@
            :<function>
            :<macro>
            :<generic-function>
+           :<method>
            :<variable>
            :<slot>
            :<record>
@@ -38,7 +39,7 @@
            :writers
            :slots)
   (:documentation "CommonDoc macros for representing documentation."))
-(in-package :codex.macros)
+(in-package :codex.macro)
 
 ;;; Variables
 
@@ -92,6 +93,10 @@
 (define-node <generic-function> (<operator>)
   ()
   (:documentation "A generic function."))
+
+(define-node <method> (<operator>)
+  ()
+  (:documentation "A method."))
 
 (define-node <variable> (<documentation-node>)
   ()

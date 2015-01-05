@@ -32,6 +32,69 @@
              :documentation "A list of the system's packages."))
   (:documentation "A parsed ASDF system."))
 
+(defun extract-and-concat-names (plist)
+  (reduce #'(lambda (a b)
+              (concatenate 'string a b))
+          (loop for name in plist collecting
+            (getf name :name))))
+
+(defun parse-name (name-plist)
+  "Parse a Quickdocs name plist."
+  (getf name-plist :symbol))
+
+(defun parse-documentation (plist)
+  "Extract documentation from a Quickdocs plist."
+  (getf plist :documentation))
+
+(defun parse-lambda-list (plist)
+  "Parse a Quickdocs lambda list."
+  (let ((lambda-list (getf plist :lambda-list)))
+    (extract-and-concat-names lambda-list)))
+
+(defun parse-variable (variable-plist)
+  "Parse a Quickdocs variable plist."
+  (make-instance 'codex.macro:<variable>
+                 :name (parse-name variable-plist)
+                 :doc (parse-documentation variable-plist)))
+
+(defun parse-operator (function-plist)
+  "Parse a Quickdocs operator plist."
+  (let ((class (case (getf function-plist :type)
+                 (:function
+                  'codex.macro:<function>)
+                 (:macro
+                  'codex.macro:<macro>)
+                 (:generic
+                  'codex.macro:<generic-function>)
+                 (:method
+                  'codex.macro:<method>))))
+    (make-instance class
+                   :name (parse-name function-plist)
+                   :doc (parse-documentation function-plist)
+                   :lambda-list (parse-lambda-list function-plist))))
+
+(defun parse-record (record-plist)
+  (flet ((parse-slot (slot-plist)
+           (flet ((parse-methods (key)
+                    (extract-and-concat-names (getf slot-plist key))))
+             (make-instance 'codex.macro:<slot>
+                            :name (parse-name slot-plist)
+                            :doc (parse-documentation slot-plist)
+                            :accessors (parse-methods :accessors)
+                            :readers (parse-methods :readers)
+                            :writers (parse-methods :writers)))))
+    (let ((class (case (getf record-plist :type)
+                   (:struct
+                    'codex.macro:<struct>)
+                   (:class
+                    'codex.macro:<class>))))
+      (make-instance class
+                     :name (parse-name record-plist)
+                     :doc (parse-documentation record-plist)
+                     :slots
+                     (loop for slot in (getf record-plist :slot-list) collecting
+                       (parse-slot slot))))))
+
 (defun parse-system (system-name)
   (let ((parsed (quickdocs.parser:parse-documentation system-name)))
     (make-instance '<system>

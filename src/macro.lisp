@@ -150,6 +150,34 @@
                                                      "symbol-"
                                                      symbol-name)))))
 
+(defun expand-operator-macro (instance class-name)
+  (make-instance '<content-node>
+                 :metadata (make-class-metadata class-name)
+                 :children
+                 (list (make-text (doc-name instance)
+                                  (make-class-metadata "name"))
+                       (doc-description instance))))
+
+(defmethod expand-macro ((function <function>))
+  (expand-operator-macro function "function"))
+
+(defmethod expand-macro ((macro <macro>))
+  (expand-operator-macro macro "macro"))
+
+(defmethod expand-macro ((generic-function <generic-function>))
+  (expand-operator-macro generic-function "generic-function"))
+
+(defmethod expand-macro ((method <method>))
+  (expand-operator-macro method "method"))
+
+(defmethod expand-macro ((variable <variable>))
+  (make-instance '<content-node>
+                 :metadata (make-class-metadata "variable")
+                 :children
+                 (list (make-text (doc-name variable)
+                                  (make-class-metadata "name"))
+                       (doc-description variable))))
+
 (defmethod expand-macro ((slot <slot>))
   (labels ((list-of-strings-to-list (strings)
              (make-instance '<unordered-list>
@@ -179,16 +207,17 @@
                      (list (doc-description slot)
                            slot-methods-node)))))
 
-(defmethod expand-macro ((struct <struct>))
+(defun expand-record-macro (instance class-metadata)
   (make-instance '<content-node>
-                 :metadata (make-class-metadata "struct")
+                 :metadata (make-class-metadata class-metadata)
                  :children
-                 (list (doc-description struct)
-                       (record-slots struct))))
+                 (list (make-text (doc-name instance)
+                                  (make-class-metadata "name"))
+                       (doc-description instance)
+                       (record-slots instance))))
+
+(defmethod expand-macro ((struct <struct>))
+  (expand-record-macro struct "struct"))
 
 (defmethod expand-macro ((class <class>))
-  (make-instance '<content-node>
-                 :metadata (make-class-metadata "class")
-                 :children
-                 (list (doc-description class)
-                       (record-slots class))))
+  (expand-record-macro class "class"))

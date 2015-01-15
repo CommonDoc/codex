@@ -2,7 +2,7 @@
 (defpackage codex-test
   (:use :cl :fiveam)
   (:import-from :codex-test.macros
-                :tests))
+                :macroexpansions))
 (in-package :codex-test)
 
-(run! 'tests)
+(run! 'macroexpansions)

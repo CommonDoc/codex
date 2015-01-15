@@ -5,7 +5,7 @@
   documentation."))
 (in-package :codex.parser)
 
-(defclass <system> ()
+(defclass system ()
   ((name :reader system-name
          :initarg :name
          :type string
@@ -53,7 +53,7 @@
 
 (defun parse-variable (variable-plist)
   "Parse a Quickdocs variable plist."
-  (make-instance 'codex.macro:<variable>
+  (make-instance 'codex.macro:variable-node
                  :name (parse-name variable-plist)
                  :doc (parse-documentation variable-plist)))
 
@@ -61,13 +61,13 @@
   "Parse a Quickdocs operator plist."
   (let ((class (case (getf function-plist :type)
                  (:function
-                  'codex.macro:<function>)
+                  'codex.macro:function-node)
                  (:macro
-                  'codex.macro:<macro>)
+                  'codex.macro:macro-node)
                  (:generic
-                  'codex.macro:<generic-function>)
+                  'codex.macro:generic-function-node)
                  (:method
-                  'codex.macro:<method>))))
+                  'codex.macro:method-node))))
     (make-instance class
                    :name (parse-name function-plist)
                    :doc (parse-documentation function-plist)
@@ -77,7 +77,7 @@
   (flet ((parse-slot (slot-plist)
            (flet ((parse-methods (key)
                     (extract-and-concat-names (getf slot-plist key))))
-             (make-instance 'codex.macro:<slot>
+             (make-instance 'codex.macro:slot-node
                             :name (parse-name slot-plist)
                             :doc (parse-documentation slot-plist)
                             :accessors (parse-methods :accessors)
@@ -85,9 +85,9 @@
                             :writers (parse-methods :writers)))))
     (let ((class (case (getf record-plist :type)
                    (:struct
-                    'codex.macro:<struct>)
+                    'codex.macro:struct-node)
                    (:class
-                    'codex.macro:<class>))))
+                    'codex.macro:class-node))))
       (make-instance class
                      :name (parse-name record-plist)
                      :doc (parse-documentation record-plist)
@@ -97,7 +97,7 @@
 
 (defun parse-system (system-name)
   (let ((parsed (quickdocs.parser:parse-documentation system-name)))
-    (make-instance '<system>
+    (make-instance 'system
                    :name (getf parsed :name)
                    :author (getf parsed :author)
                    :maintainer (getf parsed :maintainer)

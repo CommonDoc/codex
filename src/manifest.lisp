@@ -16,7 +16,7 @@
                                 :direction :input)
     (read input-stream)))
 
-(defclass <config> ()
+(defclass config ()
   ((project-name :reader project-name
                  :initarg project-name
                  :type string

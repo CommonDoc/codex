@@ -14,24 +14,32 @@
                 :<definition-list>
                 :document-reference
                 :section-reference)
-  (:export :tests))
+  (:export :macroexpansions))
 (in-package :codex-test.macros)
 
 ;;; Utilities
 
+(defun parse-vertex (input)
+  (common-doc.format:parse-document (make-instance 'vertex:<vertex>)
+                                    input))
+
 (defun test-equal (vertex-input vertex-output)
   (common-doc.ops:node-equal
    (expand-macro
-    (common-doc.format:parse-document (make-instance 'vertex:<vertex>)
-                                      vertex-input))
-    (common-doc.format:parse-document (make-instance 'vertex:<vertex>)
-                                      vertex-output)))
+    (parse-vertex vertex-input))
+   (parse-vertex vertex-output)))
+
+(defun expand-print (node)
+  (print
+   (common-doc.format:emit-to-string
+    (make-instance 'vertex:<vertex>)
+    (expand-macro node))))
 
 ;;; Suite
 
-(def-suite tests
+(def-suite macroexpansions
   :description "Codex macro tests.")
-(in-suite tests)
+(in-suite macroexpansions)
 
 (test cl-ref
   (is-true
@@ -40,3 +48,10 @@
   (is-true
    (test-equal "\\clref{pack:sym}"
                "\\ref[doc=pack, sec=symbol-sym]")))
+
+(test function
+  (finishes
+    (expand-print (make-instance 'codex.macro:<function>
+                                 :name "f"
+                                 :doc (make-text "docstring")
+                                 :lambda-list (list "a" "b" "c")))))

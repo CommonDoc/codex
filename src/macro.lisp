@@ -9,6 +9,19 @@
   (:import-from :common-doc.util
                 :make-meta
                 :make-text)
+  (:export :cl-ref
+           :function-node
+           :macro-node
+           :generic-function-node
+           :method-node
+           :variable-node
+           :record-node
+           :slot-node
+           :struct-node
+           :class-node
+           :doc-name
+           :doc-description
+           :operator-lambda-list)
   (:documentation "CommonDoc macros for representing documentation."))
 (in-package :codex.macro)
 

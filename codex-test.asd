@@ -2,8 +2,9 @@
   :author "Fernando Borretti <eudoxiahp@gmail.com>"
   :license "MIT"
   :depends-on (:codex
-               :fiveam
-               :vertex)
+               :vertex
+               :common-html
+               :fiveam)
   :components ((:module "t"
                 :serial t
                 :components

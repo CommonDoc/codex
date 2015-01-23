@@ -4,8 +4,12 @@
   (:import-from :common-doc
                 :define-node
                 :text-node
+                :content-node
+                :document-link
                 :children
                 :text)
+  (:import-from :common-doc.macro
+                :expand-macro)
   (:import-from :common-doc.util
                 :make-meta
                 :make-text)

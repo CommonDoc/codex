@@ -4,21 +4,13 @@
   (:documentation "Parsing Codex manifest files."))
 (in-package :codex.manifest)
 
-(defun system-manifest-pathname (system-name)
-  "Return the path to a system's manifest file."
-  (merge-pathnames #p"codex.lisp-expr"
-                   (asdf:component-pathname
-                    (asdf:find-system system-name))))
+(defpackage :codex-manifest-user
+  (:use :cl :codex.manifest)
+  (:documentation "The package in which Codex manifests are read."))
 
-(defun read-manifest (pathname)
-  "Read a manifest file into an S-expression."
-  (with-open-file (input-stream pathname
-                                :direction :input)
-    (read input-stream)))
-
-(defclass config ()
+(defclass manifest ()
   ((project-name :reader project-name
-                 :initarg project-name
+                 :initarg :project-name
                  :type string
                  :documentation "The project's name.")
    (markup-format :reader markup-format
@@ -29,4 +21,13 @@
              :initarg :packages
              :type (proper-list string)
              :documentation "A list of packages to document."))
-  (:documentation "Documentation options."))
+  (:documentation "Manifest options."))
+
+(defun read-manifest (pathname)
+  "Read a manifest file into an S-expression."
+  (uiop:with-safe-io-syntax (:package (find-package :codex-manifest-user))
+    (uiop:read-file-form pathname)))
+
+(defun parse-manifest (pathname)
+  (apply #'make-instance (cons 'manifest (read-manifest pathname))))
+

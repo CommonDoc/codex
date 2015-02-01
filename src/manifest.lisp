@@ -1,6 +1,15 @@
 (in-package :cl-user)
 (defpackage codex.manifest
   (:use :cl :trivial-types)
+  (:export :document
+           :document-title
+           :document-sources
+           :manifest
+           :project-name
+           :markup-format
+           :packages
+           :documents
+           :parse-manifest)
   (:documentation "Parsing Codex manifest files."))
 
 (defpackage :codex-manifest-user

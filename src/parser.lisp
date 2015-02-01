@@ -37,7 +37,10 @@
 
 (defun extract-and-concat-names (plist)
   (reduce #'(lambda (a b)
-              (concatenate 'string a b))
+              (if b
+                  ;; This puts a space between argument names
+                  (concatenate 'string a " " b)
+                  a))
           (loop for name in plist collecting
             (getf name :name))))
 

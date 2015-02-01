@@ -26,7 +26,8 @@
            :class-node
            :doc-name
            :doc-description
-           :operator-lambda-list)
+           :operator-lambda-list
+           :slots)
   (:documentation "CommonDoc macros for representing documentation."))
 (in-package :codex.macro)
 

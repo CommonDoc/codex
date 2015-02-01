@@ -3,7 +3,8 @@
   (:use :cl :fiveam)
   (:import-from :codex.macro
                 :doc-name
-                :doc-description)
+                :doc-description
+                :operator-lambda-list)
   (:export :parser))
 (in-package :codex-test.parser)
 
@@ -12,13 +13,13 @@
 (defparameter +qd-function-sample+
   '(:type :function
     :symbol
-    (:name "DOC" :package-name "CLACK.UTIL.DOC" :externalp t)
+    (:name "FOO-FUN" :package-name "FOO-PACKAGE" :externalp t)
     :lambda-list
-    ((:name "HEADER" :package-name "CLACK.UTIL.DOC" :externalp nil)
+    ((:name "HEADER" :package-name "FOO-PACKAGE" :externalp nil)
      (:name "&OPTIONAL" :package-name "COMMON-LISP" :externalp t)
      ((:name "STRING" :package-name "COMMON-LISP" :externalp t) "\"\"")
-     ((:name "LEVEL" :package-name "CLACK.UTIL.DOC" :externalp nil) "1"))
-    :documentation "Set documentation to current package"))
+     ((:name "LEVEL" :package-name "FOO-PACKAGE" :externalp nil) "1"))
+    :documentation "Docstring"))
 
 (defparameter +qd-variable-sample+
   '(:type :variable
@@ -37,4 +38,17 @@
             "FOO-VAR"))
     (is
      (equal (doc-description var)
+            "Docstring"))))
+
+(test function
+  (let ((func (codex.parser:parse-operator +qd-function-sample+)))
+    (is
+     (equal (doc-name func)
+            "FOO-FUN"))
+    (is
+     (equal (operator-lambda-list func)
+            "HEADER &OPTIONAL (STRING \"\") (LEVEL 1)"))
+    (print (operator-lambda-list func))
+    (is
+     (equal (doc-description func)
             "Docstring"))))

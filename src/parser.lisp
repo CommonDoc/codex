@@ -14,8 +14,14 @@
                   ;; This puts a space between argument names
                   (concatenate 'string a " " b)
                   a))
-          (loop for name in plist collecting
-            (getf name :name))))
+          (loop for name-plist in plist collecting
+            (if (listp (first name-plist))
+                ;; Optional value
+                (format nil "(~A ~A)"
+                        (getf (first name-plist) :name)
+                        (second name-plist))
+                ;; Regular argument
+                (getf name-plist :name)))))
 
 (defun parse-name (name-plist)
   "Parse a Quickdocs name plist into a string."

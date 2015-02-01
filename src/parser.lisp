@@ -1,6 +1,9 @@
 (in-package :cl-user)
 (defpackage codex.parser
   (:use :cl :trivial-types)
+  (:export :parse-variable
+           :parse-operator
+           :parse-record)
   (:documentation "Given a system name, create a CommonDoc document from the
   documentation."))
 (in-package :codex.parser)
@@ -40,7 +43,7 @@
 
 (defun parse-name (name-plist)
   "Parse a Quickdocs name plist."
-  (getf name-plist :symbol))
+  (getf (getf name-plist :symbol) :name))
 
 (defun parse-documentation (plist)
   "Extract documentation from a Quickdocs plist."

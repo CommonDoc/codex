@@ -1,6 +1,9 @@
 (in-package :cl-user)
 (defpackage codex-test.parser
   (:use :cl :fiveam)
+  (:import-from :codex.macro
+                :doc-name
+                :doc-description)
   (:export :parser))
 (in-package :codex-test.parser)
 
@@ -18,11 +21,20 @@
     :documentation "Set documentation to current package"))
 
 (defparameter +qd-variable-sample+
-  '(:type :variable :symbol
-    (:name "*CLACK-OUTPUT*" :package-name "CLACK" :externalp t) :documentation
-    "Standard output for a Clack running process." :initial-value
-    "'*standard-output*"))
+  '(:type :variable
+    :symbol
+    (:name "FOO-VAR" :package-name "FOO-PACKAGE" :externalp t) :documentation
+    "Docstring"))
 
 (def-suite parser
   :description "Testing the Quickdics->Codex parser.")
 (in-suite parser)
+
+(test variable
+  (let ((var (codex.parser:parse-variable +qd-variable-sample+)))
+    (is
+     (equal (doc-name var)
+            "FOO-VAR"))
+    (is
+     (equal (doc-description var)
+            "Docstring"))))

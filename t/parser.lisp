@@ -31,20 +31,20 @@
   :description "Testing the Quickdics->Codex parser.")
 (in-suite parser)
 
-(test variable
+(test parse-variable
   (let ((var (codex.parser:parse-variable +qd-variable-sample+)))
     (is
      (equal (doc-name var)
-            "FOO-VAR"))
+            "FOO-PACKAGE:FOO-VAR"))
     (is
      (equal (doc-description var)
             "Docstring"))))
 
-(test function
+(test parse-function
   (let ((func (codex.parser:parse-operator +qd-function-sample+)))
     (is
      (equal (doc-name func)
-            "FOO-FUN"))
+            "FOO-PACKAGE:FOO-FUN"))
     (is
      (equal (operator-lambda-list func)
             "HEADER &OPTIONAL (STRING \"\") (LEVEL 1)"))

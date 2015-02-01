@@ -11,6 +11,7 @@
                 :components
                 ((:file "error")
                  (:file "macro")
+                 (:file "index")
                  (:file "parser")
                  (:file "manifest")
                  (:file "codex"))))

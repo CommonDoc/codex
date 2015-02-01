@@ -18,8 +18,12 @@
             (getf name :name))))
 
 (defun parse-name (name-plist)
-  "Parse a Quickdocs name plist."
-  (getf (getf name-plist :symbol) :name))
+  "Parse a Quickdocs name plist into a string."
+  (let ((name-plist (getf name-plist :symbol)))
+    (concatenate 'string
+                 (getf name-plist :package-name)
+                 ":"
+                 (getf name-plist :name))))
 
 (defun parse-documentation (plist)
   "Extract documentation from a Quickdocs plist."

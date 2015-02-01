@@ -9,7 +9,7 @@
            :manifest
            :project-name
            :markup-format
-           :packages
+           :systems
            :documents
            :parse-manifest)
   (:documentation "Parsing Codex manifest files."))
@@ -51,10 +51,10 @@
                   :initarg :markup-format
                   :type keyword
                   :documentation "The markup format used in docstrings.")
-   (packages :reader packages
-             :initarg :packages
-             :type (proper-list keyword)
-             :documentation "A list of packages to document.")
+   (systems :reader systems
+            :initarg :systems
+            :type (proper-list keyword)
+            :documentation "A list of systems to document.")
    (documents :reader documents
               :initarg :documents
               :type (proper-list document)
@@ -74,11 +74,11 @@
   "Parse a manifest from a pathname."
   (let ((plist (read-manifest pathname)))
     (destructuring-bind
-        (&key project-name markup-format packages documents)
+        (&key project-name markup-format systems documents)
         plist
       (make-instance 'manifest
                      :project-name project-name
                      :markup-format markup-format
-                     :packages packages
+                     :systems systems
                      :documents (loop for doc in documents collecting
                                   (parse-document doc))))))

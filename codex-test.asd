@@ -9,4 +9,5 @@
                 :serial t
                 :components
                 ((:file "macros")
+                 (:file "parser")
                  (:file "codex")))))

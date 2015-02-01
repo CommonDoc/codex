@@ -1,8 +1,7 @@
 (in-package :cl-user)
 (defpackage codex-test
-  (:use :cl :fiveam)
-  (:import-from :codex-test.macros
-                :macroexpansions))
+  (:use :cl :fiveam))
 (in-package :codex-test)
 
-(run! 'macroexpansions)
+(run! 'codex-test.macros:macroexpansions)
+(run! 'codex-test.parser:parser)

@@ -9,9 +9,11 @@
   :components ((:module "src"
                 :serial t
                 :components
-                ((:file "macro")
+                ((:file "error")
+                 (:file "macro")
                  (:file "parser")
-                 (:file "manifest"))))
+                 (:file "manifest")
+                 (:file "codex"))))
   :description "A documentation system for Common Lisp."
   :long-description
   #.(uiop:read-file-string

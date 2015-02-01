@@ -58,7 +58,7 @@
                  :doc (parse-documentation variable-plist)))
 
 (defun parse-operator (function-plist)
-  "Parse a Quickdocs operator plist."
+  "Parse a Quickdocs operator plist into a Codex macro node."
   (let ((class (case (getf function-plist :type)
                  (:function
                   'codex.macro:function-node)
@@ -74,6 +74,7 @@
                    :lambda-list (parse-lambda-list function-plist))))
 
 (defun parse-record (record-plist)
+  "Parse a structure or class into a Codex macro node."
   (flet ((parse-slot (slot-plist)
            (flet ((parse-methods (key)
                     (extract-and-concat-names (getf slot-plist key))))
@@ -96,6 +97,7 @@
                        (parse-slot slot))))))
 
 (defun parse-system (system-name)
+  "Extract documentation from a system using Quickdocs, then parse the plist."
   (let ((parsed (quickdocs.parser:parse-documentation system-name)))
     (make-instance 'system
                    :name (getf parsed :name)

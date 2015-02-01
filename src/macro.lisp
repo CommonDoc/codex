@@ -13,7 +13,8 @@
   (:import-from :common-doc.util
                 :make-meta
                 :make-text)
-  (:export :cl-ref
+  (:export :*current-package*
+           :cl-ref
            :function-node
            :macro-node
            :generic-function-node
@@ -31,7 +32,9 @@
 
 ;;; Variables
 
-(defparameter *current-package* "common-lisp")
+(defparameter *current-package* "common-lisp"
+  "A string with the name of the current package being parsed. This is
+ 'common-lisp' by default.")
 
 ;;; Utilities
 

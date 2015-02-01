@@ -1,7 +1,9 @@
 (in-package :cl-user)
 (defpackage codex.manifest
   (:use :cl :trivial-types)
-  (:export :document
+  (:export :*default-manifest-pathname*
+           :system-manifest-pathname
+           :document
            :document-title
            :document-sources
            :manifest
@@ -17,6 +19,15 @@
   (:documentation "The package in which Codex manifests are read."))
 
 (in-package :codex.manifest)
+
+(defparameter *default-manifest-pathname*
+  #p"docs/codex.lisp"
+  "The pathname of the Codex manifest in a system.")
+
+(defun system-manifest-pathname (system-name)
+  "Return the absolute pathname to a system's Codex manifest."
+  (asdf:system-relative-pathname system-name
+                                 *default-manifest-pathname*))
 
 (defclass document ()
   ((document-title :reader document-title

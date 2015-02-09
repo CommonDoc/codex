@@ -49,9 +49,9 @@
    (test-equal "\\clref{pack:sym}"
                "\\ref[doc=pack, sec=symbol-sym]")))
 
-(test function
-  (finishes
-    (expand-print (make-instance 'codex.macro:function-node
-                                 :name "f"
-                                 :doc (make-text "docstring")
-                                 :lambda-list (list "a" "b" "c")))))
+;(test function
+;  (finishes
+;    (expand-print (make-instance 'codex.macro:function-node
+;                                 :name "f"
+;                                 :doc (make-text "docstring")
+;                                 :lambda-list (list "a" "b" "c")))))

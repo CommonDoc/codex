@@ -1,9 +1,12 @@
 (in-package :cl-user)
 (defpackage codex.parser
   (:use :cl :trivial-types)
+  (:import-from :codex.index
+                :add-node)
   (:export :parse-variable
            :parse-operator
-           :parse-record)
+           :parse-record
+           :parse-system-into-index)
   (:documentation "Given a system name, create a CommonDoc document from the
   documentation."))
 (in-package :codex.parser)
@@ -82,5 +85,31 @@
                      :name (parse-name record-plist)
                      :doc (parse-documentation record-plist)
                      :slots
-                     (loop for slot in (getf record-plist :slot-list) collecting
-                       (parse-slot slot))))))
+                     (loop for slot in (getf record-plist :slot-list)
+                           collecting
+                           (parse-slot slot))))))
+
+(defun parse-symbol (symbol-plist)
+  "Parse an arbitrary Quickdocs symbol plist into a Codex macro node."
+  (let ((type (getf symbol-plist :tye)))
+    (cond
+      ((eq type :variable)
+       (parse-variable symbol-plist))
+      ((member type (list :struct :class))
+       (parse-record symbol-plist))
+      ((member type (list :function :macro :generic :method))
+       (parse-operator symbol-plist))
+      (t
+       (error "Unknown symbol type.")))))
+
+(defun parse-system-into-index (index system-name)
+  "Load a system, extract all its documentation, parse it, and store it in an
+index."
+  (let* ((system-plist (quickdocs.parser:parse-documentation system-name))
+         (packages (getf system-plist :package-list)))
+    (loop for package in packages do
+      (let ((package-name (getf package :full-name))
+            (symbols (getf package :symbol-list)))
+        (loop for symbol in symbols do
+          (add-node index (parse-symbol symbol))))))
+  t)

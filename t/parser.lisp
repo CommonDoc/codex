@@ -48,7 +48,6 @@
     (is
      (equal (operator-lambda-list func)
             "HEADER &OPTIONAL (STRING \"\") (LEVEL 1)"))
-    (print (operator-lambda-list func))
     (is
      (equal (doc-description func)
             "Docstring"))))

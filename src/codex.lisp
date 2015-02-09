@@ -13,4 +13,5 @@
     (let ((manifest (codex.manifest:parse-manifest manifest-pathname)))
       ;; Now that we have the manifest, parse the systems it mentions and build
       ;; an index of documentation
+      (declare (ignore manifest))
       t)))

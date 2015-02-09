@@ -18,7 +18,9 @@
 
 (defmethod add-node ((index index) node)
   "Add a node to an index."
-  (setf (gethash (codex.macro:doc-name node) (table index)) node))
+  (setf (gethash (codex.macro:render-full-symbol (codex.macro:doc-symbol node))
+                 (table index))
+        node))
 
 (defmethod get-node ((index index) symbol-string)
   "Find a node from its symbol string."

@@ -100,7 +100,7 @@
                          :documentation "The symbol name of the operator, variable, or class.")
    (documentation-desc :reader doc-description
                        :initarg :doc
-                       :type document-node
+                       :type (or null document-node)
                        :documentation "The node's documentation."))
   (:documentation "Superclass for all documentation nodes."))
 

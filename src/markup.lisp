@@ -1,7 +1,8 @@
 (in-package :cl-user)
 (defpackage codex.markup
   (:use :cl)
-  (:export :parse-string)
+  (:export :with-markup
+           :parse-string)
   (:documentation "Parsing files and docstrings."))
 (in-package :codex.markup)
 
@@ -18,7 +19,7 @@ otherwise."
       t
       (error 'codex.error:unsupported-markup-format :format-name format-name)))
 
-(defvar *current-markup-format* nil
+(defvar *current-markup-format* :vertex
   "The markup format that will be used to parse docstrings and files.")
 
 (defmacro with-markup ((format-name) &rest body)

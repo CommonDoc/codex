@@ -27,7 +27,7 @@
       (equal (node-name ,var)
              (sym ,name)))
      (is
-      (equal (doc-description ,var)
+      (equal (common-doc:text (doc-description ,var))
              "docstring"))
      ,@body))
 

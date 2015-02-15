@@ -25,10 +25,12 @@
   (let ((index (codex.index:with-index (index)
                  (loop for system-name in (systems manifest) do
                    (codex.parser:parse-system-into-index index system-name)))))
-    ;; Now that we have the index, go through the list of documents, building
-    ;; each one
-    (loop for document in (documents manifest) do
-      (build document))))
+    ;; Set the current markup format
+    (codex.markup:with-markup ((markup-format manifest))
+      ;; Now that we have the index, go through the list of documents, building
+      ;; each one
+      (loop for document in (documents manifest) do
+        (build document)))))
 
 (defun document (system-name)
   "Generate documentation for a system."

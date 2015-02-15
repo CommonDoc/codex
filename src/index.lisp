@@ -4,6 +4,7 @@
   (:export :index
            :add-node
            :get-node
+           :*current-index*
            :with-index)
   (:documentation "An index is a data structure that associates symbol names to
   their CommonDoc nodes so they can be included in documentation output."))
@@ -26,8 +27,10 @@
   "Find a node from its symbol string."
   (gethash symbol-string (table index)))
 
+(defvar *current-index* nil
+  "The current index. Used to inject docstrings into files.")
+
 (defmacro with-index ((index) &rest body)
-  "Create an index, execute body (Which should fill it), and return it."
-  `(let ((,index (make-instance 'index)))
-     ,@body
-     ,index))
+  "Set the *current-index* to index, then execute the body."
+  `(let ((*current-index* ,index))
+     ,@body))

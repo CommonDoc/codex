@@ -5,6 +5,7 @@
            :system-manifest-pathname
            :document
            :document-title
+           :document-authors
            :document-sources
            :manifest
            :project-name
@@ -21,7 +22,7 @@
 (in-package :codex.manifest)
 
 (defparameter *default-manifest-pathname*
-  #p"docs/codex.lisp"
+  #p"docs/manifest.lisp"
   "The pathname of the Codex manifest in a system.")
 
 (defun system-manifest-pathname (system-name)
@@ -34,6 +35,10 @@
                    :initarg :title
                    :type string
                    :documentation "The document's title.")
+   (document-authors :reader document-authors
+                     :initarg :authors
+                     :type (proper-list string)
+                     :documentation "A list of the document's authors.")
    (document-sources :reader document-sources
                      :initarg :sources
                      :type (proper-list pathname)

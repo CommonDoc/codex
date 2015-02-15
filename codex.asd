@@ -17,6 +17,7 @@
                  (:file "index")
                  (:file "parser")
                  (:file "manifest")
+                 (:file "build")
                  (:file "codex"))))
   :description "A documentation system for Common Lisp."
   :long-description

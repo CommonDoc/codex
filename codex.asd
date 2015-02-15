@@ -5,11 +5,14 @@
   :version "0.1"
   :depends-on (:common-doc
                :quickdocs-parser
-               :trivial-types)
+               :trivial-types
+               :vertex
+               :common-html)
   :components ((:module "src"
                 :serial t
                 :components
                 ((:file "error")
+                 (:file "markup")
                  (:file "macro")
                  (:file "index")
                  (:file "parser")

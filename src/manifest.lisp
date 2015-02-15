@@ -50,7 +50,7 @@
    (markup-format :reader markup-format
                   :initarg :markup-format
                   :type keyword
-                  :documentation "The markup format used in docstrings.")
+                  :documentation "The markup format used in docstrings and files.")
    (systems :reader systems
             :initarg :systems
             :type (proper-list keyword)

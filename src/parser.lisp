@@ -51,7 +51,8 @@
 
 (defun parse-documentation (plist)
   "Extract documentation from a Quickdocs plist."
-  (getf plist :documentation))
+  (let ((docstring (getf plist :documentation)))
+    (codex.markup:parse-string docstring)))
 
 (defun parse-lambda-list (plist)
   "Parse a Quickdocs lambda list."

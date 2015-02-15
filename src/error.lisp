@@ -3,7 +3,9 @@
   (:use :cl)
   (:export :codex-error
            :no-manifest
-           :system-name)
+           :unsupported-markup-format
+           :system-name
+           :format-name)
   (:documentation "Codex errors."))
 (in-package :codex.error)
 
@@ -16,4 +18,18 @@
                 :initarg :system-name
                 :type keyword
                 :documentation "The name of the system."))
+  (:report
+   (lambda (condition stream)
+     (format stream "No manifest file for system ~A." (system-name condition))))
   (:documentation "Signalled when a system has no manifest file."))
+
+(define-condition unsupported-markup-format (codex-error)
+  ((format-name :reader format-name
+                :initarg :format-name
+                :type keyword
+                :documentation "The name of the markup format."))
+  (:report
+   (lambda (condition stream)
+     (format stream "Unsupported markup format: ~A." (format-name condition))))
+  (:documentation "Signalled when Codex doesn't know the markup format a
+  manifest specifies."))

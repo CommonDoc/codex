@@ -41,14 +41,6 @@
   :description "Codex macro tests.")
 (in-suite macroexpansions)
 
-(test cl-ref
-  (is-true
-   (test-equal "\\clref{sym}"
-               "\\ref[doc=common-lisp, sec=symbol-sym]"))
-  (is-true
-   (test-equal "\\clref{pack:sym}"
-               "\\ref[doc=pack, sec=symbol-sym]")))
-
 ;(test function
 ;  (finishes
 ;    (expand-print (make-instance 'codex.macro:function-node

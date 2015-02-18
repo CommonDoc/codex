@@ -7,14 +7,15 @@
                :quickdocs-parser
                :trivial-types
                :vertex
-               :common-html)
+               :common-html
+               :codex-templates)
   :components ((:module "src"
                 :serial t
                 :components
                 ((:file "error")
                  (:file "markup")
-                 (:file "macro")
                  (:file "index")
+                 (:file "macro")
                  (:file "parser")
                  (:file "manifest")
                  (:file "build")

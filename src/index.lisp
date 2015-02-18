@@ -5,7 +5,8 @@
            :add-node
            :get-node
            :*current-index*
-           :with-index)
+           :with-index
+           :get-from-current-index)
   (:documentation "An index is a data structure that associates symbol names to
   their CommonDoc nodes so they can be included in documentation output."))
 (in-package :codex.index)
@@ -34,3 +35,8 @@
   "Set the *current-index* to index, then execute the body."
   `(let ((*current-index* ,index))
      ,@body))
+
+(defun get-from-current-index (string)
+  "Find a symbol in the current index. The symbol string can be in any case."
+  (get-node *current-index*
+            (string-upcase string)))

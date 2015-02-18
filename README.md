@@ -18,7 +18,7 @@ documentation and converting it to other formats, respectively.
 
 ### `clref`
 
-**TeX Syntax:** `\clref{<package>:<symbol>}`, `\clref{<symbol>}`
+**VerTeX Syntax:** `\clref{<package>:<symbol>}`
 
 Reference a symbol by name. The name must have the full package name.
 
@@ -27,25 +27,33 @@ The package name determines what kind of link will be generated:
 * If the symbol is part of the Common Lisp package, a link to the
   [Common Lisp HyperSpec][clhs] will be generated.
 * If the symbol comes from a package that's part of the project, a link to the
-  symbol in the proper document will be generated.
-* If the symbol belongs to an external package, no link is generated.
+  symbol in the documentation will be generated.
 
 **Examples:**
 
 ```tex
-... we use the \clref{cl:find} function in \clref{myapp:my-function} to find...
+... we use the \clref{cl:find} function in \clref{myapp:my-package} to find...
 ```
 
-### `arg`
+### `cldoc`
 
-**TeX Syntax:** `\arg{name}`
+**VerTeX Syntax:** `\cldoc{<package>:<symbol>}`
 
-Refers to a parameter of a function, macro or method.
+Insert the documentation of a symbol. For example, if your app defines a class
+`my-class` in the package `pack`, invoking the `cldoc` macro with
+`pack:my-class` will expand to class documentation, including the docstring of
+the class itself, and documentation of its slots.
+
+### `param`
+
+**TeX Syntax:** `\param{name}`
+
+Refers to an argument of a function, macro or method.
 
 **Examples:**
 
 ```tex
-... the \arg{points} argument is a vector of points of...
+... the \param{points} argument is a vector of points of...
 ```
 
 # Themes

@@ -4,13 +4,13 @@ A documentation system for Common Lisp.
 
 # Overview
 
-**Codex** generates documentation. You just write docstrings as usual, only using
-[VerTeX][vertex] syntax, append a couple of extra files (A few tutorials and
-what have you), and Codex creates beautiful online documentation as well as
-offline manuals.
+**Codex** generates documentation. You just write docstrings as usual, only
+using [VerTeX][vertex] syntax, append a couple of extra files (A few tutorials
+and what have you), and Codex creates beautiful online documentation, and in the
+near future, PDF manuals.
 
-Codex uses [CommonDoc][commondoc] and [Pandocl][pandocl] for representing the
-documentation and converting it to other formats, respectively.
+Codex uses [CommonDoc][commondoc] for representing the documentation and
+converting it to other formats.
 
 # Usage
 
@@ -67,7 +67,6 @@ Each package is a separate document.
 
 [vertex]: https://github.com/CommonDoc/vertex
 [commondoc]: https://github.com/CommonDoc/common-doc
-[pandocl]: https://github.com/CommonDoc/pandocl
 [clhs]: http://www.lispworks.com/documentation/HyperSpec/Front/
 [qd]: http://quickdocs.org/
 [qd-parser]: https://github.com/fukamachi/quickdocs/blob/master/quickdocs-parser.asd

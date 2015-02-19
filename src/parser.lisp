@@ -13,22 +13,24 @@
 
 (defun extract-and-concat-names (plist)
   (if plist
-      (reduce #'(lambda (a b)
-                  (if b
-                      ;; This puts a space between argument names
-                      (concatenate 'string a " " b)
-                      a))
-              (loop for name-plist in plist
-                    collecting
-                    (if (listp (first name-plist))
-                        ;; Optional value or method
-                        (format nil "(~A ~A)"
-                                (getf (first name-plist) :name)
-                                (if (listp (second name-plist))
-                                    (getf (second name-plist) :name)
-                                    (second name-plist)))
-                        ;; Regular argument
-                        (getf name-plist :name))))
+      (if (eq (first plist) :name)
+          nil
+          (reduce #'(lambda (a b)
+                      (if b
+                          ;; This puts a space between argument names
+                          (concatenate 'string a " " b)
+                          a))
+                  (loop for name-plist in plist
+                        collecting
+                        (if (listp (first name-plist))
+                            ;; Optional value or method
+                            (format nil "(~A ~A)"
+                                    (getf (first name-plist) :name)
+                                    (if (listp (second name-plist))
+                                        (getf (second name-plist) :name)
+                                        (second name-plist)))
+                            ;; Regular argument
+                            (getf name-plist :name)))))
       ""))
 
 (defun parse-name (name-plist)

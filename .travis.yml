@@ -12,6 +12,7 @@ install:
   # Clone some libraries
   - git clone https://github.com/CommonDoc/common-doc.git quicklisp/local-projects/common-doc
   - git clone https://github.com/CommonDoc/common-doc-plump.git quicklisp/local-projects/common-doc-plump
+  - git clone https://github.com/CommonDoc/common-html.git quicklisp/local-projects/common-html
   - git clone https://github.com/CommonDoc/vertex.git quicklisp/local-projects/vertex
   - git clone https://github.com/fukamachi/quickdocs quicklisp/local-projects/quickdocs
 

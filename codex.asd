@@ -14,8 +14,8 @@
                 :components
                 ((:file "error")
                  (:file "markup")
-                 (:file "index")
                  (:file "macro")
+                 (:file "index")
                  (:file "parser")
                  (:file "manifest")
                  (:file "build")

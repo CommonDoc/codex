@@ -130,6 +130,10 @@
   ()
   (:documentation "A class."))
 
+(define-node type-node (operator-node)
+  ()
+  (:documentation "A type."))
+
 ;;; Macroexpansions
 
 (defun parse-symbol-string (string)
@@ -151,7 +155,7 @@
                                                      symbol-name)))))
 
 (defmethod expand-macro ((cl-doc cl-doc))
-  (let ((text-node (elt (children ref) 0)))
+  (let ((text-node (elt (children cl-doc) 0)))
     (assert (typep text-node 'text-node))
     (let ((symbol-string (text text-node)))
       ;; Extract the node from the index
@@ -237,3 +241,6 @@
 
 (defmethod expand-macro ((class class-node))
   (expand-record-macro class "class"))
+
+(defmethod expand-macro ((type type-node))
+  (expand-operator-macro type "type"))

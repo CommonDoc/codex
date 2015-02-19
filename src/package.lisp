@@ -40,6 +40,7 @@
            :slot-node
            :struct-node
            :class-node
+           :type-node
            :symbol-node-package
            :symbol-node-name
            :externalp

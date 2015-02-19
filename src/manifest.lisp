@@ -1,24 +1,3 @@
-(in-package :cl-user)
-(defpackage codex.manifest
-  (:use :cl :trivial-types)
-  (:export :*default-manifest-pathname*
-           :system-manifest-pathname
-           :document
-           :document-title
-           :document-authors
-           :document-sources
-           :manifest
-           :project-name
-           :markup-format
-           :systems
-           :documents
-           :parse-manifest)
-  (:documentation "Parsing Codex manifest files."))
-
-(defpackage :codex-manifest-user
-  (:use :cl :codex.manifest)
-  (:documentation "The package in which Codex manifests are read."))
-
 (in-package :codex.manifest)
 
 (defparameter *default-manifest-pathname*

@@ -1,12 +1,4 @@
-(in-package :cl-user)
-(defpackage codex.error
-  (:use :cl)
-  (:export :codex-error
-           :no-manifest
-           :unsupported-markup-format
-           :system-name
-           :format-name)
-  (:documentation "Codex errors."))
+
 (in-package :codex.error)
 
 (define-condition codex-error ()

@@ -1,9 +1,3 @@
-(in-package :cl-user)
-(defpackage codex.markup
-  (:use :cl)
-  (:export :with-markup
-           :parse-string)
-  (:documentation "Parsing files and docstrings."))
 (in-package :codex.markup)
 
 (defparameter +known-markup-formats+

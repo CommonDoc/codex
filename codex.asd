@@ -12,7 +12,8 @@
   :components ((:module "src"
                 :serial t
                 :components
-                ((:file "error")
+                ((:file "package")
+                 (:file "error")
                  (:file "markup")
                  (:file "macro")
                  (:file "index")

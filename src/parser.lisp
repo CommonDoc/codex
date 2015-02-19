@@ -1,14 +1,3 @@
-(in-package :cl-user)
-(defpackage codex.parser
-  (:use :cl :trivial-types)
-  (:import-from :codex.index
-                :add-node)
-  (:export :parse-variable
-           :parse-operator
-           :parse-record
-           :parse-system-into-index)
-  (:documentation "Given a system name, create a CommonDoc document from the
-  documentation."))
 (in-package :codex.parser)
 
 (defun extract-and-concat-names (plist)

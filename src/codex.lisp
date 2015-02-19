@@ -1,8 +1,3 @@
-(in-package :cl-user)
-(defpackage codex
-  (:use :cl)
-  (:export :document)
-  (:documentation "The main interface."))
 (in-package :codex)
 
 (defun document (system-name)

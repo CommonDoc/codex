@@ -1,19 +1,3 @@
-(in-package :cl-user)
-(defpackage codex.build
-  (:use :cl)
-  (:import-from :codex.manifest
-                :document
-                :document-title
-                :document-authors
-                :document-sources
-                :manifest
-                :project-name
-                :markup-format
-                :systems
-                :documents)
-  (:export :build-document
-           :build-manifest)
-  (:documentation "Build manifests and documents."))
 (in-package :codex.build)
 
 (defun build-document (document directory)

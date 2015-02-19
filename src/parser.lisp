@@ -78,6 +78,15 @@
                      :doc (parse-documentation function-plist)
                      :lambda-list (parse-lambda-list function-plist)))))
 
+(defun parse-type (type-plist)
+  "Parse a type definition."
+  (let ((name (parse-name type-plist)))
+    (when (codex.macro:externalp name)
+      (make-instance 'codex.macro:type-node
+                     :symbol name
+                     :doc (parse-documentation type-plist)
+                     :lambda-list (parse-lambda-list type-plist)))))
+
 (defun parse-record (record-plist)
   "Parse a structure or class into a Codex macro node."
   (flet ((parse-slot (slot-plist)
@@ -116,6 +125,8 @@
        (parse-variable symbol-plist))
       ((member type (list :struct :class))
        (parse-record symbol-plist))
+      ((eq type :type)
+       (parse-type symbol-plist))
       ((member type (list :function :macro :generic :method))
        (parse-operator symbol-plist))
       (t

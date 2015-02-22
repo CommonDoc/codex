@@ -104,7 +104,6 @@
                 :document-authors
                 :document-sources
                 :manifest
-                :project-name
                 :markup-format
                 :systems
                 :documents)

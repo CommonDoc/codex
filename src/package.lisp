@@ -29,7 +29,9 @@
                 :make-meta
                 :make-text)
   (:export :*current-package*
+           :make-class-metadata
            :cl-ref
+           :cl-doc
            :symbol-node
            :function-node
            :macro-node
@@ -70,6 +72,10 @@
   (:use :cl :trivial-types)
   (:import-from :codex.index
                 :add-node)
+  (:import-from :common-doc.util
+                :make-text)
+  (:import-from :codex.macro
+                :make-class-metadata)
   (:export :parse-variable
            :parse-operator
            :parse-record

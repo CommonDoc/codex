@@ -169,7 +169,8 @@
         (if node
             node
             ;; No node with that name, report an error
-            (make-text (format nil "Error: No node with name ~A." symbol-string)))))))
+            (make-text (format nil "Error: No node with name ~A." symbol-string)
+                       (make-class-metadata "error")))))))
 
 (defmethod expand-macro ((param param))
   (make-instance 'content-node

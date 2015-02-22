@@ -47,7 +47,8 @@
   (let ((docstring (getf plist :documentation)))
     (if docstring
         (codex.markup:parse-string docstring)
-        nil)))
+        (make-text "(No docstring)"
+                   (make-class-metadata "error")))))
 
 (defun parse-lambda-list (plist)
   "Parse a Quickdocs lambda list."

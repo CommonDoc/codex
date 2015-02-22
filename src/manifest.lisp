@@ -27,11 +27,7 @@
   documents, e.g. a manual, a tutorial, an advanced manual."))
 
 (defclass manifest ()
-  ((project-name :reader project-name
-                 :initarg :project-name
-                 :type string
-                 :documentation "The project's name.")
-   (markup-format :reader markup-format
+  ((markup-format :reader markup-format
                   :initarg :markup-format
                   :type keyword
                   :documentation "The markup format used in docstrings and files.")
@@ -58,10 +54,9 @@
   "Parse a manifest from a pathname."
   (let ((plist (read-manifest pathname)))
     (destructuring-bind
-        (&key project-name markup-format systems documents)
+        (&key markup-format systems documents)
         plist
       (make-instance 'manifest
-                     :project-name project-name
                      :markup-format markup-format
                      :systems systems
                      :documents (loop for doc in documents collecting

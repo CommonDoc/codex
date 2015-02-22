@@ -163,6 +163,7 @@
   (let ((text-node (elt (children cl-doc) 0)))
     (assert (typep text-node 'text-node))
     (let ((symbol-string (text text-node)))
+      (format t "Inserting documentation for symbol ~S.~%" symbol-string)
       ;; Extract the node from the index
       (let ((node (codex.index:get-from-current-index symbol-string)))
         (if node

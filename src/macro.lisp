@@ -77,7 +77,7 @@
 (define-node operator-node (documentation-node)
  ((l-list :reader operator-lambda-list
           :initarg :lambda-list
-          :type (proper-list string)
+          :type string
           :documentation "The operator's lambda list."))
   (:documentation "The base class of functions and macros."))
 

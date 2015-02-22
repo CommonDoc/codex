@@ -12,12 +12,14 @@
                              :title (document-title document)
                              ;:authors (document-authors document)
                              :children sections)))
-    ;; Now we have a document, lets emit the HTML
-    (let ((build-directory (merge-pathnames #p"build/html/"
-                                            directory)))
-      (ensure-directories-exist build-directory)
-      (common-html.multi-emit:multi-emit doc build-directory :max-depth 3))
-    doc))
+    ;; Expand macros
+    (let ((doc (common-doc.macro:expand-macros doc)))
+      ;; Now we have a document, lets emit the HTML
+      (let ((build-directory (merge-pathnames #p"build/html/"
+                                              directory)))
+        (ensure-directories-exist build-directory)
+        (common-html.multi-emit:multi-emit doc build-directory :max-depth 3))
+      doc)))
 
 (defun build-manifest (manifest directory)
   "Build a manifest."

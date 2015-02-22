@@ -91,7 +91,8 @@
   "Parse a structure or class into a Codex macro node."
   (flet ((parse-slot (slot-plist)
            (flet ((parse-methods (key)
-                    (extract-and-concat-names (getf slot-plist key))))
+                    (loop for method in (getf slot-plist key) collecting
+                      (extract-and-concat-names method))))
              (let ((name (parse-name slot-plist)))
                (when (codex.macro:externalp name)
                  (make-instance 'codex.macro:slot-node

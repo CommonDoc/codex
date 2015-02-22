@@ -42,6 +42,7 @@
                :initarg :first-slot
                :documentation "docstring")
    (second-slot :reader second-slot
+                :reader s-slot
                 :initarg :second-slot
                 :documentation "docstring")
    (unexported-slot :reader unexported-slot

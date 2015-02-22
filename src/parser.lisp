@@ -24,7 +24,9 @@
 
 (defun parse-name (name-plist)
   "Parse a Quickdocs name plist into a symbol-node."
-  (let ((name-plist (getf name-plist :symbol)))
+  (let ((name-plist (if (getf name-plist :name)
+                        name-plist
+                        (getf name-plist :symbol))))
     (if (listp (first name-plist))
         ;; Parse something along the lines of "setf x"
         (let ((node (parse-name (list :symbol (second name-plist)))))
@@ -92,7 +94,7 @@
   (flet ((parse-slot (slot-plist)
            (flet ((parse-methods (key)
                     (loop for method in (getf slot-plist key) collecting
-                      (extract-and-concat-names method))))
+                      (parse-name method))))
              (let ((name (parse-name slot-plist)))
                (when (codex.macro:externalp name)
                  (make-instance 'codex.macro:slot-node

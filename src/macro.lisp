@@ -105,15 +105,15 @@
   ((accessors :reader slot-accessors
               :initarg :accessors
               :initform nil
-              :type (proper-list string))
+              :type (proper-list symbol-node))
    (readers :reader slot-readers
             :initarg :readers
             :initform nil
-            :type (proper-list string))
+            :type (proper-list symbol-node))
    (writers :reader slot-writers
             :initarg :writers
             :initform nil
-            :type (proper-list string)))
+            :type (proper-list symbol-node)))
   (:documentation "A class or structure slot."))
 
 (define-node record-node (documentation-node)

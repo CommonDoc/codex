@@ -112,7 +112,6 @@
            :build-manifest)
   (:documentation "Build manifests and documents."))
 
-
 (defpackage codex
   (:use :cl)
   (:export :document)

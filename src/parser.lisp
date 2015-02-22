@@ -78,7 +78,7 @@
       (make-instance class
                      :symbol name
                      :doc (parse-documentation function-plist)
-                     :lambda-list (parse-lambda-list function-plist)))))
+                     :lambda-list (or (parse-lambda-list function-plist) "")))))
 
 (defun parse-type (type-plist)
   "Parse a type definition."
@@ -87,7 +87,7 @@
       (make-instance 'codex.macro:type-node
                      :symbol name
                      :doc (parse-documentation type-plist)
-                     :lambda-list (parse-lambda-list type-plist)))))
+                     :lambda-list (or (parse-lambda-list type-plist) "")))))
 
 (defun parse-record (record-plist)
   "Parse a structure or class into a Codex macro node."

@@ -6,7 +6,10 @@
                 :render-full-symbol
                 :doc-description
                 :operator-lambda-list
-                :record-slots)
+                :record-slots
+                :slot-accessors
+                :slot-readers
+                :slot-writers)
   (:export :parser))
 (in-package :codex-test.parser)
 
@@ -76,12 +79,28 @@
      (equal (length (record-slots class)) 2))
     (destructuring-bind (first-slot second-slot)
         (record-slots class)
+      ;; First slot tests
       (is
        (equal (node-name first-slot)
               (sym "FIRST-SLOT")))
       (is
+       (equal (length (slot-accessors first-slot))
+              1))
+      (is-true
+       (null (slot-readers first-slot)))
+      (is-true
+       (null (slot-writers first-slot)))
+      ;; Second slot tests
+      (is
        (equal (node-name second-slot)
-              (sym "SECOND-SLOT"))))))
+              (sym "SECOND-SLOT")))
+      (is-true
+       (null (slot-accessors second-slot)))
+      (is
+       (equal (length (slot-readers second-slot))
+              2))
+      (is-true
+       (null (slot-writers second-slot))))))
 
 (test (parse-method :depends-on parse-system)
   (with-node-in-index (meth "TEST-METHOD")

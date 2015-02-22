@@ -46,8 +46,8 @@
                 :initarg :second-slot
                 :documentation "docstring")
    (unexported-slot :reader unexported-slot
-                 :initarg :unexported-slot
-                 :documentation "docstring"))
+                    :initarg :unexported-slot
+                    :documentation "docstring"))
   (:documentation "docstring"))
 
 (defmethod test-method ((tc test-class) a)

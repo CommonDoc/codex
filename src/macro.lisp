@@ -50,6 +50,7 @@
               :documentation "Whether the symbol is external.")
    (setfp :reader setfp
           :initarg :setfp
+          :initform nil
           :type boolean
           :documentation "Whether the symbol is a setf method."))
   (:documentation "A symbol."))
@@ -135,6 +136,10 @@
   (:documentation "A type."))
 
 ;;; Macroexpansions
+
+(defmethod expand-macro ((sym symbol-node))
+  (make-text (render-humanize sym)
+             (make-class-metadata "symbol")))
 
 (defun parse-symbol-string (string)
   (let* ((colon-pos (position #\: string))

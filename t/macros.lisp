@@ -29,11 +29,10 @@
     (parse-vertex vertex-input))
    (parse-vertex vertex-output)))
 
-(defun expand-print (node)
-  (print
-   (common-doc.format:emit-to-string
-    (make-instance 'common-html:html)
-    (expand-macro node))))
+(defun expand-text (node)
+  (common-doc.format:emit-to-string
+   (make-instance 'common-html:html)
+   (expand-macro node)))
 
 ;;; Suite
 
@@ -41,9 +40,11 @@
   :description "Codex macro tests.")
 (in-suite macroexpansions)
 
-;(test function
-;  (finishes
-;    (expand-print (make-instance 'codex.macro:function-node
-;                                 :name "f"
-;                                 :doc (make-text "docstring")
-;                                 :lambda-list (list "a" "b" "c")))))
+(test symbols
+  (let ((sym (make-instance 'codex.macro:symbol-node
+                            :package "PACK"
+                            :name "SYM"
+                            :externalp t)))
+    (is
+     (equal (expand-text sym)
+            "<span class=\"codex-symbol\">sym</span>"))))

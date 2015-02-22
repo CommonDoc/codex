@@ -16,6 +16,7 @@
                  (:file "error")
                  (:file "markup")
                  (:file "macro")
+                 (:file "macroexpansion")
                  (:file "index")
                  (:file "parser")
                  (:file "manifest")

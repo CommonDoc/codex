@@ -1,5 +1,7 @@
 # Codex
 
+[![Build Status](https://travis-ci.org/CommonDoc/codex.svg?branch=master)](https://travis-ci.org/CommonDoc/codex)
+
 A documentation system for Common Lisp.
 
 # Overview

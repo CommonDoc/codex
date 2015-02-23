@@ -10,7 +10,9 @@
                 :render
                 :render-section)
   (:export :codex-template
-           :built-template)
+           :built-in-template
+           :*template-database*
+           :find-template)
   (:documentation "Codex template definitions."))
 (in-package :codex.tmpl)
 
@@ -34,11 +36,11 @@
 
 (defclass built-in-template (codex-template)
   ((document-template :reader document-template
-                      :type pathname
+                      :type string
                       :allocation :class
                       :documentation "The path to the document template.")
    (section-template :reader section-template
-                     :type pathname
+                     :type string
                      :allocation :class
                      :documentation "The path to the section template."))
   (:documentation "A convenience subclass for Codex built-in templates. These
@@ -49,7 +51,7 @@
   "Copy the template's CSS to the output directory"
   (ensure-directories-exist (merge-pathnames #p"static/"
                                              (template-directory tmpl)))
-  (loop for file in (template-css-file tmpl) do
+  (loop for file in (template-css-files tmpl) do
     (uiop:copy-file (merge-pathnames file
                                      (asdf:system-relative-pathname :codex
                                                                     #p"templates/"))
@@ -60,7 +62,8 @@
   "Render a built-in document template."
   (let ((template (djula:compile-template* (document-template tmpl)))
         (document-title (title document)))
-    (djula:render-template* template nil
+    (djula:render-template* template
+                            nil
                             :title document-title
                             :content content-string)))
 
@@ -70,7 +73,8 @@
   (let ((template (djula:compile-template* (section-template tmpl)))
         (document-title (title document))
         (section-title (common-doc.ops:collect-all-text (title section))))
-    (djula:render-template* template nil
+    (djula:render-template* template
+                            nil
                             :title document-title
                             :section-title section-title
                             :content content-string)))
@@ -78,8 +82,8 @@
 ;;; Built-in templates
 
 (defclass min-template (built-in-template)
-  ((document-template :initform #p"min/document.html")
-   (section-template :initform #p"min/section.html")
+  ((document-template :initform "min/document.html")
+   (section-template :initform "min/section.html")
    (css-files :initform (list #p"min/style.css")))
   (:documentation "Minimalist template."))
 
@@ -90,3 +94,7 @@
     (setf (gethash :min table) (find-class 'min-template))
     table)
   "A hash table of table names (Keywords) to template classes.")
+
+(defun find-template (template-name)
+  "Find a template by name."
+  (gethash template-name *template-database*))

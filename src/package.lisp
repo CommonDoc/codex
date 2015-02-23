@@ -4,6 +4,8 @@
   (:export :codex-error
            :no-manifest
            :unsupported-markup-format
+           :unsupported-output-format
+           :unknown-template
            :system-name
            :format-name)
   (:documentation "Codex errors."))
@@ -87,9 +89,16 @@
   (:use :cl :trivial-types)
   (:export :*default-manifest-pathname*
            :system-manifest-pathname
+           :output-format
+           :html
+           :single-html
+           :multi-html
+           :html-template
            :document
            :document-title
            :document-authors
+           :document-markup-format
+           :document-output-format
            :document-sources
            :manifest
            :markup-format
@@ -108,8 +117,11 @@
                 :document
                 :document-title
                 :document-authors
+                :document-markup-format
+                :document-output-format
                 :document-sources
                 :manifest
+                :html-template
                 :markup-format
                 :systems
                 :documents)

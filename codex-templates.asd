@@ -12,7 +12,6 @@
                 ((:static-file "base.html")
                  (:file "templates")
                  (:module "min"
-                  :serial t
                   :components
                   ((:static-file "document.html")
                    (:static-file "section.html"))))))

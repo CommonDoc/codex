@@ -7,8 +7,6 @@
 {% block content %}
   <h1 class="section-title">{{ section-title }}</h1>
   <main class="section">
-    {% autoescape off %}
-      {{ content }}
-    {% endautoescape %}
+    {{ content | safe }}
   </main>
 {% endblock %}

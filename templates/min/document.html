@@ -7,8 +7,6 @@
 {% block content %}
   <h1 class="document-title">{{ title }}</h1>
   <main class="document">
-    {% autoescape off %}
-      {{ content }}
-    {% endautoescape %}
+    {{ content | safe }}
   </main>
 {% endblock %}

@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block title %}
+  {{ section-title }} &ndash; {{ title }}
+{% endblock %}
 
+{% block content %}
+  <h1 class="section-title">{{ section-title }}</h1>
+  <main class="section">
+    {% autoescape off %}
+      {{ content }}
+    {% endautoescape %}
+  </main>
 {% endblock %}

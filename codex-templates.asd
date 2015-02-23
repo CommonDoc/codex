@@ -15,6 +15,5 @@
                   :serial t
                   :components
                   ((:static-file "document.html")
-                   (:static-file "section.html")
-                   (:file "min"))))))
+                   (:static-file "section.html"))))))
   :description "Templates for Codex.")

@@ -28,10 +28,10 @@
               :initarg :directory
               :type pathname
               :documentation "The directory where the output will be produced.")
-   (css-files :reader template-css-files
-              :type (proper-list pathname)
-              :allocation :class
-              :documentation "The CSS files."))
+   (static-files :reader template-static-files
+                 :type (proper-list pathname)
+                 :allocation :class
+                 :documentation "The template's associated static files."))
   (:documentation "Codex templates."))
 
 (defclass built-in-template (codex-template)
@@ -51,12 +51,15 @@
   "Copy the template's CSS to the output directory"
   (ensure-directories-exist (merge-pathnames #p"static/"
                                              (template-directory tmpl)))
-  (loop for file in (template-css-files tmpl) do
+  (loop for file in (template-static-files tmpl) do
     (uiop:copy-file (merge-pathnames file
                                      (asdf:system-relative-pathname :codex
                                                                     #p"templates/"))
-                    (merge-pathnames #p"static/style.css"
-                                     (template-directory tmpl)))))
+                    (make-pathname :name (pathname-name file)
+                                   :type (pathname-type file)
+                                   :defaults
+                                   (merge-pathnames #p"static/"
+                                                    (template-directory tmpl))))))
 
 (defmethod render ((tmpl built-in-template) (document document) content-string)
   "Render a built-in document template."
@@ -84,7 +87,7 @@
 (defclass min-template (built-in-template)
   ((document-template :initform "min/document.html")
    (section-template :initform "min/section.html")
-   (css-files :initform (list #p"min/style.css")))
+   (static-files :initform (list #p"min/style.css")))
   (:documentation "Minimalist template."))
 
 ;;; Template database

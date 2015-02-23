@@ -32,8 +32,16 @@
         (if node
             node
             ;; No node with that name, report an error
-            (make-text (format nil "No node with name ~A." symbol-string)
-                       (make-class-metadata "error no-node")))))))
+            (make-instance 'content-node
+                           :metadata (make-class-metadata "error no-node")
+                           :children
+                           (list
+                            (make-text "No node with name ")
+                            (make-instance 'code
+                                           :children
+                                           (list
+                                            (make-text (string-downcase symbol-string))))
+                            (make-text "."))))))))
 
 (defmethod expand-macro ((param param))
   (make-instance 'content-node

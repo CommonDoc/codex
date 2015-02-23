@@ -23,6 +23,7 @@
                 :text-node
                 :content-node
                 :document-link
+                :code
                 :children
                 :text)
   (:import-from :common-doc.macro
@@ -72,6 +73,8 @@
 
 (defpackage codex.parser
   (:use :cl :trivial-types)
+  (:import-from :common-doc
+                :content-node)
   (:import-from :codex.index
                 :add-node)
   (:import-from :common-doc.util

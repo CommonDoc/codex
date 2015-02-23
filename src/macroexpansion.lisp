@@ -89,12 +89,19 @@
 
 (defmethod expand-macro ((slot slot-node))
   (labels ((list-of-methods-to-list (methods)
-             (make-instance 'unordered-list
-                            :children
-                            (loop for method in methods collecting
-                              (make-instance 'list-item
-                                             :children
-                                             (list (make-text (render-humanize method)))))))
+             (make-instance
+              'unordered-list
+              :children
+              (loop for method in methods collecting
+                (make-instance
+                 'list-item
+                 :children
+                 (list
+                  (make-instance
+                   'code
+                   :children
+                   (list
+                    (make-text (render-humanize method)))))))))
            (make-definition (slot-name text)
              (when (slot-value slot slot-name)
                (make-instance 'definition
@@ -109,19 +116,38 @@
                                                  writers-definition)))
            (slot-methods-node (make-instance 'definition-list
                                              :metadata (make-class-metadata "slot-methods")
-                                             :children slot-methods)))
-      (make-instance 'content-node
-                     :metadata (make-class-metadata "slot")
-                     :children
-                     (list (doc-description slot)
-                           slot-methods-node)))))
+                                             :children slot-methods))
+           (slot-name (make-instance 'code
+                                     :metadata (make-class-metadata "slot-name")
+                                     :children
+                                     (list
+                                      (make-text (render-humanize (doc-symbol slot)))))))
+      (make-instance
+       'definition-list
+       :metadata (make-class-metadata "slot")
+       :children
+       (list
+        (make-instance
+         'definition
+         :term (list slot-name)
+         :definition
+         (list
+          (make-instance
+           'content-node
+           :metadata (make-class-metadata "docstring")
+           :children (list (doc-description slot)))
+          slot-methods-node)))))))
 
 (defun expand-record-macro (instance class-metadata)
   (make-instance 'content-node
                  :metadata (make-class-metadata class-metadata)
                  :children
-                 (list (make-text (render-humanize (doc-symbol instance))
-                                  (make-class-metadata "name"))
+                 (list (make-instance 'code
+                                      :metadata (make-class-metadata "name")
+                                      :children
+                                      (list
+                                       (make-text
+                                        (render-humanize (doc-symbol instance)))))
                        (make-instance 'content-node
                                       :metadata (make-class-metadata "docstring")
                                       :children (list (doc-description instance)))

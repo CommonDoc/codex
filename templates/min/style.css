@@ -4,6 +4,14 @@
 @import url(http://fonts.googleapis.com/css?family=Lusitana:400,700);
 @import url(http://fonts.googleapis.com/css?family=Poly:400,400italic);
 
+*, *:after, *:before {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 body {
     font-family: "Poly", serif;
     background: white;
@@ -16,11 +24,36 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .codex-document, .codex-section {
+    width: 60%;
+    margin: 0 auto;
+}
 
+.codex-document-title, .codex-section-title {
+    width: 60%;
+    margin: 0 auto;
 }
 
 .codex-lambda-list {
     text-transform: lowercase;
     display: inline-block;
     font-family: monospace;
+}
+
+.codex-error, .codex-warning {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/* Separation between elements */
+
+p, pre, ol, ul, dl {
+    margin-bottom: 15px;
+}
+
+/* Lists */
+
+dd {
+    margin-left: 40px;
 }

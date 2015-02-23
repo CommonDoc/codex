@@ -33,7 +33,7 @@
             node
             ;; No node with that name, report an error
             (make-instance 'content-node
-                           :metadata (make-class-metadata "error no-node")
+                           :metadata (make-class-metadata (list "error" "no-node"))
                            :children
                            (list
                             (make-text "No node with name ")
@@ -94,7 +94,7 @@
                             (loop for method in methods collecting
                               (make-instance 'list-item
                                              :children
-                                             (list (make-text method))))))
+                                             (list (make-text (render-humanize method)))))))
            (make-definition (slot-name text)
              (when (slot-value slot slot-name)
                (make-instance 'definition
@@ -125,7 +125,16 @@
                        (make-instance 'content-node
                                       :metadata (make-class-metadata "docstring")
                                       :children (list (doc-description instance)))
-                       (record-slots instance))))
+                       (let ((slots (record-slots instance)))
+                         (if slots
+                             (make-instance 'content-node
+                                            :metadata (make-class-metadata "slots")
+                                            :children slots)
+                             (make-instance 'content-node
+                                            :metadata (make-class-metadata (list "warning" "no-slots"))
+                                            :children
+                                            (list
+                                             (make-text "No slots."))))))))
 
 (defmethod expand-macro ((struct struct-node))
   (expand-record-macro struct "struct"))

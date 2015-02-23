@@ -22,6 +22,10 @@
                 :define-node
                 :text-node
                 :content-node
+                :list-item
+                :unordered-list
+                :definition-list
+                :definition
                 :document-link
                 :code
                 :children
@@ -31,8 +35,7 @@
   (:import-from :common-doc.util
                 :make-meta
                 :make-text)
-  (:export :*current-package*
-           :make-class-metadata
+  (:export :make-class-metadata
            :cl-ref
            :cl-doc
            :symbol-node

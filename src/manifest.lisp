@@ -9,6 +9,25 @@
   (asdf:system-relative-pathname system-name
                                  *default-manifest-pathname*))
 
+(defclass output-format ()
+  ()
+  (:documentation "The base class of all output formats."))
+
+(defclass html (output-format)
+  ((html-template :reader html-template
+                  :initarg :template
+                  :type keyword
+                  :documentation "The name of the HTML template."))
+  (:documentation "The base class of HTML formats."))
+
+(defclass single-html (html)
+  ()
+  (:documentation "Single-file HTML output."))
+
+(defclass multi-html (html)
+  ()
+  (:documentation "Multi-file HTML output."))
+
 (defclass document ()
   ((document-title :reader document-title
                    :initarg :title
@@ -18,6 +37,14 @@
                      :initarg :authors
                      :type (proper-list string)
                      :documentation "A list of the document's authors.")
+   (markup-format :reader document-markup-format
+                  :initarg :markup-format
+                  :type keyword
+                  :documentation "The markup format used in the document's sources.")
+   (output-format :reader document-output-format
+                  :initarg :output-format
+                  :type output-format
+                  :documentation "The document's output format.")
    (document-sources :reader document-sources
                      :initarg :sources
                      :type (proper-list pathname)
@@ -30,7 +57,7 @@
   ((markup-format :reader markup-format
                   :initarg :markup-format
                   :type keyword
-                  :documentation "The markup format used in docstrings and files.")
+                  :documentation "The markup format used in docstrings.")
    (systems :reader systems
             :initarg :systems
             :type (proper-list keyword)
@@ -46,15 +73,37 @@
   (uiop:with-safe-io-syntax (:package (find-package :codex-manifest-user))
     (uiop:read-file-form pathname)))
 
+(defun parse-output-format (plist)
+  "Create an instance of an output-format class from a plist."
+  (let ((format-name (getf plist :type))
+        (args (alexandria:remove-from-plist plist :type)))
+    (apply #'make-instance
+           (cons
+            (cond
+              ((eq format-name :single-html)
+               'single-html)
+              ((eq format-name :multi-html)
+               'multi-html)
+              (t
+               (error 'codex.error:unsupported-output-format
+                      :format-name format-name)))
+            args))))
+
 (defun parse-document (document-plist)
   "Parse a manifest's document plist into a document object."
-  (apply 'make-instance (cons 'document document-plist)))
+  (destructuring-bind (&key title authors markup-format output-format sources)
+      document-plist
+    (make-instance 'document
+                   :title title
+                   :authors authors
+                   :markup-format markup-format
+                   :output-format (parse-output-format output-format)
+                   :sources sources)))
 
 (defun parse-manifest (pathname)
   "Parse a manifest from a pathname."
   (let ((plist (read-manifest pathname)))
-    (destructuring-bind
-        (&key markup-format systems documents)
+    (destructuring-bind (&key markup-format systems documents)
         plist
       (make-instance 'manifest
                      :markup-format markup-format

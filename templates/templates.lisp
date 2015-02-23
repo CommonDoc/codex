@@ -73,11 +73,13 @@
   "Render a built-in section template."
   (let ((template (djula:compile-template* (section-template tmpl)))
         (document-title (title document))
-        (section-title (common-doc.ops:collect-all-text (title section))))
+        (section-title (common-doc.ops:collect-all-text (title section)))
+        (toc (common-html.toc:multi-file-toc document)))
     (djula:render-template* template
                             nil
                             :title document-title
                             :section-title section-title
+                            :toc toc
                             :content content-string)))
 
 ;;; Built-in templates

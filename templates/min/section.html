@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block content %}
+  {{ toc | safe }}
   <h1 class="codex-section-title">{{ section-title }}</h1>
   <main class="codex-section">
     {{ content | safe }}

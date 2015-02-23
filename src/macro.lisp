@@ -12,9 +12,7 @@
   "Create metadata for HTML classes."
   (make-meta
    (list
-    (cons "class" (concatenate 'string
-                               "codex-"
-                               class-name)))))
+    (cons "class" class-name))))
 
 ;;; Macros in user input (Docstrings, files, etc.)
 

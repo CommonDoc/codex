@@ -51,15 +51,13 @@
   "Copy the template's CSS to the output directory"
   (ensure-directories-exist (merge-pathnames #p"static/"
                                              (template-directory tmpl)))
-  (loop for file in (template-static-files tmpl) do
-    (uiop:copy-file (merge-pathnames file
+  (loop for (input . output) in (template-static-files tmpl) do
+    (uiop:copy-file (merge-pathnames input
                                      (asdf:system-relative-pathname :codex
                                                                     #p"templates/"))
-                    (make-pathname :name (pathname-name file)
-                                   :type (pathname-type file)
-                                   :defaults
-                                   (merge-pathnames #p"static/"
-                                                    (template-directory tmpl))))))
+                    (merge-pathnames output
+                                     (merge-pathnames #p"static/"
+                                                      (template-directory tmpl))))))
 
 (defmethod render ((tmpl built-in-template) (document document) content-string)
   "Render a built-in document template."
@@ -87,7 +85,10 @@
 (defclass min-template (built-in-template)
   ((document-template :initform "min/document.html")
    (section-template :initform "min/section.html")
-   (static-files :initform (list #p"min/style.css")))
+   (static-files :initform (list
+                            (cons #p"min/style.css" #p"style.css")
+                            (cons #p"static/highlight-lisp/highlight-lisp.js" #p"highlight.js")
+                            (cons #p"static/highlight-lisp/themes/github.css" #p"highlight.css"))))
   (:documentation "Minimalist template."))
 
 ;;; Template database

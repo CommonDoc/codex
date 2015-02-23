@@ -1,6 +1,10 @@
-(:project-name "Codex"
- :markup-format :vertex
+(:markup-format :vertex
  :systems (:codex)
- :documents ((:title "Codex Documentation"
+ :documents ((:title "Codex"
               :authors ("Fernando Borretti")
-              :sources ("overview.tex"))))
+              :markup-format :vertex
+              :output-format (:type :multi-html
+                              :template :min)
+              :sources ("overview.tex"
+                        "doc-nodes.tex"
+                        "html-classes.tex"))))

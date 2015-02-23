@@ -46,7 +46,9 @@
                  :children
                  (list (make-text (render-humanize (doc-symbol instance))
                                   (make-class-metadata "name"))
-                       (doc-description instance))))
+                       (make-instance 'content-node
+                                      :metadata (make-class-metadata "docstring")
+                                      :children (list (doc-description instance))))))
 
 (defmethod expand-macro ((function function-node))
   (expand-operator-macro function "function"))
@@ -66,21 +68,23 @@
                  :children
                  (list (make-text (render-humanize (doc-symbol variable))
                                   (make-class-metadata "name"))
-                       (doc-description variable))))
+                       (make-instance 'content-node
+                                      :metadata (make-class-metadata "docstring")
+                                      :children (list (doc-description variable))))))
 
 (defmethod expand-macro ((slot slot-node))
-  (labels ((list-of-strings-to-list (strings)
+  (labels ((list-of-methods-to-list (methods)
              (make-instance 'unordered-list
                             :children
-                            (loop for string in strings collecting
+                            (loop for method in methods collecting
                               (make-instance 'list-item
                                              :children
-                                             (list (make-text string))))))
+                                             (list (make-text method))))))
            (make-definition (slot-name text)
              (when (slot-value slot slot-name)
                (make-instance 'definition
                               :term (make-text text)
-                              :definition (list-of-strings-to-list
+                              :definition (list-of-methods-to-list
                                            (slot-value slot slot-name))))))
     (let* ((accessors-definition (make-definition 'accessors "Accessors"))
            (readers-definition (make-definition 'readers "Readers"))
@@ -103,7 +107,9 @@
                  :children
                  (list (make-text (render-humanize (doc-symbol instance))
                                   (make-class-metadata "name"))
-                       (doc-description instance)
+                       (make-instance 'content-node
+                                      :metadata (make-class-metadata "docstring")
+                                      :children (list (doc-description instance)))
                        (record-slots instance))))
 
 (defmethod expand-macro ((struct struct-node))

@@ -1,10 +1,11 @@
 (in-package :cl-user)
 (defpackage codex.tmpl
-  (:use :cl)
+  (:use :cl :trivial-types)
   (:import-from :common-html.template
                 :template
                 :render
                 :render-section)
+  (:export :codex-template)
   (:documentation "Codex template definitions."))
 (in-package :codex.tmpl)
 
@@ -26,21 +27,22 @@
               :initarg :directory
               :type pathname
               :documentation "The directory where the output will be produced.")
-   (css-file :reader template-css-file
-             :initarg :css-file
-             :type pathname
-             :documentation "The CSS file."))
+   (css-files :reader template-css-files
+              :type (proper-list pathname)
+              :allocation :class
+              :documentation "The CSS files."))
   (:documentation "Codex templates."))
 
 (defmethod initialize-instance :after ((tmpl codex-template) &key)
   "Copy the template's CSS to the output directory"
   (ensure-directories-exist (merge-pathnames #p"static/"
                                              (template-directory tmpl)))
-  (uiop:copy-file (merge-pathnames (template-css-file tmpl)
-                                   (asdf:system-relative-pathname :codex
-                                                                  #p"templates/"))
-                  (merge-pathnames #p"static/style.css"
-                                   (template-directory tmpl))))
+  (loop for file in (template-css-file tmpl) do
+    (uiop:copy-file (merge-pathnames file
+                                     (asdf:system-relative-pathname :codex
+                                                                    #p"templates/"))
+                    (merge-pathnames #p"static/style.css"
+                                     (template-directory tmpl)))))
 
 ;; Signatures:
 ;; render ((template template) (document document) content-string

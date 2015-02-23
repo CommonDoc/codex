@@ -4,9 +4,17 @@
  {{ title }}
 {% endblock %}
 
+{% block extra-head %}
+  <link rel="stylesheet" href="static/highlight.css"/>
+  <script src="static/highlight.js"></script>
+{% endblock %}
+
 {% block content %}
   <h1 class="codex-document-title">{{ title }}</h1>
   <main class="codex-document">
     {{ content | safe }}
   </main>
+  <script>
+   HighlightLisp.highlight_auto();
+  </script>
 {% endblock %}

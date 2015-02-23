@@ -86,9 +86,12 @@
   ((document-template :initform "min/document.html")
    (section-template :initform "min/section.html")
    (static-files :initform (list
-                            (cons #p"min/style.css" #p"style.css")
-                            (cons #p"static/highlight-lisp/highlight-lisp.js" #p"highlight.js")
-                            (cons #p"static/highlight-lisp/themes/github.css" #p"highlight.css"))))
+                            (cons #p"min/style.css"
+                                  #p"style.css")
+                            (cons #p"static/highlight-lisp/highlight-lisp.js"
+                                  #p"highlight.js")
+                            (cons #p"static/highlight-lisp/themes/github.css"
+                                  #p"highlight.css"))))
   (:documentation "Minimalist template."))
 
 ;;; Template database

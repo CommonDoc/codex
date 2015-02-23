@@ -19,8 +19,8 @@
          (html-template (codex.tmpl:find-template (html-template output-format))))
     ;; Expand macros
     (let ((doc (common-doc.macro:expand-macros doc)))
+      (setf doc (common-doc.ops:fill-unique-refs doc))
       ;; Now we have a document, lets emit the HTML
-      (ensure-directories-exist build-directory)
       (if html-template
           (common-html.template:with-template (html-template :directory build-directory)
             (common-html.multi-emit:multi-emit doc

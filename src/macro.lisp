@@ -8,11 +8,15 @@
 
 ;;; Utilities
 
-(defun make-class-metadata (class-name)
+(defun make-class-metadata (class)
   "Create metadata for HTML classes."
   (make-meta
    (list
-    (cons "class" class-name))))
+    (cons "class" (if (listp class)
+                      (format nil "~{codex-~A~#[~:; ~]~}" class)
+                      (concatenate 'string
+                                   "codex-"
+                                   class))))))
 
 ;;; Macros in user input (Docstrings, files, etc.)
 

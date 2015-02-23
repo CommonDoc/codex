@@ -82,3 +82,11 @@
    (section-template :initform #p"min/section.html")
    (css-files :initform (list #p"min/style.css")))
   (:documentation "Minimalist template."))
+
+;;; Template database
+
+(defparameter *template-database*
+  (let ((table (make-hash-table)))
+    (setf (gethash :min table) (find-class 'min-template))
+    table)
+  "A hash table of table names (Keywords) to template classes.")

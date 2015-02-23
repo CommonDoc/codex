@@ -44,11 +44,18 @@
   (make-instance 'content-node
                  :metadata (make-class-metadata class-name)
                  :children
-                 (list (make-text (render-humanize (doc-symbol instance))
-                                  (make-class-metadata "name"))
-                       (make-instance 'content-node
-                                      :metadata (make-class-metadata "docstring")
-                                      :children (list (doc-description instance))))))
+                 (list
+                  (make-text (render-humanize (doc-symbol instance))
+                             (make-class-metadata "name"))
+                  (make-instance 'content-node
+                                 :metadata (make-class-metadata "lambda-list")
+                                 :children (list
+                                            (make-text
+                                             (operator-lambda-list instance))))
+                  (make-instance 'content-node
+                                 :metadata (make-class-metadata "docstring")
+                                 :children (list
+                                            (doc-description instance))))))
 
 (defmethod expand-macro ((function function-node))
   (expand-operator-macro function "function"))

@@ -7,4 +7,5 @@
                               :template :min)
               :sources ("overview.tex"
                         "doc-nodes.tex"
+                        "errors.tex"
                         "html-classes.tex"))))

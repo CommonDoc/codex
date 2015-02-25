@@ -81,3 +81,33 @@ code {
 .codex-docstring {
     margin-bottom: 20px;
 }
+
+/* General layout */
+
+body {
+    width: 100%;
+}
+
+.toc {
+    width: 20%;
+    float: left;
+}
+
+main {
+    width: 80%;
+    float: left;
+}
+
+/* Table of Contents */
+
+.toc {
+    padding: 15px;
+}
+
+.toc a {
+    text-decoration: none;
+}
+
+.toc a {
+    color: #AD3108;
+}

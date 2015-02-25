@@ -11,8 +11,8 @@
 
 {% block content %}
   {{ toc | safe }}
-  <h1 class="codex-section-title">{{ section-title }}</h1>
   <main class="codex-section">
+    <h1 class="codex-section-title">{{ section-title }}</h1>
     {{ content | safe }}
   </main>
   <script>

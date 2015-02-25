@@ -47,7 +47,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Separation between elements */
 
-p, pre, ol, ul, dl {
+p, pre, main ol, ul, dl {
     margin-bottom: 15px;
 }
 
@@ -61,6 +61,13 @@ dd, li {
 
 code {
     font-family: monospace;
+}
+
+/* Link Style */
+
+a {
+    color: #AD3108;
+    text-decoration: none;
 }
 
 /* Records */
@@ -102,12 +109,4 @@ main {
 
 .toc {
     padding: 15px;
-}
-
-.toc a {
-    text-decoration: none;
-}
-
-.toc a {
-    color: #AD3108;
 }

@@ -53,9 +53,12 @@
                  :metadata (make-class-metadata class-name)
                  :children
                  (list
-                  (make-text (render-humanize (doc-symbol instance))
-                             (make-class-metadata "name"))
-                  (make-instance 'content-node
+                  (make-instance 'code
+                                 :metadata (make-class-metadata "name")
+                                 :children (list
+                                            (make-text
+                                             (render-humanize (doc-symbol instance)))))
+                  (make-instance 'code
                                  :metadata (make-class-metadata "lambda-list")
                                  :children (list
                                             (make-text

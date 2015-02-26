@@ -25,7 +25,7 @@
           (common-html.template:with-template (html-template :directory build-directory)
             (common-html.multi-emit:multi-emit doc
                                                build-directory
-                                               :max-depth 3))
+                                               :max-depth 1))
           (error 'codex.error:unknown-template
                  :template-name (html-template output-format)))
       doc)))

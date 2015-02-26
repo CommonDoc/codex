@@ -74,7 +74,7 @@
   (let ((template (djula:compile-template* (section-template tmpl)))
         (document-title (title document))
         (section-title (common-doc.ops:collect-all-text (title section)))
-        (toc (common-html.toc:multi-file-toc document)))
+        (toc (common-html.toc:multi-file-toc document :max-depth 1)))
     (djula:render-template* template
                             nil
                             :title document-title

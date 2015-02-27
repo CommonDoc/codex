@@ -10,11 +10,20 @@
 {% endblock %}
 
 {% block content %}
-  {{ toc | safe }}
-  <main class="codex-section">
-    <h1 class="codex-section-title">{{ section-title }}</h1>
-    {{ content | safe }}
-  </main>
+  <article>
+    <aside>
+      {{ toc | safe }}
+    </aside>
+    <main class="codex-section">
+      <h1 class="codex-section-title">{{ section-title }}</h1>
+      {{ content | safe }}
+    </main>
+  </article>
+  <footer>
+    <div class="info">
+      Created with <a href="https://github.com/CommonDoc/codex">Codex</a>.
+    </div>
+  </footer>
   <script>
    HighlightLisp.highlight_auto();
   </script>

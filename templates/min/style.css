@@ -19,6 +19,29 @@ body {
     font-size: 1.2em;
 }
 
+/* General layout */
+
+body {
+    width: 100%;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+aside .toc {
+    width: 25%;
+    float: left;
+}
+
+main {
+    width: 75%;
+    float: left;
+}
+
+article {
+    flex: 1;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: "Lusitana", serif;
 }
@@ -28,7 +51,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 auto;
 }
 
-.codex-document-title, .codex-section-title {
+.codex-document-title {
     width: 60%;
     margin: 0 auto;
 }
@@ -42,12 +65,11 @@ h1, h2, h3, h4, h5, h6 {
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-bottom: 20px;
 }
 
 /* Separation between elements */
 
-p, pre, main ol, ul, dl {
+main > * {
     margin-bottom: 15px;
 }
 
@@ -74,39 +96,32 @@ a {
 
 .codex-class {
     border-left: 5px solid #ccc;
-    margin-bottom: 20px;
     padding: 15px;
 }
 
 .codex-class .codex-name {
     display: block;
-    margin-bottom: 10px;
 }
 
 /* Docstrings */
 
 .codex-docstring {
-    margin-bottom: 20px;
-}
-
-/* General layout */
-
-body {
-    width: 100%;
-}
-
-.toc {
-    width: 25%;
-    float: left;
-}
-
-main {
-    width: 75%;
-    float: left;
 }
 
 /* Table of Contents */
 
 .toc {
     padding: 15px;
+}
+
+/* Footer */
+
+footer {
+    height: 120px;
+    line-height: 120px;
+}
+
+footer .info {
+    margin: 0 75px;
+    text-align: right;
 }

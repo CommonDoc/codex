@@ -120,11 +120,11 @@ a {
 }
 
 .codex-method {
-    border-left-color: #ccc;
+    border-left-color: rgba(46, 83, 157, 0.7);
 }
 
 .codex-class {
-    border-left-color: #ccc;
+    border-left-color: rgba(224, 153, 82, 0.7);
 }
 
 .codex-docstring {

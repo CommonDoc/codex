@@ -101,14 +101,14 @@ a {
 
 /* Documentation Nodes */
 
-.codex-function, .codex-macro, .codex-generic-function, .codex-method, .codex-class {
+.codex-doc-node {
     border-left: 5px solid;
     display: block;
     padding: 15px;
 }
 
 .codex-function {
-    border-left-color: #ccc;
+    border-left-color: rgba(77, 119, 203, 0.7);
 }
 
 .codex-macro {
@@ -116,7 +116,7 @@ a {
 }
 
 .codex-generic-function {
-    border-left-color: #ccc;
+    border-left-color: rgba(46, 83, 157, 0.7);
 }
 
 .codex-method {

@@ -50,7 +50,7 @@
 
 (defun expand-operator-macro (instance class-name)
   (make-instance 'content-node
-                 :metadata (make-class-metadata class-name)
+                 :metadata (make-class-metadata (list "doc-node" class-name))
                  :children
                  (list
                   (make-instance 'code
@@ -82,7 +82,7 @@
 
 (defmethod expand-macro ((variable variable-node))
   (make-instance 'content-node
-                 :metadata (make-class-metadata "variable")
+                 :metadata (make-class-metadata (list "doc-node" "variable"))
                  :children
                  (list (make-text (render-humanize (doc-symbol variable))
                                   (make-class-metadata "name"))
@@ -143,7 +143,7 @@
 
 (defun expand-record-macro (instance class-metadata)
   (make-instance 'content-node
-                 :metadata (make-class-metadata class-metadata)
+                 :metadata (make-class-metadata (list "doc-node" class-metadata))
                  :children
                  (list (make-instance 'code
                                       :metadata (make-class-metadata "name")

@@ -114,7 +114,7 @@ a {
 /* Table of Contents */
 
 .toc {
-    padding: 15px;
+    padding: 35px;
 }
 
 .toc a {
@@ -123,6 +123,9 @@ a {
 
 .toc li {
     list-style-type: none;
+    font-size: 1.1em;
+    margin-left: 0;
+    margin-bottom: 10px;
 }
 
 /* Footer */

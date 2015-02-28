@@ -49,6 +49,10 @@ h1, h2, h3, h4, h5, h6 {
     font-family: "Lusitana", serif;
 }
 
+.doc-title {
+    margin: 25px 75px;
+}
+
 .codex-document, .codex-section {
     width: 60%;
     margin: 0 auto;
@@ -114,7 +118,7 @@ a {
 /* Table of Contents */
 
 .toc {
-    padding: 35px;
+    padding: 25px 35px;
 }
 
 .toc a {

@@ -130,6 +130,11 @@ a {
 .codex-class {
     border-left-color: rgba(224, 153, 82, 0.7);
 }
+
+.codex-slot > dd > * {
+    margin-bottom: 10px;
+}
+
 /* Table of Contents */
 
 .toc {

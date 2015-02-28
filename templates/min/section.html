@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-  {{ section-title }} &ndash; {{ title }}
+  {{ section-title }} &ndash; {{ document-title }}
 {% endblock %}
 
 {% block extra-head %}
@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block content %}
+  <h1 class="doc-title">{{ document-title }}</h1>
   <article>
     <aside>
       {{ toc | safe }}

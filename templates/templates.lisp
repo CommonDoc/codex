@@ -65,7 +65,7 @@
         (document-title (title document)))
     (djula:render-template* template
                             nil
-                            :title document-title
+                            :document-title document-title
                             :content content-string)))
 
 (defmethod render-section ((tmpl built-in-template) (document document) (section section)
@@ -77,7 +77,7 @@
         (toc (common-html.toc:multi-file-toc document :max-depth 1)))
     (djula:render-template* template
                             nil
-                            :title document-title
+                            :document-title document-title
                             :section-title section-title
                             :toc toc
                             :content content-string)))

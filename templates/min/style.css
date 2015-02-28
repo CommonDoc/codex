@@ -35,7 +35,10 @@ aside .toc {
 
 main {
     width: 75%;
+    min-height: 100vh;
     float: left;
+    border-left: 1px solid #ccc;
+    padding: 35px;
 }
 
 article {
@@ -114,11 +117,20 @@ a {
     padding: 15px;
 }
 
+.toc a {
+    color: #333;
+}
+
+.toc li {
+    list-style-type: none;
+}
+
 /* Footer */
 
 footer {
     height: 120px;
     line-height: 120px;
+    background: #f9f9f9;
 }
 
 footer .info {

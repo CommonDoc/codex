@@ -65,8 +65,6 @@ Refers to an argument of a function, macro or method.
 Codex uses [Quickdocs's][qd] [parser][qd-parser] system to extract
 documentation from systems.
 
-Each package is a separate document.
-
 [vertex]: https://github.com/CommonDoc/vertex
 [commondoc]: https://github.com/CommonDoc/common-doc
 [clhs]: http://www.lispworks.com/documentation/HyperSpec/Front/

@@ -9,12 +9,12 @@ install:
   # Install cl-travis
   - curl https://raw.githubusercontent.com/luismbo/cl-travis/master/install.sh | bash
   # Clone some libraries
-  - git clone https://github.com/CommonDoc/common-doc.git quicklisp/local-projects/common-doc
-  - git clone https://github.com/CommonDoc/common-doc-plump.git quicklisp/local-projects/common-doc-plump
-  - git clone https://github.com/CommonDoc/common-html.git quicklisp/local-projects/common-html
-  - git clone https://github.com/CommonDoc/vertex.git quicklisp/local-projects/vertex
-  - git clone https://github.com/fukamachi/quickdocs.git quicklisp/local-projects/quickdocs
-  - git clone https://github.com/mmontone/djula.git quicklisp/local-projects/djula
+  - git clone https://github.com/CommonDoc/common-doc.git ~/lisp/common-doc
+  - git clone https://github.com/CommonDoc/common-doc-plump.git ~/lisp/common-doc-plump
+  - git clone https://github.com/CommonDoc/common-html.git ~/lisp/common-html
+  - git clone https://github.com/CommonDoc/vertex.git ~/lisp/vertex
+  - git clone https://github.com/fukamachi/quickdocs.git ~/lisp/quickdocs
+  - git clone https://github.com/mmontone/djula.git ~/lisp/djula
 
 script:
   - cl -e '(ql:quickload :fiveam)'

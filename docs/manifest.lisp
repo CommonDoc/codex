@@ -1,8 +1,8 @@
-(:markup-format :vertex
+(:docstring-markup-format :vertex
  :systems (:codex)
  :documents ((:title "Codex"
               :authors ("Fernando Borretti")
-              :markup-format :vertex
+              :document-markup-format :vertex
               :output-format (:type :multi-html
                               :template :min)
               :sources ("overview.tex"

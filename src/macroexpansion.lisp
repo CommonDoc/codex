@@ -1,15 +1,5 @@
 (in-package :codex.macro)
 
-(defmethod expand-macro ((sym symbol-node))
-  (make-text (render-humanize sym)
-             (make-class-metadata "symbol")))
-
-(defun parse-symbol-string (string)
-  (let* ((colon-pos (position #\: string))
-         (package-name (subseq string 0 colon-pos))
-         (symbol-name (subseq string (1+ colon-pos))))
-    (list package-name symbol-name)))
-
 (defmethod expand-macro ((ref cl-ref))
   (let ((text-node (elt (children ref) 0)))
     (assert (typep text-node 'text-node))
@@ -22,63 +12,7 @@
                                                      ":"
                                                      symbol-name)))))
 
-(defmethod expand-macro ((cl-doc cl-doc))
-  (let ((text-node (elt (children cl-doc) 0)))
-    (assert (typep text-node 'text-node))
-    (let ((symbol-string (string-upcase (text text-node))))
-      (format t "Inserting documentation for symbol ~S.~%" symbol-string)
-      ;; Extract the node from the index
-      (let ((node (codex.index:get-from-current-index symbol-string)))
-        (if node
-            node
-            ;; No node with that name, report an error
-            (make-instance 'content-node
-                           :metadata (make-class-metadata (list "error" "no-node"))
-                           :children
-                           (list
-                            (make-text "No node with name ")
-                            (make-instance 'code
-                                           :children
-                                           (list
-                                            (make-text (string-downcase symbol-string))))
-                            (make-text "."))))))))
 
-(defmethod expand-macro ((param param))
-  (make-instance 'content-node
-                 :metadata (make-class-metadata "param")
-                 :children (children param)))
-
-(defun expand-operator-macro (instance class-name)
-  (make-instance 'content-node
-                 :metadata (make-class-metadata (list "doc-node" class-name))
-                 :children
-                 (list
-                  (make-instance 'code
-                                 :metadata (make-class-metadata "name")
-                                 :children (list
-                                            (make-text
-                                             (render-humanize (doc-symbol instance)))))
-                  (make-instance 'code
-                                 :metadata (make-class-metadata "lambda-list")
-                                 :children (list
-                                            (make-text
-                                             (operator-lambda-list instance))))
-                  (make-instance 'content-node
-                                 :metadata (make-class-metadata "docstring")
-                                 :children (list
-                                            (doc-description instance))))))
-
-(defmethod expand-macro ((function function-node))
-  (expand-operator-macro function "function"))
-
-(defmethod expand-macro ((macro macro-node))
-  (expand-operator-macro macro "macro"))
-
-(defmethod expand-macro ((generic-function generic-function-node))
-  (expand-operator-macro generic-function "generic-function"))
-
-(defmethod expand-macro ((method method-node))
-  (expand-operator-macro method "method"))
 
 (defmethod expand-macro ((variable variable-node))
   (make-instance 'content-node

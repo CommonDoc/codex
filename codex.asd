@@ -17,7 +17,7 @@
                  (:file "markup")
                  (:file "manifest")
                  (:file "macro")
-                 (:file "build"))))
+                 (:file "codex"))))
   :description "A documentation system for Common Lisp."
   :long-description
   #.(uiop:read-file-string

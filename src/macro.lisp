@@ -62,7 +62,7 @@ symbol name (string)."
 (defgeneric expand-node (node)
   (:documentation "Turn a Docparser node into a CommonDoc one."))
 
-(defmethod expand-node ((node docparser:symbol-node))
+(defmethod expand-node ((node symbol))
   "Exand a symbol node."
   (make-text (docparser:render-humanize node)
              (make-class-metadata "symbol")))

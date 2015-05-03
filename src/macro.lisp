@@ -3,6 +3,7 @@
   (:import-from :common-doc
                 :content-node
                 :text-node
+                :code
                 ;; Operators
                 :define-node
                 :children
@@ -129,7 +130,7 @@ create an error message."
                                     :package-name (string-upcase package)
                                     :symbol-name (string-upcase symbol))))
         (if (> (length nodes) 0)
-            (first nodes)
+            (expand-node (elt nodes 0))
             ;; No node with that name, report an error
             (make-instance 'content-node
                            :metadata (make-class-metadata (list "error" "no-node"))

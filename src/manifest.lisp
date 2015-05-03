@@ -22,7 +22,8 @@
            :manifest-systems
            :manifest-documents)
   (:export :*default-manifest-pathname*
-           :parse-system-manifest)
+           :parse-manifest
+           :system-manifest-pathname)
   (:documentation "Parsing Codex manifest files."))
 (defpackage :codex-manifest-user
   (:use :cl :codex.manifest)
@@ -142,7 +143,3 @@ package."
   "Return the absolute pathname to a system's Codex manifest."
   (asdf:system-relative-pathname system-name
                                  *default-manifest-pathname*))
-
-(defun parse-system-manifest (system-name)
-  "Parse a system's manifest file."
-  (parse-manifest (system-manifest-pathname system-name)))

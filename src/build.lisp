@@ -13,12 +13,15 @@
                              collecting
                              (merge-pathnames (parse-namestring namestring)
                                               directory)))
-         (sections (codex.markup:with-markup ((codex.manifest:document-markup-format document))
-                     (loop for file in doc-source-files collecting
-                       (codex.markup:parse-string (uiop:read-file-string file))))))
+         (base-doc (codex.markup:with-markup ((codex.manifest:document-markup-format document))
+                     (codex.markup:parse-string
+                      (apply #'concatenate
+                             'string
+                             (loop for file in doc-source-files collecting
+                               (uiop:read-file-string file)))))))
     (make-instance 'common-doc:document
                    :title (codex.manifest:document-title document)
-                   :children sections)))
+                   :children (common-doc:children base-doc))))
 
 (defun build-document (document directory)
   "Build a document."

@@ -26,7 +26,7 @@
          (build-directory (merge-pathnames #p"build/html/"
                                            directory))
          (output-format (codex.manifest:document-output-format document))
-         (html-template (codex.tmpl:find-template (html-template output-format))))
+         (html-template (codex.tmpl:find-template (codex.manifest:output-html-template output-format))))
     ;; Expand macros
     (let ((doc (common-doc.macro:expand-macros doc)))
       (setf doc (common-doc.ops:fill-unique-refs doc))

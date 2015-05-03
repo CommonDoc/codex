@@ -24,6 +24,9 @@
   (:export :*default-manifest-pathname*
            :parse-system-manifest)
   (:documentation "Parsing Codex manifest files."))
+(defpackage :codex-manifest-user
+  (:use :cl :codex.manifest)
+  (:documentation "The package in which Codex manifests are read."))
 (in-package :codex.manifest)
 
 (defclass output-format ()

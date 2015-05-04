@@ -3,6 +3,4 @@
   :license "MIT"
   :description "Test system that's loaded and parsed."
   :depends-on ()
-  :components ((:module "t"
-                :components
-                ((:file "test-system")))))
+  :components ((:file "test-system")))

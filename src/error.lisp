@@ -1,29 +1,38 @@
+(in-package :cl-user)
+(defpackage codex.error
+  (:use :cl)
+  ;; Classes
+  (:export :codex-error
+           :manifest-error
+           :unsupported-output-format
+           :template-error)
+  ;; Accessors
+  (:export :system-name
+           :message
+           :format-name
+           :template-name)
+  (:documentation "Codex errors."))
 (in-package :codex.error)
 
 (define-condition codex-error ()
   ()
   (:documentation "The base class of all Codex errors."))
 
-(define-condition no-manifest (codex-error)
+(define-condition manifest-error (codex-error)
   ((system-name :reader system-name
                 :initarg :system-name
                 :type keyword
-                :documentation "The name of the system."))
+                :documentation "The name of the system.")
+   (message :reader message
+            :initarg :message
+            :type string
+            :documentation "The error message."))
   (:report
    (lambda (condition stream)
-     (format stream "No manifest file for system ~A." (system-name condition))))
-  (:documentation "Signalled when a system has no manifest file."))
-
-(define-condition unsupported-markup-format (codex-error)
-  ((format-name :reader format-name
-                :initarg :format-name
-                :type keyword
-                :documentation "The name of the markup format."))
-  (:report
-   (lambda (condition stream)
-     (format stream "Unsupported markup format: ~A." (format-name condition))))
-  (:documentation "Signalled when Codex doesn't know the markup format a
-  manifest specifies."))
+     (format stream "Manifest error for system ~A: ~A"
+             (system-name condition)
+             (message condition))))
+  (:documentation "Signalled when there is an error parsing a manifest file."))
 
 (define-condition unsupported-output-format (codex-error)
   ((format-name :reader format-name
@@ -36,12 +45,18 @@
   (:documentation "Signalled when Codex doesn't know the output format a
   document specifies."))
 
-(define-condition unknown-template (codex-error)
+(define-condition template-error (codex-error)
   ((template-name :reader template-name
                   :initarg :template-name
                   :type keyword
-                  :documentation "The template name."))
+                  :documentation "The template name.")
+   (message :reader message
+            :initarg :message
+            :type string
+            :documentation "The error message."))
   (:report
    (lambda (condition stream)
-     (format stream "Unknown template: ~A." (format-name condition))))
-  (:documentation "Signalled when the user provides a template that's not present in the template database."))
+     (format stream "Error with template ~A: ~A."
+             (template-name condition)
+             (message condition))))
+  (:documentation "Signalled by errors related to templates."))

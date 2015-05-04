@@ -12,11 +12,12 @@
                              (merge-pathnames (parse-namestring namestring)
                                               directory)))
          (base-doc (codex.markup:with-markup ((codex.manifest:document-markup-format document))
-                     (codex.markup:parse-string
-                      (apply #'concatenate
-                             'string
-                             (loop for file in doc-source-files collecting
-                               (uiop:read-file-string file)))))))
+                     (let ((common-doc.file:*base-directory* directory))
+                       (codex.markup:parse-string
+                        (apply #'concatenate
+                               'string
+                               (loop for file in doc-source-files collecting
+                                 (uiop:read-file-string file))))))))
     (make-instance 'common-doc:document
                    :title (codex.manifest:document-title document)
                    :children (common-doc:children base-doc))))

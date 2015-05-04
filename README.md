@@ -18,26 +18,7 @@ converting it to other formats.
 
 ## Tags
 
-### `clref`
-
-**VerTeX Syntax:** `\clref{<package>:<symbol>}`
-
-Reference a symbol by name. The name must have the full package name.
-
-The package name determines what kind of link will be generated:
-
-* If the symbol is part of the Common Lisp package, a link to the
-  [Common Lisp HyperSpec][clhs] will be generated.
-* If the symbol comes from a package that's part of the project, a link to the
-  symbol in the documentation will be generated.
-
-**Examples:**
-
-```tex
-... we use the \clref{cl:find} function in \clref{myapp:my-package} to find...
-```
-
-### `cldoc`
+### `cl:doc`
 
 **VerTeX Syntax:** `\cldoc{<package>:<symbol>}`
 
@@ -62,14 +43,14 @@ Refers to an argument of a function, macro or method.
 
 # Implementation
 
-Codex uses [Quickdocs's][qd] [parser][qd-parser] system to extract
-documentation from systems.
+Codex uses [docparser][docparser] system to extract documentation from systems,
+and [Pandocl][pandocl] to parse docstrings and files.
 
 [vertex]: https://github.com/CommonDoc/vertex
 [commondoc]: https://github.com/CommonDoc/common-doc
 [clhs]: http://www.lispworks.com/documentation/HyperSpec/Front/
-[qd]: http://quickdocs.org/
-[qd-parser]: https://github.com/fukamachi/quickdocs/blob/master/quickdocs-parser.asd
+[docparser]: https://github.com/eudoxia0/docparser
+[pandocl]: https://github.com/CommonDoc/pandocl
 
 # License
 

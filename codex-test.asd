@@ -9,7 +9,13 @@
   :components ((:module "t"
                 :serial t
                 :components
-                ((:static-file "test-system.lisp")
-                 (:file "macros")
-                 (:file "parser")
+                ((:module "test-system"
+                  :components
+                  ((:static-file "codex-test-system.asd")
+                   (:static-file "test-system.lisp")
+                   (:module "docs"
+                    :components
+                    ((:static-file "manifest.lisp")
+                     (:static-file "doc-a.scr")
+                     (:static-file "doc-b.tex")))))
                  (:file "codex")))))

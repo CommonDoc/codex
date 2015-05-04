@@ -1,4 +1,5 @@
 language: common-lisp
+sudo: required
 
 env:
   matrix:
@@ -13,11 +14,11 @@ install:
   - git clone https://github.com/CommonDoc/common-doc-plump.git ~/lisp/common-doc-plump
   - git clone https://github.com/CommonDoc/common-html.git ~/lisp/common-html
   - git clone https://github.com/CommonDoc/vertex.git ~/lisp/vertex
-  - git clone https://github.com/fukamachi/quickdocs.git ~/lisp/quickdocs
+  - git clone https://github.com/CommonDoc/vertex.git ~/lisp/scriba
   - git clone https://github.com/mmontone/djula.git ~/lisp/djula
 
 script:
-  - cl -e '(ql:quickload :fiveam)'
+  - cl -l fiveam
        -e '(setf fiveam:*debug-on-error* t
                  fiveam:*debug-on-failure* t)'
        -e '(setf *debugger-hook*

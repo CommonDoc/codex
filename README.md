@@ -43,8 +43,8 @@ Refers to an argument of a function, macro or method.
 
 # Implementation
 
-Codex uses [docparser][docparser] system to extract documentation from systems,
-and [Pandocl][pandocl] to parse docstrings and files.
+Codex uses [docparser][docparser] to extract documentation from systems, and
+[Pandocl][pandocl] to parse docstrings and files into a CommonDoc documents.
 
 [vertex]: https://github.com/CommonDoc/vertex
 [commondoc]: https://github.com/CommonDoc/common-doc

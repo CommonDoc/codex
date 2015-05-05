@@ -1,0 +1,109 @@
+@begin(section)
+@title(Overview)
+
+Codex is a documentation generator.
+
+@end(section)
+
+@begin(section)
+@title(Errors)
+
+@cl:with-package[name="codex.error"](
+@cl:doc(condition codex-error)
+@cl:doc(condition manifest-error)
+@cl:doc(condition unsupported-output-format)
+@cl:doc(condition template-error)
+)
+
+@end(section)
+
+@begin(section)
+@title(Authoring Templates)
+
+@begin(section)
+@title(HTML Classes)
+
+The following is a list of HTML classes in the documentation nodes inserted into
+the documents. Some of these (e.g., @c(codex-slot) and @c(codex-class-slot)) are
+used simultaneously.
+
+@begin(deflist)
+
+@term(@c(codex-name))
+@def(The name of a node, e.g. a function or a class.)
+
+@term(@c(codex-docstring))
+@def(The docstring section of a node.)
+
+@term(@c(codex-doc-node))
+@def(A documentation node.)
+
+@term(@c(codex-lambda-list))
+@def(The lambda list of an operator node.)
+
+@term(@c(codex-function))
+@def(A function node.)
+
+@term(@c(codex-macro))
+@def(A macro node.)
+
+@term(@c(codex-generic-function))
+@def(A generic function node.)
+
+@term(@c(codex-method))
+@def(A method node.)
+
+@term(@c(codex-operator))
+@def(This class is present in all operator nodes. If an unsupported subclass of
+@c(operator-node) is used, it expands the name, docstring and lambda list and
+nothing more, and only uses this class.)
+
+@term(@c(codex-slot))
+@def(A structure or class slot.)
+
+@term(@c(codex-structure-slot))
+@def(The slot of a structure. This only contains a name, not a docstring.)
+
+@term(@c(codex-class-slot))
+@def(The slot of a class.)
+
+@term(@c(codex-record))
+@def(A structure or class node.)
+
+@term(@c(codex-structure))
+@def(A structure node.)
+
+@term(@c(codex-class))
+@def(A class node.)
+
+@term(@c(codex-condition))
+@def(A condition node.)
+
+@term(@c(codex-variable))
+@def(A variable node.)
+
+@term(@c(codex-type))
+@def(A type definition node.)
+
+@term(@c(codex-type-def))
+@def(The actual type definition in the type node.)
+
+@end(deflist)
+
+@end(section)
+
+@end(section)
+
+@begin(section)
+@title(Internals)
+
+@cl:with-package[name="codex.manifest"](
+@cl:doc(class manifest)
+@cl:doc(class document)
+@cl:doc(class output-format)
+@cl:doc(class html)
+@cl:doc(class single-html)
+@cl:doc(class multi-html)
+)
+
+@end(section)

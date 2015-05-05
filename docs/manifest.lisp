@@ -1,11 +1,7 @@
-(:docstring-markup-format :vertex
+(:docstring-markup-format :scriba
  :systems (:codex)
  :documents ((:title "Codex"
               :authors ("Fernando Borretti")
-              :document-markup-format :vertex
               :output-format (:type :multi-html
                               :template :min)
-              :sources ("overview.tex"
-                        "doc-nodes.tex"
-                        "errors.tex"
-                        "html-classes.tex"))))
+              :sources ("manual.scr"))))

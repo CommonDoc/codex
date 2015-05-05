@@ -5,6 +5,7 @@
                 :text-node
                 :code
                 :list-item
+                :unordered-list
                 ;; Operators
                 :define-node
                 :children
@@ -142,13 +143,24 @@ explicitly supported by this method."
                  :children
                  (list
                   (name-node node)
-                  (name-docstring node))))
+                  (docstring-node node))))
 
 (defmethod expand-node ((node docparser:struct-node))
   "Expand a structure definition node."
   (make-doc-node "struct"
                  (name-node node)
-                 (name-docstring node)
+                 (docstring-node node)
+                 (make-instance 'unordered-list
+                                :metadata (make-class-metadata "slot-list")
+                                :children
+                                (loop for slot in (docparser:record-slots node)
+                                  collecting (expand-node slot)))))
+
+(defmethod expand-node ((node docparser:class-node))
+  "Expand a class definition node."
+  (make-doc-node "class"
+                 (name-node node)
+                 (docstring-node node)
                  (make-instance 'unordered-list
                                 :metadata (make-class-metadata "slot-list")
                                 :children

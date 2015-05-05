@@ -4,6 +4,7 @@
                 :content-node
                 :text-node
                 :code
+                :list-item
                 ;; Operators
                 :define-node
                 :children
@@ -126,6 +127,13 @@
 explicitly supported by this method."
   (expand-operator-node node "operator"))
 
+(defmethod expand-node ((node docparser:struct-slot-node))
+  "Expand a structure slot node. This doesn't have any docstrings."
+  (make-instance 'list-item
+                 :children
+                 (list
+                  (name-node node))))
+
 (defmethod expand-node ((node docparser:variable-node))
   "Expand a variable node."
   (make-doc-node "variable"
@@ -136,9 +144,9 @@ explicitly supported by this method."
   "Expand a type node."
   (make-doc-node "type"
                  (name-node node)
-                 (docstring-node node)
                  (list-to-code-node "type-def"
-                                    (docparser:operator-lambda-list node))))
+                                    (docparser:operator-lambda-list node))
+                 (docstring-node node)))
 
 (defmethod expand-node ((node t))
   "When expanding an unsupported node, rather than generate an error, simply

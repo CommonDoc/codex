@@ -39,11 +39,13 @@ its slots:
 \cl:with-package[pack=pack]{
   \cl:doc{class my-class}
 }
+```
 
 ### `cl:param`
 
 Refers to an argument of a function, macro or method. For example
-```tex
+
+```
 (Scriba syntax)
 The @cl:param(list) argument holds...
 

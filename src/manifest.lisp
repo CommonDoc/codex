@@ -14,7 +14,6 @@
   (:export :output-html-template
            :document-title
            :document-authors
-           :document-markup-format
            :document-output-format
            :document-sources
            :docstring-markup-format
@@ -58,10 +57,6 @@
                      :initarg :authors
                      :type (proper-list string)
                      :documentation "A list of the document's authors.")
-   (markup-format :reader document-markup-format
-                  :initarg :markup-format
-                  :type keyword
-                  :documentation "The markup format used in the document's sources.")
    (output-format :reader document-output-format
                   :initarg :output-format
                   :type output-format
@@ -113,12 +108,11 @@ package."
 
 (defun parse-document (document-plist)
   "Parse a manifest's document plist into a document object."
-  (destructuring-bind (&key title authors document-markup-format output-format sources)
+  (destructuring-bind (&key title authors output-format sources)
       document-plist
     (make-instance 'document
                    :title title
                    :authors authors
-                   :markup-format document-markup-format
                    :output-format (parse-output-format output-format)
                    :sources sources)))
 

@@ -1,6 +1,6 @@
 (defpackage codex.markup
   (:use :cl)
-  (:export :with-markup
+  (:export :*current-markup-format*
            :parse-string)
   (:documentation "Parsing files and docstrings."))
 (in-package :codex.markup)

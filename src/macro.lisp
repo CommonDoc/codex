@@ -64,10 +64,20 @@
 (defgeneric expand-node (node)
   (:documentation "Turn a Docparser node into a CommonDoc one."))
 
-(defmethod expand-node ((node symbol))
-  "Exand a symbol node."
-  (make-text (docparser:render-humanize node)
-             (make-class-metadata "symbol")))
+(defmethod name-node (node)
+  "Create a node representing the name of a node."
+  (make-instance 'code
+                 :metadata (make-class-metadata "name")
+                 :children (list (docparser:render-humanize
+                                  (docparser:node-name node)))))
+
+(defun docstring-node (node)
+  "Create a node representing a node's docstring."
+  (make-instance 'content-node
+                 :metadata (make-class-metadata "docstring")
+                 :children (children
+                            (codex.markup:parse-string
+                             (docparser:node-docstring node)))))
 
 (defun expand-operator-node (node class-name)
   "Expand a generic operator node. Called by more specific methods."
@@ -75,10 +85,7 @@
                  :metadata (make-class-metadata (list "doc-node" class-name))
                  :children
                  (list
-                  (make-instance 'code
-                                 :metadata (make-class-metadata "name")
-                                 :children (list
-                                            (expand-node (docparser:node-name node))))
+                  (name-node node)
                   (make-instance 'code
                                  :metadata (make-class-metadata "lambda-list")
                                  :children (list
@@ -87,11 +94,7 @@
                                                (let ((*print-case* :downcase))
                                                  (princ-to-string
                                                   (docparser:operator-lambda-list node)))))))
-                  (make-instance 'content-node
-                                 :metadata (make-class-metadata "docstring")
-                                 :children (children
-                                            (codex.markup:parse-string
-                                             (docparser:node-docstring node)))))))
+                  (docstring-node node))))
 
 (defmethod expand-node ((node docparser:function-node))
   "Expand a function node."
@@ -113,6 +116,14 @@
   "Backup method when someone has created a subclass of operator-node that's not
 explicitly supported by this method."
   (expand-operator-node node "operator"))
+
+(defmethod expand-node ((node docparser:variable-node))
+  "Expand a variable node."
+  (make-instance 'content-node
+                 :metadata (make-class-metadata (list "doc-node" "variable"))
+                 :children
+                 (list (name-node node)
+                       (docstring-node node))))
 
 (defmethod expand-node ((node t))
   "When expanding an unsupported node, rather than generate an error, simply

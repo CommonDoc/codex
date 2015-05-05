@@ -14,7 +14,8 @@ install:
   - git clone https://github.com/CommonDoc/common-doc-plump.git ~/lisp/common-doc-plump
   - git clone https://github.com/CommonDoc/common-html.git ~/lisp/common-html
   - git clone https://github.com/CommonDoc/vertex.git ~/lisp/vertex
-  - git clone https://github.com/CommonDoc/vertex.git ~/lisp/scriba
+  - git clone https://github.com/CommonDoc/scriba.git ~/lisp/scriba
+  - git clone https://github.com/CommonDoc/pandocl.git ~/lisp/pandocl
   - git clone https://github.com/mmontone/djula.git ~/lisp/djula
   - git clone https://github.com/eudoxia0/docparser.git ~/lisp/docparser
 

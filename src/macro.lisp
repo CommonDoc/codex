@@ -15,6 +15,8 @@
                 :make-text
                 :make-meta)
   (:export :*index*
+           :cl-doc
+           :with-package
            :param)
   (:documentation "CommonDoc macros for Codex."))
 (in-package :codex.macro)
@@ -59,11 +61,6 @@
                                    "codex-"
                                    class))))))
 
-;;; Docparser nodes to CommonDoc nodes
-
-(defgeneric expand-node (node)
-  (:documentation "Turn a Docparser node into a CommonDoc one."))
-
 (defmethod name-node (node)
   "Create a node representing the name of a node."
   (make-instance 'code
@@ -79,22 +76,32 @@
                             (codex.markup:parse-string
                              (docparser:node-docstring node)))))
 
+(defun list-to-code-node (class list)
+  (make-instance 'code
+                 :metadata (make-class-metadata class)
+                 :children (list
+                            (make-text
+                             (with-standard-io-syntax
+                               (let ((*print-case* :downcase))
+                                 (princ-to-string list)))))))
+
+(defun make-doc-node (class &rest children)
+  (make-instance 'content-node
+                 :metadata (make-class-metadata (list "doc-node" class))
+                 :children children))
+
+;;; Docparser nodes to CommonDoc nodes
+
+(defgeneric expand-node (node)
+  (:documentation "Turn a Docparser node into a CommonDoc one."))
+
 (defun expand-operator-node (node class-name)
   "Expand a generic operator node. Called by more specific methods."
-  (make-instance 'content-node
-                 :metadata (make-class-metadata (list "doc-node" class-name))
-                 :children
-                 (list
-                  (name-node node)
-                  (make-instance 'code
-                                 :metadata (make-class-metadata "lambda-list")
-                                 :children (list
-                                            (make-text
-                                             (with-standard-io-syntax
-                                               (let ((*print-case* :downcase))
-                                                 (princ-to-string
-                                                  (docparser:operator-lambda-list node)))))))
-                  (docstring-node node))))
+  (make-doc-node class-name
+                 (name-node node)
+                 (list-to-code-node "lambda-list"
+                                    (docparser:operator-lambda-list node))
+                 (docstring-node node)))
 
 (defmethod expand-node ((node docparser:function-node))
   "Expand a function node."
@@ -119,11 +126,17 @@ explicitly supported by this method."
 
 (defmethod expand-node ((node docparser:variable-node))
   "Expand a variable node."
-  (make-instance 'content-node
-                 :metadata (make-class-metadata (list "doc-node" "variable"))
-                 :children
-                 (list (name-node node)
-                       (docstring-node node))))
+  (make-doc-node "variable"
+                 (name-node node)
+                 (docstring-node node)))
+
+(defmethod expand-node ((node docparser:type-node))
+  "Expand a type node."
+  (make-doc-node "type"
+                 (name-node node)
+                 (docstring-node node)
+                 (list-to-code-node "type-def"
+                                    (docparser:operator-lambda-list node))))
 
 (defmethod expand-node ((node t))
   "When expanding an unsupported node, rather than generate an error, simply

@@ -1,6 +1,17 @@
 @begin(section)
 @title(Section A)
 
-text
+@cl:with-package[name="codex-test-system"](
+@cl:doc(variable var)
+@cl:doc(variable var2)
+@cl:doc(variable const)
+@cl:doc(function func)
+@cl:doc(macro mac)
+@cl:doc(struct struct)
+@cl:doc(type custom-string)
+@cl:doc(class test-class)
+@cl:doc(generic test-method)
+@cl:doc(function hidden-function)
+)
 
 @end(section)

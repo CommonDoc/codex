@@ -65,8 +65,10 @@
   "Create a node representing the name of a node."
   (make-instance 'code
                  :metadata (make-class-metadata "name")
-                 :children (list (docparser:render-humanize
-                                  (docparser:node-name node)))))
+                 :children (list
+                            (make-text
+                             (docparser:render-humanize
+                              (docparser:node-name node))))))
 
 (defun docstring-node (node)
   "Create a node representing a node's docstring."

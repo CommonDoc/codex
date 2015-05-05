@@ -16,27 +16,39 @@ converting it to other formats.
 
 # Usage
 
-## Tags
+## Macros
+
+### `cl:with-package`
+
+Sets the current package for node insertion. See below.
 
 ### `cl:doc`
 
-**VerTeX Syntax:** `\cldoc{<package>:<symbol>}`
-
 Insert the documentation of a symbol. For example, if your app defines a class
-`my-class` in the package `pack`, invoking the `cldoc` macro with
-`pack:my-class` will expand to class documentation, including the docstring of
-the class itself, and documentation of its slots.
+`my-class` in the package `pack`, the following invocation will expand to class
+documentation, including the docstring of the class itself, and documentation of
+its slots:
 
-### `param`
+```
+(Scriba syntax)
+@cl:with-package[name=pack](
+  @cl:doc(class my-class)
+)
 
-**TeX Syntax:** `\param{name}`
+(VerTeX syntax)
+\cl:with-package[pack=pack]{
+  \cl:doc{class my-class}
+}
 
-Refers to an argument of a function, macro or method.
+### `cl:param`
 
-**Examples:**
-
+Refers to an argument of a function, macro or method. For example
 ```tex
-... the \param{points} argument is a vector of points of...
+(Scriba syntax)
+The @cl:param(list) argument holds...
+
+(VerTeX syntax)
+The \cl:param{points} argument is a vector of points of...
 ```
 
 # Themes
@@ -44,7 +56,7 @@ Refers to an argument of a function, macro or method.
 # Implementation
 
 Codex uses [docparser][docparser] to extract documentation from systems, and
-[Pandocl][pandocl] to parse docstrings and files into a CommonDoc documents.
+[Pandocl][pandocl] to parse docstrings and files into a CommonDoc document.
 
 [vertex]: https://github.com/CommonDoc/vertex
 [commondoc]: https://github.com/CommonDoc/common-doc

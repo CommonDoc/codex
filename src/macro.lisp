@@ -89,9 +89,10 @@
                                (let ((*print-case* :downcase))
                                  (princ-to-string list)))))))
 
-(defun make-doc-node (class &rest children)
+(defun make-doc-node (classes &rest children)
   (make-instance 'content-node
-                 :metadata (make-class-metadata (list "doc-node" class))
+                 :metadata (make-class-metadata (append (list "doc-node")
+                                                        classes))
                  :children children))
 
 ;;; Docparser nodes to CommonDoc nodes
@@ -101,7 +102,7 @@
 
 (defun expand-operator-node (node class-name)
   "Expand a generic operator node. Called by more specific methods."
-  (make-doc-node class-name
+  (make-doc-node (list "operator" class-name)
                  (name-node node)
                  (list-to-code-node "lambda-list"
                                     (docparser:operator-lambda-list node))
@@ -131,7 +132,7 @@ explicitly supported by this method."
 (defmethod expand-node ((node docparser:struct-slot-node))
   "Expand a structure slot node. This doesn't have any docstrings."
   (make-instance 'list-item
-                 :metadata (make-class-metadata "slot")
+                 :metadata (make-class-metadata (list "slot" "structure-slot"))
                  :children
                  (list
                   (name-node node))))
@@ -139,14 +140,14 @@ explicitly supported by this method."
 (defmethod expand-node ((node docparser:class-slot-node))
   "Expand a class slot node."
   (make-instance 'list-item
-                 :metadata (make-class-metadata "slot")
+                 :metadata (make-class-metadata (list "slot" "class-slot"))
                  :children
                  (list
                   (name-node node)
                   (docstring-node node))))
 
 (defun expand-record-node (class node)
-  (make-doc-node class
+  (make-doc-node (list "record" class)
                  (name-node node)
                  (docstring-node node)
                  (make-instance 'unordered-list
@@ -157,7 +158,7 @@ explicitly supported by this method."
 
 (defmethod expand-node ((node docparser:struct-node))
   "Expand a structure definition node."
-  (expand-record-node "struct" node))
+  (expand-record-node "structure" node))
 
 (defmethod expand-node ((node docparser:class-node))
   "Expand a class definition node."
@@ -169,13 +170,13 @@ explicitly supported by this method."
 
 (defmethod expand-node ((node docparser:variable-node))
   "Expand a variable node."
-  (make-doc-node "variable"
+  (make-doc-node (list "variable")
                  (name-node node)
                  (docstring-node node)))
 
 (defmethod expand-node ((node docparser:type-node))
   "Expand a type node."
-  (make-doc-node "type"
+  (make-doc-node (list "type")
                  (name-node node)
                  (list-to-code-node "type-def"
                                     (docparser:operator-lambda-list node))
@@ -197,6 +198,7 @@ create an error message."
         (cons "variable"  'docparser:variable-node)
         (cons "struct"    'docparser:struct-node)
         (cons "class"     'docparser:class-node)
+        (cons "condition" 'docparser:condition-node)
         (cons "type"      'docparser:type-node)
         (cons "cfunction" 'docparser:cffi-function)
         (cons "ctype"     'docparser:cffi-type)

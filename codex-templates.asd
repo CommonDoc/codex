@@ -10,9 +10,10 @@
                 :serial t
                 :components
                 ((:static-file "base.html")
+                 (:static-file "document.html")
+                 (:static-file "section.html")
                  (:file "templates")
                  (:module "min"
                   :components
-                  ((:static-file "document.html")
-                   (:static-file "section.html"))))))
+                  ((:static-file "style.css"))))))
   :description "Templates for Codex.")

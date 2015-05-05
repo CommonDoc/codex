@@ -145,9 +145,8 @@ explicitly supported by this method."
                   (name-node node)
                   (docstring-node node))))
 
-(defmethod expand-node ((node docparser:struct-node))
-  "Expand a structure definition node."
-  (make-doc-node "struct"
+(defun expand-record-node (class node)
+  (make-doc-node class
                  (name-node node)
                  (docstring-node node)
                  (make-instance 'unordered-list
@@ -156,16 +155,17 @@ explicitly supported by this method."
                                 (loop for slot in (docparser:record-slots node)
                                   collecting (expand-node slot)))))
 
+(defmethod expand-node ((node docparser:struct-node))
+  "Expand a structure definition node."
+  (expand-record-node "struct" node))
+
 (defmethod expand-node ((node docparser:class-node))
   "Expand a class definition node."
-  (make-doc-node "class"
-                 (name-node node)
-                 (docstring-node node)
-                 (make-instance 'unordered-list
-                                :metadata (make-class-metadata "slot-list")
-                                :children
-                                (loop for slot in (docparser:record-slots node)
-                                  collecting (expand-node slot)))))
+  (expand-record-node "class" node))
+
+(defmethod expand-node ((node docparser:condition-node))
+  "Expand a condition definition node."
+  (expand-record-node "condition" node))
 
 (defmethod expand-node ((node docparser:variable-node))
   "Expand a variable node."

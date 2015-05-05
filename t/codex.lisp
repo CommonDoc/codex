@@ -3,5 +3,11 @@
   (:use :cl :fiveam))
 (in-package :codex-test)
 
-(run! 'codex-test.macros:macroexpansions)
-(run! 'codex-test.parser:parser)
+(def-suite tests)
+(in-suite tests)
+
+(test document-test-system
+  (finishes
+   (codex:document :codex-test-system)))
+
+(run! 'tests)

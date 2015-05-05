@@ -1,0 +1,6 @@
+@begin(section)
+@title(Section A)
+
+text
+
+@end(section)

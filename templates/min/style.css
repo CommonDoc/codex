@@ -4,14 +4,6 @@
 @import url(http://fonts.googleapis.com/css?family=Lusitana:400,700);
 @import url(http://fonts.googleapis.com/css?family=Poly:400,400italic);
 
-*, *:after, *:before {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
 body {
     font-family: "Poly", serif;
     background: white;
@@ -63,11 +55,6 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 auto;
 }
 
-.codex-lambda-list {
-    text-transform: lowercase;
-    display: inline-block;
-}
-
 .codex-error, .codex-warning {
     padding: 15px;
     border: 1px solid #ccc;
@@ -97,42 +84,6 @@ code {
 a {
     color: #AD3108;
     text-decoration: none;
-}
-
-/* Documentation Nodes */
-
-.codex-doc-node {
-    border-left: 5px solid;
-    display: block;
-    padding: 15px;
-}
-
-.codex-doc-node > * {
-    margin-bottom: 20px;
-}
-
-.codex-function {
-    border-left-color: rgba(77, 119, 203, 0.7);
-}
-
-.codex-macro {
-    border-left-color: rgba(153, 51, 204, 0.7);;
-}
-
-.codex-generic-function {
-    border-left-color: rgba(46, 83, 157, 0.7);
-}
-
-.codex-method {
-    border-left-color: rgba(46, 83, 157, 0.7);
-}
-
-.codex-class {
-    border-left-color: rgba(224, 153, 82, 0.7);
-}
-
-.codex-slot > dd > * {
-    margin-bottom: 10px;
 }
 
 /* Table of Contents */

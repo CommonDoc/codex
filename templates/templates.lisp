@@ -36,11 +36,13 @@
 
 (defclass built-in-template (codex-template)
   ((document-template :reader document-template
-                      :type string
+                      :initform #p"document.html"
+                      :type pathname
                       :allocation :class
                       :documentation "The path to the document template.")
    (section-template :reader section-template
-                     :type string
+                     :initform #p"section.html"
+                     :type pathname
                      :allocation :class
                      :documentation "The path to the section template."))
   (:documentation "A convenience subclass for Codex built-in templates. These
@@ -48,16 +50,25 @@
   define their own templates without using this machinery."))
 
 (defmethod initialize-instance :after ((tmpl codex-template) &key)
-  "Copy the template's CSS to the output directory"
+  "Copy the template's static files to the output directory"
   (ensure-directories-exist (merge-pathnames #p"static/"
                                              (template-directory tmpl)))
   (loop for (input . output) in (template-static-files tmpl) do
-    (uiop:copy-file (merge-pathnames input
-                                     (asdf:system-relative-pathname :codex
-                                                                    #p"templates/"))
-                    (merge-pathnames output
-                                     (merge-pathnames #p"static/"
-                                                      (template-directory tmpl))))))
+    (let ((input-pathname (merge-pathnames input
+                                           (asdf:system-relative-pathname :codex
+                                                                          #p"templates/")))
+          (output-pathname (merge-pathnames output
+                                            (merge-pathnames #p"static/"
+                                                             (template-directory tmpl)))))
+      (with-open-file (input-stream input-pathname
+                                    :direction :input)
+        (with-open-file (output-stream output-pathname
+                                       :direction :output
+                                       ;; Important: The following allows us to
+                                       ;; concatenate static files
+                                       :if-exists :append
+                                       :if-does-not-exist :create)
+          (uiop:copy-stream-to-stream input-stream output-stream))))))
 
 (defmethod render ((tmpl built-in-template) (document document) content-string)
   "Render a built-in document template."
@@ -85,10 +96,12 @@
 ;;; Built-in templates
 
 (defclass min-template (built-in-template)
-  ((document-template :initform "min/document.html")
-   (section-template :initform "min/section.html")
-   (static-files :initform (list
+  ((static-files :initform (list
                             (cons #p"min/style.css"
+                                  #p"style.css")
+                            (cons #p"static/reset.css"
+                                  #p"style.css")
+                            (cons #p"static/nodes.css"
                                   #p"style.css")
                             (cons #p"static/highlight-lisp/highlight-lisp.js"
                                   #p"highlight.js")
@@ -98,7 +111,7 @@
 
 ;;; Template database
 
-(defparameter *template-database*
+(defvar *template-database*
   (let ((table (make-hash-table)))
     (setf (gethash :min table) (find-class 'min-template))
     table)

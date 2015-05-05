@@ -130,9 +130,30 @@ explicitly supported by this method."
 (defmethod expand-node ((node docparser:struct-slot-node))
   "Expand a structure slot node. This doesn't have any docstrings."
   (make-instance 'list-item
+                 :metadata (make-class-metadata "slot")
                  :children
                  (list
                   (name-node node))))
+
+(defmethod expand-node ((node docparser:class-slot-node))
+  "Expand a class slot node."
+  (make-instance 'list-item
+                 :metadata (make-class-metadata "slot")
+                 :children
+                 (list
+                  (name-node node)
+                  (name-docstring node))))
+
+(defmethod expand-node ((node docparser:struct-node))
+  "Expand a structure definition node."
+  (make-doc-node "struct"
+                 (name-node node)
+                 (name-docstring node)
+                 (make-instance 'unordered-list
+                                :metadata (make-class-metadata "slot-list")
+                                :children
+                                (loop for slot in (docparser:record-slots node)
+                                  collecting (expand-node slot)))))
 
 (defmethod expand-node ((node docparser:variable-node))
   "Expand a variable node."

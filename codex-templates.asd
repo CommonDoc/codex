@@ -13,6 +13,10 @@
                  (:static-file "document.html")
                  (:static-file "section.html")
                  (:file "templates")
+                 (:module "static"
+                  :components
+                  ((:static-file "nodes.css")
+                   (:static-file "reset.css")))
                  (:module "min"
                   :components
                   ((:static-file "style.css"))))))

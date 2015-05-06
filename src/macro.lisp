@@ -174,6 +174,13 @@ explicitly supported by this method."
                  (name-node node)
                  (docstring-node node)))
 
+(defmethod expand-node ((node docparser:documentation-node))
+  "Backup method when someone has created a subclass of documentation-node that's not
+explicitly supported by this."
+  (make-doc-node (list)
+                 (name-node node)
+                 (docstring-node node)))
+
 (defmethod expand-node ((node docparser:type-node))
   "Expand a type node."
   (make-doc-node (list "type")

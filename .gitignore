@@ -6,3 +6,6 @@
 *.x86f
 *~
 .#*
+
+docs/build
+t/test-system/docs/build

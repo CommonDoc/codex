@@ -16,10 +16,14 @@
   (:documentation "Codex template definitions."))
 (in-package :codex.tmpl)
 
+;;; Constants
+
+(defparameter +templates-directory+
+  (asdf:system-relative-pathname :codex #p"templates/"))
+
 ;;; Djula templates
 
-(djula:add-template-directory
- (asdf:system-relative-pathname :codex #p"templates/"))
+(djula:add-template-directory +templates-directory+)
 
 ;;; Code
 
@@ -36,30 +40,31 @@
 
 (defclass built-in-template (codex-template)
   ((document-template :reader document-template
-                      :initform #p"document.html"
-                      :type pathname
+                      :initform "document.html"
+                      :type string
                       :allocation :class
                       :documentation "The path to the document template.")
    (section-template :reader section-template
-                     :initform #p"section.html"
-                     :type pathname
+                     :initform "section.html"
+                     :type string
                      :allocation :class
                      :documentation "The path to the section template."))
   (:documentation "A convenience subclass for Codex built-in templates. These
   slots are not built into the default codex-template class, since users might
   define their own templates without using this machinery."))
 
+(defun static-output-directory (built-in-template)
+  (merge-pathnames #p"static/"
+                   (template-directory built-in-template)))
+
 (defmethod initialize-instance :after ((tmpl codex-template) &key)
   "Copy the template's static files to the output directory"
-  (ensure-directories-exist (merge-pathnames #p"static/"
-                                             (template-directory tmpl)))
+  (ensure-directories-exist (static-output-directory tmpl))
   (loop for (input . output) in (template-static-files tmpl) do
     (let ((input-pathname (merge-pathnames input
-                                           (asdf:system-relative-pathname :codex
-                                                                          #p"templates/")))
+                                           +templates-directory+))
           (output-pathname (merge-pathnames output
-                                            (merge-pathnames #p"static/"
-                                                             (template-directory tmpl)))))
+                                            (static-output-directory tmpl))))
       (with-open-file (input-stream input-pathname
                                     :direction :input)
         (with-open-file (output-stream output-pathname

@@ -86,6 +86,20 @@ a {
     text-decoration: none;
 }
 
+/* Table style */
+
+table {
+    border-collapse: collapse;
+}
+
+td {
+    padding: 15px;
+}
+
+table, td, th {
+    border: 1px solid black;
+}
+
 /* Table of Contents */
 
 .toc {

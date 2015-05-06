@@ -1,18 +1,33 @@
 /* Common style for documentation nodes */
 
-.codex-lambda-list {
-    display: inline-block;
-}
-
-.codex-doc-node {
-    border-left: 5px solid;
-    display: block;
-    padding: 15px;
-}
+/* Layout */
 
 .codex-doc-node > * {
     margin-bottom: 20px;
 }
+
+.codex-slot > dd > * {
+    margin-bottom: 10px;
+}
+
+.codex-lambda-list, .codex-type-def {
+    display: inline-block;
+    margin-left: 15px;
+}
+
+/* Style */
+
+.codex-doc-node {
+    border-left: 5px solid;
+    display: block;
+    padding: 0 15px 15px 15px;
+}
+
+.codex-name {
+    font-weight: bold;
+}
+
+/* Documentation node colors */
 
 .codex-function {
     border-left-color: rgba(77, 119, 203, 0.7);
@@ -34,6 +49,3 @@
     border-left-color: rgba(224, 153, 82, 0.7);
 }
 
-.codex-slot > dd > * {
-    margin-bottom: 10px;
-}

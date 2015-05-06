@@ -4,14 +4,7 @@
   (:documentation "docstring"))
 (in-package :codex-test-system)
 
-(defparameter var t
-  "docstring")
-
-(defvar var2 t
-  "docstring")
-
-(defconstant const t
-  "docstring")
+;;; Common Lisp nodes
 
 (defun func (a b &optional (c "") (l 1))
   "docstring"
@@ -23,15 +16,22 @@
   (declare (ignore a b c))
   t)
 
+(defgeneric test-method (obj a)
+  (:documentation "docstring"))
+
+(defmethod test-method ((tc test-class) a)
+  "docstring"
+  (declare (ignore tc a))
+  t)
+
+(defparameter var t
+  "docstring")
+
 (defstruct struct
   "docstring"
   a
   (b "test" :type string)
   (c 1))
-
-(deftype custom-string (val)
-  "docstring"
-  (string= val "my-string"))
 
 (defclass test-class ()
   ((first-slot :accessor first-slot
@@ -46,18 +46,34 @@
                     :documentation "docstring"))
   (:documentation "docstring"))
 
-(defgeneric test-method (obj a)
+(define-condition my-error ()
+  ((first-slot :accessor first-slot
+               :initarg :first-slot
+               :documentation "docstring"))
   (:documentation "docstring"))
 
-(defmethod test-method ((tc test-class) a)
+(deftype custom-string (val)
   "docstring"
-  (declare (ignore tc a))
-  t)
+  (string= val "my-string"))
 
-(defmacro indirectly-define-function ()
+;;; CFFI nodes
+
+(cffi:defcfun printf :int
   "docstring"
-  `(defun hidden-function ()
-     "docstring"
-     t))
+  (control :string) &rest)
 
-(indirectly-define-function)
+(cffi:defctype size-t :unsigned-long "docstring")
+
+(cffi:defcstruct cstruct
+  "docstring"
+  (a :int)
+  (b :double))
+
+(cffi:defcunion cunion
+  "docstring"
+  (a :int)
+  (b :double))
+
+(cffi:defcenum nums "docstring" :a :b (:c 3))
+
+(cffi:defbitfield bits "docstring" :a :b (:c #x0200))

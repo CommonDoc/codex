@@ -1,17 +1,103 @@
 @begin(section)
 @title(Section A)
 
+@begin(section)
+@title(Nodes)
+
 @cl:with-package[name="codex-test-system"](
-@cl:doc(variable var)
-@cl:doc(variable var2)
-@cl:doc(variable const)
 @cl:doc(function func)
 @cl:doc(macro mac)
-@cl:doc(struct struct)
-@cl:doc(type custom-string)
-@cl:doc(class test-class)
 @cl:doc(generic test-method)
-@cl:doc(function hidden-function)
+@cl:doc(variable var)
+@cl:doc(struct struct)
+@cl:doc(class test-class)
+@cl:doc(condition my-error)
+@cl:doc(type custom-string)
+
+@cl:doc(cfunction printf)
+@cl:doc(ctype size-t)
+@cl:doc(cstruct cstruct)
+@cl:doc(cunion cunion)
+@cl:doc(cenum nums)
+@cl:doc(cbitfield bits)
 )
+
+@end(section)
+
+@begin(section)
+@title(Markup)
+
+@begin(section)
+@title(Subsection)
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+@begin(section)
+@title(Sub-Subsection)
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+@begin(section)
+@title(Sub-Sub-Subsection)
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+@end(section)
+
+@end(section)
+
+@end(section)
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+@begin(list)
+@item(A list.)
+@item(With two items.)
+@end(list)
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+@begin(enum)
+@item(An ordered list.)
+@item(With three items.)
+@item(Last one.)
+@end(enum)
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+@begin(deflist)
+@term(This is a term)
+@def(And this is its definition)
+@end(deflist)
+
+@begin(table)
+
+@begin(row)
+@cell(a)
+@cell(b)
+@end(row)
+
+@begin(row)
+@cell(1)
+@cell(2)
+@end(row)
+
+@image[src=test.png]()
+
+@end(table)
+
+@end(section)
 
 @end(section)

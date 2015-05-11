@@ -96,6 +96,11 @@ nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 @image[src=test.png]()
 
+@begin[lang=lisp](code)
+(let ((x 1))
+  (funcall #'func x))
+@end(code)
+
 @end(table)
 
 @end(section)

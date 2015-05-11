@@ -31,6 +31,24 @@ article {
     flex: 1;
 }
 
+/* Separation between elements */
+
+main > * {
+    margin-bottom: 15px;
+}
+
+/* Lists */
+
+dd, li {
+    margin-left: 40px;
+}
+
+/* Code */
+
+code {
+    font-family: monospace;
+}
+
 /* Footer */
 
 footer {

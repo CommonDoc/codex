@@ -26,10 +26,10 @@
    (codex:document :codex-test-system)))
 
 (test files-exist
-  (let ((files (list #p"html/section-a.html"
-                     #p"html/static/style.css"
-                     #p"html/static/highlight.js"
-                     #p"html/static/highlight.css")))
+  (let ((files (list #p"doc-a/html/section-a.html"
+                     #p"doc-a/html/static/style.css"
+                     #p"doc-a/html/static/highlight.js"
+                     #p"doc-a/html/static/highlight.css")))
     (loop for file in files do
       (is-true
        (probe-file (merge-pathnames file
@@ -40,13 +40,13 @@
   (is-false
    (search "No node with name"
            (uiop:read-file-string
-            (merge-pathnames  #p"html/section-a.html"
+            (merge-pathnames  #p"doc-a/html/section-a.html"
                               +doc-build-directory+))))
   ;; Ensure all nodes are supported
   (is-false
    (search "Unsupported node type"
            (uiop:read-file-string
-            (merge-pathnames  #p"html/section-a.html"
+            (merge-pathnames  #p"doc-a/html/section-a.html"
                               +doc-build-directory+)))))
 
 (run! 'tests)

@@ -9,7 +9,8 @@
   :depends-on (:docparser
                :common-doc
                :pandocl
-               :codex-templates)
+               :codex-templates
+               :cl-slug)
   :components ((:module "src"
                 :serial t
                 :components

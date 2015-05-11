@@ -38,8 +38,12 @@
 (defun build-document (document directory)
   "Build a document."
   (let* ((doc (load-document document directory))
-         (build-directory (merge-pathnames #p"build/html/"
-                                           directory))
+         (build-directory (make-pathname :directory (list :relative
+                                                          (cl-slug:slugify (common-doc:title doc)))))
+         (html-directory (merge-pathnames #p"html/" build-directory))
+         (build-directory (merge-pathnames html-directory
+                                           (merge-pathnames #p"build/"
+                                                            directory)))
          (output-format (document-output-format document))
          (html-template (codex.tmpl:find-template
                          (output-html-template output-format))))

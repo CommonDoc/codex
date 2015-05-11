@@ -16,15 +16,14 @@ body {
 }
 
 aside .toc {
-    width: 25%;
+    width: 15%;
     float: left;
 }
 
 main {
-    width: 75%;
+    width: 85%;
     min-height: 100vh;
     float: left;
-    border-left: 1px solid #ccc;
     padding: 35px;
 }
 

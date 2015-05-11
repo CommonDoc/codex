@@ -1,0 +1,45 @@
+/* Traditional style */
+
+body {
+    font-family: serif;
+    background: white;
+    color: #333;
+}
+
+/* General layout */
+
+body {
+    width: 100%;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+aside .toc {
+    width: 25%;
+    float: left;
+}
+
+main {
+    width: 75%;
+    min-height: 100vh;
+    float: left;
+    border-left: 1px solid #ccc;
+    padding: 35px;
+}
+
+article {
+    flex: 1;
+}
+
+/* Footer */
+
+footer {
+    height: 80px;
+    line-height: 80px;
+}
+
+footer .info {
+    margin: 0 75px;
+    text-align: right;
+}

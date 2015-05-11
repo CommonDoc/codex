@@ -16,6 +16,5 @@
                    (:module "docs"
                     :components
                     ((:static-file "manifest.lisp")
-                     (:static-file "doc-a.scr")
-                     (:static-file "doc-b.tex")))))
+                     (:static-file "doc-a.scr")))))
                  (:file "codex")))))

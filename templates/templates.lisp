@@ -114,11 +114,27 @@
                                   #p"highlight.css"))))
   (:documentation "Minimalist template."))
 
+(defclass traditional-template (built-in-template)
+  ((static-files :initform (list
+                            (cons #p"traditional/style.css"
+                                  #p"style.css")
+                            (cons #p"static/reset.css"
+                                  #p"style.css")
+                            (cons #p"static/nodes.css"
+                                  #p"style.css")
+                            (cons #p"static/highlight-lisp/highlight-lisp.js"
+                                  #p"highlight.js")
+                            (cons #p"static/highlight-lisp/themes/github.css"
+                                  #p"highlight.css"))))
+  (:documentation "Traditional template."))
+
 ;;; Template database
 
 (defvar *template-database*
   (let ((table (make-hash-table)))
     (setf (gethash :min table) (find-class 'min-template))
+    (setf (gethash :traditional table)
+          (find-class 'traditional-template))
     table)
   "A hash table of table names (Keywords) to template classes.")
 

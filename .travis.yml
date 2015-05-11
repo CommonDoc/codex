@@ -4,7 +4,6 @@ sudo: required
 env:
   matrix:
     - LISP=sbcl
-    - LISP=ccl
 
 install:
   # Install cl-travis

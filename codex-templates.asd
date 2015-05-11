@@ -19,5 +19,8 @@
                    (:static-file "reset.css")))
                  (:module "min"
                   :components
+                  ((:static-file "style.css")))
+                 (:module "traditional"
+                  :components
                   ((:static-file "style.css"))))))
   :description "Templates for Codex.")

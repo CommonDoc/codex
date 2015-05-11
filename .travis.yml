@@ -3,11 +3,14 @@ sudo: required
 
 env:
   matrix:
-    - LISP=sbcl
+    - LISP=sbcl COVERALLS=true
+    - LISP=ccl
 
 install:
   # Install cl-travis
   - curl https://raw.githubusercontent.com/luismbo/cl-travis/master/install.sh | bash
+  # Coveralls support
+  - git clone https://github.com/fukamachi/cl-coveralls ~/lisp/cl-coveralls
   # Clone some libraries
   - git clone https://github.com/CommonDoc/common-doc.git ~/lisp/common-doc
   - git clone https://github.com/CommonDoc/common-doc-plump.git ~/lisp/common-doc-plump
@@ -20,14 +23,15 @@ install:
   - git clone https://github.com/eudoxia0/docparser.git ~/lisp/docparser
 
 script:
-  - cl -l fiveam
+  - cl -l fiveam -l cl-coveralls
        -e '(setf fiveam:*debug-on-error* t
                  fiveam:*debug-on-failure* t)'
        -e '(setf *debugger-hook*
                  (lambda (c h)
                    (declare (ignore c h))
                    (uiop:quit -1)))'
-       -e '(ql:quickload :codex-test)'
+       -e '(coveralls:with-coveralls (:exclude (list "t"))
+             (ql:quickload :codex-test))'
 
 notifications:
   email:

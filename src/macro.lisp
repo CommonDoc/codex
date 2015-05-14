@@ -9,13 +9,13 @@
                 ;; Operators
                 :define-node
                 :children
-                :text)
+                :text
+                ;; Functions
+                :make-text
+                :make-meta)
   (:import-from :common-doc.macro
                 :macro-node
                 :expand-macro)
-  (:import-from :common-doc.util
-                :make-text
-                :make-meta)
   (:export :*index*
            :cl-doc
            :with-package

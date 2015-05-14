@@ -14,6 +14,20 @@
 (def-suite tests)
 (in-suite tests)
 
+(test manifest-error
+  (signals codex.error:unsupported-output-format
+    (codex.manifest:parse-manifest
+     (asdf:system-relative-pathname :codex-test
+                                    #p"t/manifests/output.lisp")))
+  (signals codex.error:template-error
+    (let* ((manifest-pathname #p"t/manifests/template.lisp")
+           (manifest (codex.manifest:parse-manifest
+                      (asdf:system-relative-pathname :codex-test
+                                                     manifest-pathname)))
+           (build-directory (asdf:system-relative-pathname :codex-test-system
+                                                           #p"docs/")))
+      (codex::build-manifest manifest build-directory))))
+
 (test set-up
   ;; Ensure the test system's docs build directory is empty
   (finishes

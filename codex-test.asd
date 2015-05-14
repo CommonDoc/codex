@@ -9,7 +9,11 @@
   :components ((:module "t"
                 :serial t
                 :components
-                ((:module "test-system"
+                ((:module "manifests"
+                  :components
+                  ((:static-file "output.lisp")
+                   (:static-file "template.lisp")))
+                 (:module "test-system"
                   :components
                   ((:static-file "codex-test-system.asd")
                    (:static-file "test-system.lisp")

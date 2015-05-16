@@ -8,6 +8,7 @@
   :source-control (:git "git@github.com:CommonDoc/codex.git")
   :depends-on (:docparser
                :common-doc
+               :common-doc-contrib
                :pandocl
                :codex-templates
                :cl-slug)

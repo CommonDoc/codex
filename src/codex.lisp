@@ -21,8 +21,6 @@
   (let* ((sources (loop for namestring in (document-sources document)
                     collecting (merge-pathnames (parse-namestring namestring)
                                                 directory)))
-         ;; For document-external resources
-         (common-doc.file:*base-directory* directory)
          ;; Set the markup format
          (*current-markup-format* (pandocl:guess-format (first sources)))
          ;; Parse the document
@@ -46,7 +44,9 @@
                                                             directory)))
          (output-format (document-output-format document))
          (html-template (codex.tmpl:find-template
-                         (output-html-template output-format))))
+                         (output-html-template output-format)))
+         ;; For document-external resources
+         (common-doc.file:*base-directory* directory))
     ;; Expand macros
     (let ((doc (common-doc.macro:expand-macros doc)))
       (setf doc (common-doc.ops:fill-unique-refs doc))

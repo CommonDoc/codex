@@ -29,7 +29,7 @@ script:
                  (lambda (c h)
                    (declare (ignore c h))
                    (uiop:quit -1)))'
-       -e '(coveralls:with-coveralls (:exclude (list "t"))
+       -e '(coveralls:with-coveralls (:exclude (list "t" "src/error.lisp"))
              (ql:quickload :codex-test))'
 
 notifications:

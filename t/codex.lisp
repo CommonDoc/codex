@@ -26,7 +26,10 @@
                                                      manifest-pathname)))
            (build-directory (asdf:system-relative-pathname :codex-test-system
                                                            #p"docs/")))
-      (codex::build-manifest manifest build-directory))))
+      (codex::build-manifest manifest build-directory)))
+  (signals codex.error:manifest-error
+    ;; Try to document a system that certainly has no manifest
+    (codex:document :alexandria)))
 
 (test set-up
   ;; Ensure the test system's docs build directory is empty
@@ -61,6 +64,26 @@
    (search "Unsupported node type"
            (uiop:read-file-string
             (merge-pathnames  #p"doc-a/html/section-a.html"
+                              +doc-build-directory+))))
+  (is-false
+   (search "No node with name"
+           (uiop:read-file-string
+            (merge-pathnames  #p"doc-b/html/section-a.html"
+                              +doc-build-directory+))))
+  (is-false
+   (search "Unsupported node type"
+           (uiop:read-file-string
+            (merge-pathnames  #p"doc-b/html/section-a.html"
+                              +doc-build-directory+))))
+  (is-true
+   (search "No node type with name"
+           (uiop:read-file-string
+            (merge-pathnames  #p"doc-b/html/section-b.html"
+                              +doc-build-directory+))))
+  (is-true
+   (search "No node with name"
+           (uiop:read-file-string
+            (merge-pathnames  #p"doc-b/html/section-b.html"
                               +doc-build-directory+)))))
 
 (run! 'tests)

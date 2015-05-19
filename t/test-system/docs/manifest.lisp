@@ -9,4 +9,5 @@
               :authors ("Fernando Borretti")
               :output-format (:type :multi-html
                               :template :traditional)
-              :sources ("doc-a.scr"))))
+              :sources ("doc-a.scr"
+                        "doc-b.scr"))))

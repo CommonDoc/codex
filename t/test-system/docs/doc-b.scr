@@ -1,0 +1,9 @@
+@begin(section)
+@title(Section B)
+
+@cl:with-package[name="codex-test-system"](
+@cl:doc(foo bar)
+@cl:doc(function foobar)
+)
+
+@end(section)

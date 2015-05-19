@@ -16,14 +16,6 @@
   (declare (ignore a b c))
   t)
 
-(defgeneric test-method (obj a)
-  (:documentation "docstring"))
-
-(defmethod test-method ((tc test-class) a)
-  "docstring"
-  (declare (ignore tc a))
-  t)
-
 (defparameter var t
   "docstring")
 
@@ -45,6 +37,14 @@
                     :initarg :unexported-slot
                     :documentation "docstring"))
   (:documentation "docstring"))
+
+(defgeneric test-method (obj a)
+  (:documentation "docstring"))
+
+(defmethod test-method ((tc test-class) a)
+  "docstring"
+  (declare (ignore tc a))
+  t)
 
 (define-condition my-error ()
   ((first-slot :accessor first-slot

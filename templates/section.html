@@ -10,13 +10,12 @@
 {% endblock %}
 
 {% block content %}
-  <h1 class="doc-title">{{ document-title }}</h1>
+  <h1 class="doc-title">{{ document-title }} » {{ section-title }}</h1>
   <article>
     <aside>
       {{ toc | safe }}
     </aside>
     <main class="codex-section">
-      <h1 class="codex-section-title">{{ section-title }}</h1>
       {{ content | safe }}
     </main>
   </article>

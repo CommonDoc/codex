@@ -61,7 +61,8 @@
     ;; Expand macros
     (let ((doc (common-doc.macro:expand-macros doc)))
       ;; Delete the build directory
-      (uiop:delete-directory-tree build-directory :validate t)
+      (when (probe-file build-directory)
+        (uiop:delete-directory-tree build-directory :validate t))
       ;; Ensure every section has a reference
       (setf doc (common-doc.ops:fill-unique-refs doc))
       ;; Now we have a document, lets emit the HTML

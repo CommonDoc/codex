@@ -33,6 +33,17 @@
                    :title (document-title document)
                    :children (common-doc:children base-doc))))
 
+(defun copy-images (document directory)
+  "Copy all the images from a CommonDoc document."
+  (let ((images (common-doc.ops:collect-images document)))
+    (loop for image in images do
+      (handler-case
+          (let ((source (common-doc.file:absolute-path (common-doc:source image))))
+            (print source))
+        (error ()
+          ;; External image
+          t)))))
+
 (defun build-document (document directory)
   "Build a document."
   (let* ((doc (load-document document directory))
@@ -49,8 +60,12 @@
          (common-doc.file:*base-directory* directory))
     ;; Expand macros
     (let ((doc (common-doc.macro:expand-macros doc)))
+      ;; Delete the build directory
+      (uiop:delete-directory-tree build-directory :validate t)
+      ;; Ensure every section has a reference
       (setf doc (common-doc.ops:fill-unique-refs doc))
       ;; Now we have a document, lets emit the HTML
+      (copy-images doc build-directory)
       (if html-template
           (with-template (html-template :directory build-directory)
             (multi-emit doc build-directory :max-depth 1))

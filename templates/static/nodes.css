@@ -3,7 +3,7 @@
 /* Layout */
 
 .codex-doc-node > * {
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .codex-slot > dd > * {
@@ -13,6 +13,7 @@
 .codex-lambda-list, .codex-type-def {
     display: inline-block;
     margin-left: 15px;
+    margin-top: 0;
 }
 
 /* Style */

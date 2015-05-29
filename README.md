@@ -56,6 +56,13 @@ The \cl:param{points} argument is a vector of points of...
 
 # Themes
 
+## Minima
+
+![Minima screenshot](docs/minima.png)
+
+Lovingly hand-picked local serifs trace that fine line between "I'm a free
+spirit with a stoic personality" and "God save the Queen".
+
 # Implementation
 
 Codex uses [docparser][docparser] to extract documentation from systems, and

@@ -100,9 +100,9 @@
 
 ;;; Built-in templates
 
-(defclass min-template (built-in-template)
+(defclass minima (built-in-template)
   ((static-files :initform (list
-                            (cons #p"min/style.css"
+                            (cons #p"minima/style.css"
                                   #p"style.css")
                             (cons #p"static/reset.css"
                                   #p"style.css")
@@ -132,7 +132,7 @@
 
 (defvar *template-database*
   (let ((table (make-hash-table)))
-    (setf (gethash :min table) (find-class 'min-template))
+    (setf (gethash :minima table) (find-class 'minima))
     (setf (gethash :traditional table)
           (find-class 'traditional-template))
     table)

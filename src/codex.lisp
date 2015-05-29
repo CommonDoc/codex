@@ -38,8 +38,11 @@
   (let ((images (common-doc.ops:collect-images document)))
     (loop for image in images do
       (handler-case
-          (let ((source (common-doc.file:absolute-path (common-doc:source image))))
-            (print source))
+          (let* ((source (common-doc.file:absolute-path (common-doc:source image)))
+                 (new-file (make-pathname :name (pathname-name source)
+                                          :type (pathname-type source)
+                                          :defaults directory)))
+            (uiop:copy-file source new-file))
         (error ()
           ;; External image
           t)))))
@@ -66,10 +69,10 @@
       ;; Ensure every section has a reference
       (setf doc (common-doc.ops:fill-unique-refs doc))
       ;; Now we have a document, lets emit the HTML
-      (copy-images doc build-directory)
       (if html-template
           (with-template (html-template :directory build-directory)
-            (multi-emit doc build-directory :max-depth 1))
+            (multi-emit doc build-directory :max-depth 1)
+            (copy-images doc build-directory))
           (error 'codex.error:template-error
                  :template-name html-template
                  :message "No such template known."))

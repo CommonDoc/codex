@@ -12,14 +12,16 @@
                 :text
                 ;; Functions
                 :make-text
-                :make-meta)
+                :make-meta
+                :make-web-link)
   (:import-from :common-doc.macro
                 :macro-node
                 :expand-macro)
   (:export :*index*
            :cl-doc
            :with-package
-           :param)
+           :param
+           :spec)
   (:documentation "CommonDoc macros for Codex."))
 (in-package :codex.macro)
 
@@ -50,6 +52,11 @@
   ()
   (:tag-name "cl:param")
   (:documentation "An argument of an operator."))
+
+(define-node spec (macro-node)
+  ()
+  (:tag-name "cl:spec")
+  (:documentation "Add a link to the Common Lisp HyperSpec."))
 
 ;;; Utilities
 
@@ -277,3 +284,13 @@ docparser class names.")
   (make-instance 'code
                  :metadata (make-class-metadata "param")
                  :children (children node)))
+
+(defun url-for-symbol (symbol-name)
+  "Return the Hyperspec or l1sp.org URL for a symbol in the CL package."
+  (concatenate 'string "http://l1sp.org/cl/" symbol-name))
+
+(defmethod expand-macro ((node spec))
+  (make-web-link (url-for-symbol (text (first (children node))))
+                 (list
+                  (make-instance 'code
+                                 :children (children node)))))

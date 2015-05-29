@@ -124,6 +124,10 @@ dt {
     margin-top: 15px;
 }
 
+li {
+    margin-top: 15px;
+}
+
 /* Code */
 
 code {
@@ -140,6 +144,13 @@ pre > code {
 a {
     color: #AD3108;
     text-decoration: none;
+}
+
+/* Quote style */
+
+blockquote {
+    padding-left: 25px;
+    border-left: 1px solid #ccc;
 }
 
 /* Table style */

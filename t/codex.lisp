@@ -46,7 +46,8 @@
   (let ((files (list #p"doc-a/html/section-a.html"
                      #p"doc-a/html/static/style.css"
                      #p"doc-a/html/static/highlight.js"
-                     #p"doc-a/html/static/highlight.css")))
+                     #p"doc-a/html/static/highlight.css"
+                     #p"doc-a/html/test.png")))
     (loop for file in files do
       (is-true
        (probe-file (merge-pathnames file
@@ -62,6 +63,11 @@
   ;; Ensure all nodes are supported
   (is-false
    (search "Unsupported node type"
+           (uiop:read-file-string
+            (merge-pathnames  #p"doc-a/html/section-a.html"
+                              +doc-build-directory+))))
+  (is-true
+   (search "http://l1sp.org/cl/defpackage"
            (uiop:read-file-string
             (merge-pathnames  #p"doc-a/html/section-a.html"
                               +doc-build-directory+))))

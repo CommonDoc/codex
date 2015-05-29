@@ -1,6 +1,10 @@
 @begin(section)
 @title(Section A)
 
+@image[src=test.png]()
+
+Here's a link to the hyperspec: @cl:spec(defpackage).
+
 @begin(section)
 @title(Nodes)
 
@@ -93,8 +97,6 @@ nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 @cell(1)
 @cell(2)
 @end(row)
-
-@image[src=test.png]()
 
 @begin[lang=lisp](code)
 (let ((x 1))

@@ -3,7 +3,7 @@
  :documents ((:title "Doc A"
               :authors ("Fernando Borretti")
               :output-format (:type :multi-html
-                              :template :min)
+                              :template :minima)
               :sources ("doc-a.scr"))
              (:title "Doc B"
               :authors ("Fernando Borretti")

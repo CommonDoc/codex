@@ -132,7 +132,8 @@
 
 (defvar *template-database*
   (let ((table (make-hash-table)))
-    (setf (gethash :minima table) (find-class 'minima))
+    (setf (gethash :minima table)
+          (find-class 'minima))
     (setf (gethash :traditional table)
           (find-class 'traditional-template))
     table)

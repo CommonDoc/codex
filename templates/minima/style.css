@@ -31,6 +31,7 @@ main {
 
 article {
     flex: 1;
+    margin-bottom: 100px;
 }
 
 /* Heading style */
@@ -109,7 +110,7 @@ main h6 {
 
 /* Separation between elements */
 
-main > * {
+main > *, dd > *, blockquote > * {
     margin-bottom: 15px;
 }
 

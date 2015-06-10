@@ -63,6 +63,17 @@ The \cl:param{points} argument is a vector of points of...
 Lovingly hand-picked local serifs trace that fine line between "I'm a free
 spirit with a stoic personality" and "God save the Queen".
 
+## Gamma
+
+For people who think serifs are reactionary and counter-revolutionary.
+
+## Traditional
+
+Made by a guy who lives in a cottage in the woods, lovingly maintaining a
+Symbolics Lisp Machine they got from David Schmidt's garage sale. Perfect for
+people who want to signal they're not like *those* people who care about the
+latest tech fad.
+
 # Implementation
 
 Codex uses [docparser][docparser] to extract documentation from systems, and

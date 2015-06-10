@@ -8,7 +8,7 @@ A documentation system for Common Lisp.
 # Overview
 
 **Codex** generates documentation. You just write docstrings as usual, only
-using [VerTeX][vertex] syntax, append a couple of extra files (A few tutorials
+using [Scriba][scriba] syntax, append a couple of extra files (A few tutorials
 and what have you), and Codex creates beautiful online documentation, and in the
 near future, PDF manuals.
 
@@ -68,7 +68,7 @@ spirit with a stoic personality" and "God save the Queen".
 Codex uses [docparser][docparser] to extract documentation from systems, and
 [Pandocl][pandocl] to parse docstrings and files into a CommonDoc document.
 
-[vertex]: https://github.com/CommonDoc/vertex
+[scriba]: https://github.com/CommonDoc/scriba
 [commondoc]: https://github.com/CommonDoc/common-doc
 [clhs]: http://www.lispworks.com/documentation/HyperSpec/Front/
 [docparser]: https://github.com/eudoxia0/docparser

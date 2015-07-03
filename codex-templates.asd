@@ -9,18 +9,21 @@
   :components ((:module "templates"
                 :serial t
                 :components
-                ((:static-file "base.html")
-                 (:static-file "document.html")
-                 (:static-file "section.html")
-                 (:file "templates")
+                ((:file "templates")
                  (:module "static"
                   :components
                   ((:static-file "nodes.css")
                    (:static-file "reset.css")))
-                 (:module "min"
+                 (:module "minima"
                   :components
-                  ((:static-file "style.css")))
+                  ((:static-file "base.html")
+                   (:static-file "document.html")
+                   (:static-file "section.html")
+                   (:static-file "style.css")))
                  (:module "traditional"
                   :components
-                  ((:static-file "style.css"))))))
+                  ((:static-file "base.html")
+                   (:static-file "document.html")
+                   (:static-file "section.html")
+                   (:static-file "style.css"))))))
   :description "Templates for Codex.")

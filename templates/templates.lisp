@@ -16,22 +16,20 @@
   (:documentation "Codex template definitions."))
 (in-package :codex.tmpl)
 
-;;; Constants
-
 (defparameter +templates-directory+
   (asdf:system-relative-pathname :codex #p"templates/"))
-
-;;; Djula templates
-
-(djula:add-template-directory +templates-directory+)
 
 ;;; Code
 
 (defclass codex-template (template)
-  ((directory :reader template-directory
-              :initarg :directory
-              :type pathname
-              :documentation "The directory where the output will be produced.")
+  ((template-directory :reader template-directory
+                       :initarg :template-directory
+                       :type pathname
+                       :documentation "The directory where template stuff is stored.")
+   (output-directory :reader output-directory
+                     :initarg :output-directory
+                     :type pathname
+                     :documentation "The directory where the output will be produced.")
    (static-files :reader template-static-files
                  :type (proper-list pathname)
                  :allocation :class
@@ -39,30 +37,21 @@
   (:documentation "Codex templates."))
 
 (defclass built-in-template (codex-template)
-  ((document-template :reader document-template
-                      :initform "document.html"
-                      :type string
-                      :allocation :class
-                      :documentation "The path to the document template.")
-   (section-template :reader section-template
-                     :initform "section.html"
-                     :type string
-                     :allocation :class
-                     :documentation "The path to the section template."))
+  ()
   (:documentation "A convenience subclass for Codex built-in templates. These
   slots are not built into the default codex-template class, since users might
   define their own templates without using this machinery."))
 
 (defun static-output-directory (built-in-template)
   (merge-pathnames #p"static/"
-                   (template-directory built-in-template)))
+                   (output-directory built-in-template)))
 
 (defmethod initialize-instance :after ((tmpl codex-template) &key)
   "Copy the template's static files to the output directory"
   (ensure-directories-exist (static-output-directory tmpl))
   (loop for (input . output) in (template-static-files tmpl) do
     (let ((input-pathname (merge-pathnames input
-                                           +templates-directory+))
+                                           (template-directory tmpl)))
           (output-pathname (merge-pathnames output
                                             (static-output-directory tmpl))))
       (with-open-file (input-stream input-pathname
@@ -100,8 +89,24 @@
 
 ;;; Built-in templates
 
+(djula:add-template-directory
+ (asdf:system-relative-pathname :codex #p"templates/minima/"))
+
 (defclass minima (built-in-template)
-  ((static-files :initform (list
+  ((template-directory :reader template-directory
+                       :initform (asdf:system-relative-pathname :codex
+                                                                #p"templates/minima/")
+                       :type pathname
+                       :allocation :class)
+   (document-template :reader document-template
+                      :initform "minima/document.html"
+                      :type string
+                      :allocation :class)
+   (section-template :reader section-template
+                     :initform "minima/section.html"
+                     :type string
+                     :allocation :class)
+   (static-files :initform (list
                             (cons #p"minima/style.css"
                                   #p"style.css")
                             (cons #p"static/reset.css"

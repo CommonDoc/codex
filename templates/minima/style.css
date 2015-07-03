@@ -168,6 +168,12 @@ table, td, th {
     border: 1px solid black;
 }
 
+/* Images and figures */
+
+img {
+    max-width: 100%;
+}
+
 /* Table of Contents */
 
 .toc {

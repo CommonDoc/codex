@@ -70,7 +70,7 @@
       (setf doc (common-doc.ops:fill-unique-refs doc))
       ;; Now we have a document, lets emit the HTML
       (if html-template
-          (with-template (html-template :directory build-directory)
+          (with-template (html-template :output-directory build-directory)
             (multi-emit doc build-directory :max-depth 1)
             (copy-images doc build-directory))
           (error 'codex.error:template-error

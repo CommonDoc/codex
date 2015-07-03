@@ -200,7 +200,7 @@ explicitly supported by this."
   "When expanding an unsupported node, rather than generate an error, simply
 create an error message."
   (make-text (format nil "Unsupported node type ~A." (type-of node))
-             (make-class-metadata (list "error" "unsupported-node-error"))))
+             :metadata (make-class-metadata (list "error" "unsupported-node-error"))))
 
 ;;; Macroexpansions
 
@@ -249,6 +249,32 @@ docparser class names.")
                                  (list (make-text name)))
                   (make-text "."))))
 
+(defun no-method-lambda-list (name)
+  (make-instance 'content-node
+                 :metadata (make-class-metadata (list "error" "no-method-lambda-list"))
+                 :children
+                 (list
+                  (make-text "Need a lambda list to find the method ")
+                  (make-instance 'code
+                                 :children
+                                 (list (make-text (string-downcase name))))
+                  (make-text "."))))
+
+(defun no-method-found (name lamb-dalist)
+  (make-instance 'content-node
+                 :metadata (make-class-metadata (list "error" "no-method-found"))
+                 :children
+                 (list
+                  (make-text "No method ")
+                  (make-instance 'code
+                                 :children
+                                 (list (make-text (string-downcase name))))
+                  (make-text " with the lambda list ")
+                  (make-instance 'code
+                                 :children
+                                 (list (make-text (string-downcase lambda-list))))
+                  (make-text " found."))))
+
 (defun find-node (type symbol rest)
   (let ((class (find-node-type-by-name type)))
     (if class
@@ -257,19 +283,35 @@ docparser class names.")
                                       :symbol-name (string-upcase symbol)
                                       :class class)))
           (if (> (length nodes) 0)
-              (expand-node (elt nodes 0))
+              (if (eq class 'docparser:method-node)
+                  ;; Search for the proper method using the arglist
+                  (if (equal rest (list ""))
+                      (no-method-lambda-list symbol)
+                      (let* ((lambda-list (princ-to-string
+                                          (read-from-string
+                                           (format nil "(~{~A~^ ~})" rest))))
+                             (method (find-if #'(lambda (method)
+                                                  (string= lambda-list
+                                                           (princ-to-string
+                                                            (docparser:operator-lambda-list
+                                                             method))))
+                                              nodes)))
+                        (if method
+                            (expand-node method)
+                            (no-method-found symbol lambda-list))))
+                  ;; Not a method
+                  (expand-node (elt nodes 0)))
               ;; No node with that name, report an error
               (node-not-found symbol)))
         (no-such-type type))))
 
 (defmethod expand-macro ((node cl-doc))
-  (let ((text-node (elt (children node) 0)))
-    (assert (typep text-node 'text-node))
-    (let* ((arguments (split-sequence:split-sequence #\Space (text text-node))))
-      (destructuring-bind (type symbol &rest rest)
-          arguments
-        (format t "Inserting documentation for ~A ~S.~%" type symbol)
-        (find-node type symbol rest)))))
+  (let* ((text (common-doc.ops:collect-all-text node))
+         (arguments (split-sequence:split-sequence #\Space text)))
+    (destructuring-bind (type symbol &rest rest)
+        arguments
+      (format t "Inserting documentation for ~A ~S.~%" type symbol)
+      (find-node type symbol rest))))
 
 (defmethod expand-macro ((node with-package))
   (let* ((package-name (package-macro-name node))

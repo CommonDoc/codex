@@ -19,21 +19,13 @@
 (defparameter +templates-directory+
   (asdf:system-relative-pathname :codex #p"templates/"))
 
-;;; Code
+;;; Classes
 
 (defclass codex-template (template)
-  ((template-directory :reader template-directory
-                       :initarg :template-directory
-                       :type pathname
-                       :documentation "The directory where template stuff is stored.")
-   (output-directory :reader output-directory
+  ((output-directory :reader output-directory
                      :initarg :output-directory
                      :type pathname
-                     :documentation "The directory where the output will be produced.")
-   (static-files :reader template-static-files
-                 :type (proper-list pathname)
-                 :allocation :class
-                 :documentation "The template's associated static files."))
+                     :documentation "The directory where the output will be produced."))
   (:documentation "Codex templates."))
 
 (defclass built-in-template (codex-template)
@@ -42,6 +34,14 @@
   slots are not built into the default codex-template class, since users might
   define their own templates without using this machinery."))
 
+(defgeneric document-template (template))
+
+(defgeneric section-template (template))
+
+(defgeneric static-files (template))
+
+;;; Methods
+
 (defun static-output-directory (built-in-template)
   (merge-pathnames #p"static/"
                    (output-directory built-in-template)))
@@ -49,9 +49,9 @@
 (defmethod initialize-instance :after ((tmpl codex-template) &key)
   "Copy the template's static files to the output directory"
   (ensure-directories-exist (static-output-directory tmpl))
-  (loop for (input . output) in (template-static-files tmpl) do
+  (loop for (input . output) in (static-files tmpl) do
     (let ((input-pathname (merge-pathnames input
-                                           (template-directory tmpl)))
+                                           +templates-directory+))
           (output-pathname (merge-pathnames output
                                             (static-output-directory tmpl))))
       (with-open-file (input-stream input-pathname
@@ -66,7 +66,7 @@
 
 (defmethod render ((tmpl built-in-template) (document document) content-string)
   "Render a built-in document template."
-  (let ((template (djula:compile-template* (document-template tmpl)))
+  (let ((template (document-template tmpl))
         (document-title (title document)))
     (djula:render-template* template
                             nil
@@ -76,7 +76,7 @@
 (defmethod render-section ((tmpl built-in-template) (document document) (section section)
                            content-string)
   "Render a built-in section template."
-  (let ((template (djula:compile-template* (section-template tmpl)))
+  (let ((template (section-template tmpl))
         (document-title (title document))
         (section-title (common-doc.ops:collect-all-text (title section)))
         (toc (common-html.toc:multi-file-toc document :max-depth 1)))
@@ -89,49 +89,56 @@
 
 ;;; Built-in templates
 
-(djula:add-template-directory
- (asdf:system-relative-pathname :codex #p"templates/minima/"))
+(djula:add-template-directory +templates-directory+)
 
-(defclass minima (built-in-template)
-  ((template-directory :reader template-directory
-                       :initform (asdf:system-relative-pathname :codex
-                                                                #p"templates/minima/")
-                       :type pathname
-                       :allocation :class)
-   (document-template :reader document-template
-                      :initform "minima/document.html"
-                      :type string
-                      :allocation :class)
-   (section-template :reader section-template
-                     :initform "minima/section.html"
-                     :type string
-                     :allocation :class)
-   (static-files :initform (list
-                            (cons #p"minima/style.css"
-                                  #p"style.css")
-                            (cons #p"static/reset.css"
-                                  #p"style.css")
-                            (cons #p"static/nodes.css"
-                                  #p"style.css")
-                            (cons #p"static/highlight-lisp/highlight-lisp.js"
-                                  #p"highlight.js")
-                            (cons #p"static/highlight-lisp/themes/github.css"
-                                  #p"highlight.css"))))
-  (:documentation "Minimalist template."))
+(defmacro define-built-in-template (name &key document-template section-template
+                                           static-files
+                                           documentation)
+  `(progn
+     (defclass ,name (built-in-template)
+       ()
+       (:documentation ,documentation))
 
-(defclass traditional-template (built-in-template)
-  ((static-files :initform (list
-                            (cons #p"traditional/style.css"
-                                  #p"style.css")
-                            (cons #p"static/reset.css"
-                                  #p"style.css")
-                            (cons #p"static/nodes.css"
-                                  #p"style.css")
-                            (cons #p"static/highlight-lisp/highlight-lisp.js"
-                                  #p"highlight.js")
-                            (cons #p"static/highlight-lisp/themes/github.css"
-                                  #p"highlight.css"))))
-  (:documentation "Traditional template."))
+     (defmethod document-template ((template ,name))
+       ,document-template)
+
+     (defmethod section-template ((template ,name))
+       ,section-template)
+
+     (defmethod static-files ((template ,name))
+       ,static-files)))
+
+(define-built-in-template minima
+  :document-template (djula:compile-template* "minima/document.html")
+  :section-template (djula:compile-template* "minima/section.html")
+  :static-files (list
+                 (cons #p"minima/style.css"
+                       #p"style.css")
+                 (cons #p"static/reset.css"
+                       #p"style.css")
+                 (cons #p"static/nodes.css"
+                       #p"style.css")
+                 (cons #p"static/highlight-lisp/highlight-lisp.js"
+                       #p"highlight.js")
+                 (cons #p"static/highlight-lisp/themes/github.css"
+                       #p"highlight.css"))
+  :documentation "Minimalist template.")
+
+(define-built-in-template traditional
+  :document-template (djula:compile-template* "traditional/document.html")
+  :section-template (djula:compile-template* "traditional/section.html")
+  :static-files (list
+                 (cons #p"traditional/style.css"
+                       #p"style.css")
+                 (cons #p"static/reset.css"
+                       #p"style.css")
+                 (cons #p"static/nodes.css"
+                       #p"style.css")
+                 (cons #p"static/highlight-lisp/highlight-lisp.js"
+                       #p"highlight.js")
+                 (cons #p"static/highlight-lisp/themes/github.css"
+                       #p"highlight.css"))
+  :documentation "Traditional template.")
 
 ;;; Template database
 
@@ -140,7 +147,7 @@
     (setf (gethash :minima table)
           (find-class 'minima))
     (setf (gethash :traditional table)
-          (find-class 'traditional-template))
+          (find-class 'traditional))
     table)
   "A hash table of table names (Keywords) to template classes.")
 

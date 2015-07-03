@@ -12,6 +12,7 @@ Here's a link to the hyperspec: @cl:spec(defpackage).
 @cl:doc(function func)
 @cl:doc(macro mac)
 @cl:doc(generic test-method)
+@cl:doc(method test-method (tc test-class) a)
 @cl:doc(variable var)
 @cl:doc(struct struct)
 @cl:doc(class test-class)

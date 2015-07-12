@@ -15,6 +15,17 @@ near future, PDF manuals.
 Codex uses [CommonDoc][commondoc] for representing the documentation and
 converting it to other formats.
 
+## Users
+
+Libraries or applications that use Codex:
+
+* [CommonDoc][commondoc]
+* [Jonathan](https://github.com/Rudolph-Miller/jonathan)
+* [cl-bson](https://github.com/EuAndreh/cl-bson)
+* [Lucerne](http://eudoxia.me/lucerne/)
+* [cl-gists](https://github.com/Rudolph-Miller/cl-gists)
+* [cl-annot-prove](https://github.com/Rudolph-Miller/cl-annot-prove)
+
 # Usage
 
 ## Macros

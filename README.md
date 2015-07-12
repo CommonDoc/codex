@@ -31,15 +31,9 @@ documentation, including the docstring of the class itself, and documentation of
 its slots:
 
 ```
-(Scriba syntax)
 @cl:with-package[name=pack](
   @cl:doc(class my-class)
 )
-
-(VerTeX syntax)
-\cl:with-package[pack=pack]{
-  \cl:doc{class my-class}
-}
 ```
 
 ### `cl:param`
@@ -47,11 +41,7 @@ its slots:
 Refers to an argument of a function, macro or method. For example
 
 ```
-(Scriba syntax)
 The @cl:param(list) argument holds...
-
-(VerTeX syntax)
-The \cl:param{points} argument is a vector of points of...
 ```
 
 # Themes

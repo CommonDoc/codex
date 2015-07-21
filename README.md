@@ -25,6 +25,9 @@ Libraries or applications that use Codex:
 * [Lucerne](http://eudoxia.me/lucerne/)
 * [cl-gists](https://github.com/Rudolph-Miller/cl-gists)
 * [cl-annot-prove](https://github.com/Rudolph-Miller/cl-annot-prove)
+* [Ceramic](http://ceramic.github.io/)
+* [clake](https://github.com/Rudolph-Miller/clake)
+* [roswell-scripts](https://github.com/Rudolph-Miller/roswell-scripts)
 
 # Usage
 

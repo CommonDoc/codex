@@ -7,15 +7,40 @@
 {% block extra-head %}
   <link rel="stylesheet" href="static/highlight.css"/>
   <script src="static/highlight.js"></script>
+  <style>
+   /* Highlight the current top-level TOC item, and hide the TOC of all other items */
+
+   .toc ol {
+       display: none;
+   }
+
+   .toc > ol {
+       display: block;
+   }
+
+   .toc li a[data-section="{{ section-ref }}"] + ol {
+       display: block;
+   }
+
+   .toc li a[data-section="{{ section-ref }}"] + ol li {
+       font-size: 16px;
+       margin: 0 10px;
+   }
+
+   .toc li a[active] + ol li:first-child {
+       margin-top: 5px;
+   }
+  </style>
 {% endblock %}
 
 {% block content %}
-  <h1 class="doc-title">{{ document-title }} » {{ section-title }}</h1>
+  <h1 class="doc-title">{{ document-title }}</h1>
   <article>
     <aside>
       {{ toc | safe }}
     </aside>
     <main class="codex-section">
+      <h1 class="section-title">{{ section-title }}</h1>
       {{ content | safe }}
     </main>
   </article>

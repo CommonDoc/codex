@@ -133,7 +133,6 @@ li {
 
 code {
     font-family: Consolas, 'Liberation Mono', Courier, monospace;
-    font-size: 16px;
 }
 
 pre > code {
@@ -190,7 +189,7 @@ img {
 
 .toc li {
     list-style-type: none;
-    font-size: 1.1em;
+    font-size: 19px;
     margin-left: 0;
     margin-bottom: 10px;
 }

@@ -14,6 +14,7 @@
     display: inline-block;
     margin-left: 15px;
     margin-top: 0;
+    font-size: 15px;
 }
 
 /* Style */
@@ -26,6 +27,7 @@
 
 .codex-name {
     font-weight: bold;
+    font-size: 16px;
 }
 
 /* Documentation node colors */
@@ -49,4 +51,3 @@
 .codex-class {
     border-left-color: rgba(224, 153, 82, 0.7);
 }
-

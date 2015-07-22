@@ -19,20 +19,26 @@ body {
     flex-direction: column;
 }
 
-aside .toc {
-    width: 15%;
-    float: left;
-}
-
-main {
-    width: 85%;
-    min-height: 100vh;
-    float: left;
-    padding: 35px;
+.doc-title {
+    height: 70px;
+    line-height: 70px;
+    padding: 0 25px;
 }
 
 article {
     flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+article aside {
+    width: 15%;
+}
+
+article main {
+    width: 85%;
+    min-height: 100vh;
+    padding: 0 35px;
 }
 
 /* Separation between elements */
@@ -43,6 +49,14 @@ main > * {
 
 /* Lists */
 
+dt {
+    font-weight: bold;
+}
+
+dd {
+    margin-top: 5px;
+}
+
 dd, li {
     margin-left: 40px;
 }
@@ -52,6 +66,27 @@ dd, li {
 code {
     font-family: monospace;
 }
+
+/* Tables */
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 6px;
+}
+
+tr:first-child td {
+    text-align: center;
+    font-weight: bold;
+}
+
+table, td, th {
+    border: 1px solid black;
+}
+
 
 /* Footer */
 

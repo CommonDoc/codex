@@ -20,6 +20,6 @@
                    (:module "docs"
                     :components
                     ((:static-file "manifest.lisp")
-                     (:static-file "doc-a.scr")
-                     (:static-file "doc-b.scr")))))
+                     (:static-file "sec-a.scr")
+                     (:static-file "sec-b.scr")))))
                  (:file "codex")))))

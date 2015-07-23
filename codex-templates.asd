@@ -20,6 +20,12 @@
                    (:static-file "document.html")
                    (:static-file "section.html")
                    (:static-file "style.css")))
+                 (:module "gamma"
+                  :components
+                  ((:static-file "base.html")
+                   (:static-file "document.html")
+                   (:static-file "section.html")
+                   (:static-file "style.css")))
                  (:module "traditional"
                   :components
                   ((:static-file "base.html")

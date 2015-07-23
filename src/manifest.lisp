@@ -2,7 +2,8 @@
 (defpackage codex.manifest
   (:use :cl)
   (:import-from :trivial-types
-                :proper-list)
+                :proper-list
+                :property-list)
   ;; Classes
   (:export :output-format
            :html
@@ -37,7 +38,12 @@
   ((html-template :reader output-html-template
                   :initarg :template
                   :type keyword
-                  :documentation "The name of the HTML template."))
+                  :documentation "The name of the HTML template.")
+   (template-options :reader output-html-template-options
+                     :initarg :template-options
+                     :initform nil
+                     :type property-list
+                     :documentation "A property list of template initargs.")
   (:documentation "The base class of HTML formats."))
 
 (defclass single-html (html)

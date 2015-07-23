@@ -79,11 +79,13 @@
   (let ((template (section-template tmpl))
         (document-title (title document))
         (section-title (common-doc.ops:collect-all-text (title section)))
-        (toc (common-html.toc:multi-file-toc document :max-depth 1)))
+        (section-ref (common-doc:reference section))
+        (toc (common-html.toc:multi-file-toc document)))
     (djula:render-template* template
                             nil
                             :document-title document-title
                             :section-title section-title
+                            :section-ref section-ref
                             :toc toc
                             :content content-string)))
 
@@ -124,6 +126,22 @@
                        #p"highlight.css"))
   :documentation "Minimalist template.")
 
+(define-built-in-template gamma
+  :document-template (djula:compile-template* "gamma/document.html")
+  :section-template (djula:compile-template* "gamma/section.html")
+  :static-files (list
+                 (cons #p"gamma/style.css"
+                       #p"style.css")
+                 (cons #p"static/reset.css"
+                       #p"style.css")
+                 (cons #p"static/nodes.css"
+                       #p"style.css")
+                 (cons #p"static/highlight-lisp/highlight-lisp.js"
+                       #p"highlight.js")
+                 (cons #p"static/highlight-lisp/themes/github.css"
+                       #p"highlight.css"))
+  :documentation "Modern template.")
+
 (define-built-in-template traditional
   :document-template (djula:compile-template* "traditional/document.html")
   :section-template (djula:compile-template* "traditional/section.html")
@@ -146,6 +164,8 @@
   (let ((table (make-hash-table)))
     (setf (gethash :minima table)
           (find-class 'minima))
+    (setf (gethash :gamma table)
+          (find-class 'gamma))
     (setf (gethash :traditional table)
           (find-class 'traditional))
     table)

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+ {{ title }}
+{% endblock %}
+
+{% block extra-head %}
+  <link rel="stylesheet" href="static/highlight.css"/>
+  <script src="static/highlight.js"></script>
+{% endblock %}
+
+{% block content %}
+  <main class="codex-document">
+    <h1 class="codex-document-title">{{ title }}</h1>
+    {{ content | safe }}
+  </main>
+  <footer></footer>
+  <script>
+   HighlightLisp.highlight_auto();
+  </script>
+{% endblock %}

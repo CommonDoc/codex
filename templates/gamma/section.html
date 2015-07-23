@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ section-title }} &ndash; {{ document-title }}
+{% endblock %}
+
+{% block extra-head %}
+  <link rel="stylesheet" href="static/highlight.css"/>
+  <script src="static/highlight.js"></script>
+  <style>
+   /* Highlight the current top-level TOC item, and hide the TOC of all other items */
+
+   .toc a[data-section="{{ section-ref }}"] {
+       /*color: #AD3108;*/
+   }
+
+   .toc ol {
+       display: none;
+   }
+
+   .toc li a[data-section="{{ section-ref }}"] + ol {
+       display: block;
+   }
+
+   .toc li a[data-section="{{ section-ref }}"] + ol li {
+       font-size: 16px;
+       margin: 0 10px;
+   }
+
+   .toc li a[active] + ol li:first-child {
+       margin-top: 5px;
+   }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <h1 class="doc-title">{{ document-title }}</h1>
+  <article id="article" data-section="{{ section-ref }}">
+    <aside>
+      {{ toc | safe }}
+    </aside>
+    <main class="codex-section">
+      <header>
+        <h2 class="section-title">{{ section-title }}</h2>
+      </header>
+      <div class="content">
+        {{ content | safe }}
+      </div>
+    </main>
+  </article>
+  <footer>
+    <div class="info">
+      Created with <a href="https://github.com/CommonDoc/codex">Codex</a>.
+    </div>
+  </footer>
+  <script>
+   HighlightLisp.highlight_auto();
+  </script>
+{% endblock %}

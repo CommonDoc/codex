@@ -1,0 +1,172 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic);
+
+body {
+    color: #444;
+    background: #F9FCFF;
+    font-family: 'Source Sans Pro', sans-serif;
+
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+/* Layout */
+
+.doc-title {
+    height: 120px;
+    line-height: 120px;
+    padding-left: 70px;
+    font-size: 36px;
+}
+
+article {
+    width: 80%;
+    margin: 0 auto;
+
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+article aside {
+    width: 180px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    padding-top: 10px;
+    padding-left: 10px;
+
+    background: #fbfbfb;
+
+    border-radius: 4px 0 0 4px;
+    box-shadow: 0 0 3px #ccc;
+}
+
+article main {
+    flex: 1;
+    padding: 25px;
+
+    background: white;
+
+    border-radius: 4px;
+    box-shadow: 0 0 3px #ccc;
+}
+
+article header {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 25px;
+}
+
+article header .section-title {
+    text-align: center;
+    font-size: 36px;
+    padding-bottom: 25px;
+}
+
+/* Links */
+
+a {
+    text-decoration: none;
+    color: #3498db;
+}
+
+/* Content */
+
+.content {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.content > * {
+    margin-bottom: 25px;
+}
+
+.content h1 {
+    font-size: 36px;
+
+    margin-top: 36px;
+    padding-bottom: 10px;
+
+    border-bottom: 1px solid #eee;
+}
+
+.content h2 {
+    font-size: 28px;
+
+    margin-top: 28px;
+    padding-bottom: 8px;
+
+    border-bottom: 1px solid #eee;
+}
+
+.content h3 {
+    font-size: 24px;
+
+    margin-top: 24px;
+}
+
+.content h4 {
+    font-size: 20px;
+
+    margin-top: 20;
+}
+
+.content h5 {
+    font-size: 1em;
+
+    margin-top: 18px;
+}
+
+.content h6 {
+    font-size: 1em;
+
+    margin-top: 18px;
+}
+
+.content ul li, .content ol li, .content dl dd {
+    margin-left: 30px;
+}
+
+.content dl dt {
+    font-weight: bold;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+td {
+    padding: 6px;
+    min-width: 100px;
+}
+
+tr:first-child td {
+    text-align: center;
+    font-weight: bold;
+
+    border-bottom: 1px solid #ccc;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Table of Contents */
+
+.toc li {
+    list-style-type: none;
+}
+
+/* Footer */
+
+footer {
+}
+
+footer .info {
+    font-size: 16px;
+
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+}

@@ -43,7 +43,7 @@
                      :initarg :template-options
                      :initform nil
                      :type property-list
-                     :documentation "A property list of template initargs.")
+                     :documentation "A property list of template initargs."))
   (:documentation "The base class of HTML formats."))
 
 (defclass single-html (html)

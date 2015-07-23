@@ -100,8 +100,10 @@ nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 @end(row)
 
 @begin[lang=lisp](code)
+@begin(verb)
 (let ((x 1))
   (funcall #'func x))
+@end(verb)
 @end(code)
 
 @end(table)

@@ -4,10 +4,17 @@
               :authors ("Fernando Borretti")
               :output-format (:type :multi-html
                               :template :minima)
-              :sources ("doc-a.scr"))
+              :sources ("sec-a.scr"
+                        "sec-b.scr"))
              (:title "Doc B"
               :authors ("Fernando Borretti")
               :output-format (:type :multi-html
                               :template :traditional)
-              :sources ("doc-a.scr"
-                        "doc-b.scr"))))
+              :sources ("sec-a.scr"
+                        "sec-b.scr"))
+             (:title "Doc C"
+              :authors ("Fernando Borretti")
+              :output-format (:type :multi-html
+                              :template :gamma)
+              :sources ("sec-a.scr"
+                        "sec-b.scr"))))

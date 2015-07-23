@@ -5,4 +5,4 @@
               :authors ("Test")
               :output-format (:type :multi-html
                               :template :no-such-template)
-              :sources ("doc-a.scr"))))
+              :sources ("sec-a.scr"))))

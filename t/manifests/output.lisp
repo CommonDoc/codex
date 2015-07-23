@@ -4,4 +4,4 @@
  :documents ((:title "Test"
               :authors ("Test")
               :output-format (:type :some-output-format)
-              :sources ("doc.scr"))))
+              :sources ("sec-a.scr"))))

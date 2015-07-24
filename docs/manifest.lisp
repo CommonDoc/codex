@@ -3,5 +3,5 @@
  :documents ((:title "Codex"
               :authors ("Fernando Borretti")
               :output-format (:type :multi-html
-                              :template :minima)
+                              :template :gamma)
               :sources ("manual.scr"))))

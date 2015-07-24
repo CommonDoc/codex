@@ -11,7 +11,35 @@ Codex is a documentation generator.
 This tutorial goes through the process of documenting a Lisp project with Codex.
 
 @begin(section)
-@title(The Manifest)
+@title(Getting Started)
+
+First, ceate a folder named @c(docs) in your project's root directory (the same
+directory as the ASDF file). There, you need to create two files:
+@c(manifest.lisp) and @c(manual.scr).
+
+The @c(manifest.lisp) file is read by Codex to figure out how to generate your
+docs, and in your case looks like this:
+
+@code[lang=lisp](@include[path="includes/manifest.lisp"]())
+
+What this tells Codex is, mainly:
+
+@begin(list)
+
+@item(Use Scriba to parse the docstrings.)
+
+@item(Before generating the docs, load and extract docstrings from the
+@c(my-library) system.)
+
+@item(Generate a document titled "My Library" from the @c(manual.scr) file.)
+
+@item(Write the document to mutiple HTML files using the Minima template.)
+
+@end(list)
+
+The @c(manual.scr) file will be fairly bare-bones for now:
+
+@code[lang=scribe](@include[path="includes/overview.scr"]())
 
 @end(section)
 
@@ -46,6 +74,16 @@ can open the resulting HTML in your browser.
 
 @begin(section)
 @title(Minima)
+
+Minima is, as the name implies, a minimalist theme.
+
+@end(section)
+
+@begin(section)
+@title(Gamma)
+
+Gamma is the template you're looking at. It's inspired by the
+@link[uri="https://stripe.com/docs"](Stripe documentation).
 
 @end(section)
 

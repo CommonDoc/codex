@@ -18,17 +18,16 @@
        display: none;
    }
 
+   .toc li a[data-section="{{ section-ref }}"] {
+       font-weight: bold;
+   }
+
    .toc li a[data-section="{{ section-ref }}"] + ol {
        display: block;
    }
 
    .toc li a[data-section="{{ section-ref }}"] + ol li {
-       font-size: 16px;
-       margin: 0 10px;
-   }
-
-   .toc li a[active] + ol li:first-child {
-       margin-top: 5px;
+       margin-left: 10px;
    }
   </style>
 {% endblock %}

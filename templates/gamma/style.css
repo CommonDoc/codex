@@ -1,9 +1,7 @@
-@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic);
-
 body {
     color: #444;
-    background: #F9FCFF;
-    font-family: 'Source Sans Pro', sans-serif;
+    background: #FAFBFB;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
     display: flex;
     min-height: 100vh;
@@ -35,7 +33,7 @@ article aside {
     padding-top: 10px;
     padding-left: 15px;
 
-    background: #fefefe;
+    background: #FCFDFF;
 
     border-radius: 4px 0 0 4px;
     box-shadow: 0 0 3px #ccc;
@@ -74,6 +72,10 @@ a {
 .content {
     font-size: 16px;
     font-weight: 400;
+}
+
+.content p code {
+    font-size: 16px;
 }
 
 .content > * {
@@ -156,6 +158,12 @@ img {
 
 .toc li {
     list-style-type: none;
+}
+
+.toc a {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
 }
 
 /* Footer */

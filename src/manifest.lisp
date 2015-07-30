@@ -13,6 +13,7 @@
            :manifest)
   ;; Accessors
   (:export :output-html-template
+           :output-html-template-options
            :document-title
            :document-authors
            :document-output-format

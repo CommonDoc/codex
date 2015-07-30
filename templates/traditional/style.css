@@ -1,25 +1,15 @@
-/* Traditional style */
-
 body {
-    font-family: serif;
+    width: 100%;
+    min-height: 100vh;
+
     background: white;
     color: #333;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
-}
-
-/* General layout */
-
-body {
-    width: 100%;
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-}
-
 .doc-title {
+    width: 70%;
+    margin: 0 auto;
+
     height: 70px;
     line-height: 70px;
     padding: 0 25px;
@@ -29,19 +19,27 @@ article {
     flex: 1;
     display: flex;
     flex-direction: row;
+
+    width: 70%;
+    margin: 0 auto;
+    padding-top: 35px;
+
+    border-top: 1px solid #ddd;
 }
 
 article aside {
-    width: 15%;
+    width: 25%;
 }
 
 article main {
-    width: 85%;
+    width: 75%;
     min-height: 100vh;
     padding: 0 35px;
 }
 
-/* Separation between elements */
+main {
+    font-size: 16px;
+}
 
 main > * {
     margin-bottom: 15px;

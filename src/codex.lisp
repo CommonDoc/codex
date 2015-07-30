@@ -11,7 +11,8 @@
                 :document-sources
                 :document-output-format
                 :output-html-template)
-  (:export :document)
+  (:export :document
+           :quickstart)
   (:documentation "The main interface."))
 (in-package :codex)
 

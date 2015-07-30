@@ -11,7 +11,8 @@
                :common-doc-contrib
                :pandocl
                :codex-templates
-               :cl-slug)
+               :cl-slug
+               :cl-ppcre)
   :components ((:module "src"
                 :serial t
                 :components
@@ -19,7 +20,8 @@
                  (:file "markup")
                  (:file "manifest")
                  (:file "macro")
-                 (:file "codex"))))
+                 (:file "codex")
+                 (:file "quickstart"))))
   :description "A documentation system for Common Lisp."
   :long-description
   #.(uiop:read-file-string

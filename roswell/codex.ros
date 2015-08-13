@@ -4,7 +4,7 @@
 exec ros -Q -- $0 "$@"
 |#
 
-(ql:quickload :codex)
+(ql:quickload :codex :silent t)
 
 (defun help ()
   (format t "Usage:
@@ -21,8 +21,6 @@ Options:
   (if (or (not $1)
           (member $1 '("help" "-h" "-help" "--help") :test #'string=))
       (help)
-      (handler-case (progn
-                      (asdf:find-system $1)
-                      (codex:document $1))
+      (handler-case (codex:document $1)
         (error (condition)
           (format t "~A~%" condition)))))

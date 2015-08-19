@@ -260,7 +260,7 @@ docparser class names.")
                                  (list (make-text (string-downcase name))))
                   (make-text "."))))
 
-(defun no-method-found (name lamb-dalist)
+(defun no-method-found (name lambda-list)
   (make-instance 'content-node
                  :metadata (make-class-metadata (list "error" "no-method-found"))
                  :children

@@ -10,7 +10,7 @@
   <style>
    /* Highlight the current top-level TOC item, and hide the TOC of all other items */
 
-   .toc a[data-section="{{ section-ref }}"] {
+   .toc a[data-node="{{ section-ref }}"] {
        /*color: #AD3108;*/
    }
 
@@ -18,15 +18,15 @@
        display: none;
    }
 
-   .toc li a[data-section="{{ section-ref }}"] {
+   .toc li a[data-node="{{ section-ref }}"] {
        font-weight: bold;
    }
 
-   .toc li a[data-section="{{ section-ref }}"] + ol {
+   .toc li a[data-node="{{ section-ref }}"] + ol {
        display: block;
    }
 
-   .toc li a[data-section="{{ section-ref }}"] + ol li {
+   .toc li a[data-node="{{ section-ref }}"] + ol li {
        margin-left: 10px;
    }
   </style>

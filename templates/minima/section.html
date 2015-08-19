@@ -10,7 +10,7 @@
   <style>
    /* Highlight the current top-level TOC item, and hide the TOC of all other items */
 
-   .toc a[data-section="{{ section-ref }}"] {
+   .toc a[data-node="{{ section-ref }}"] {
        color: #AD3108;
    }
 
@@ -22,11 +22,11 @@
        display: block;
    }
 
-   .toc li a[data-section="{{ section-ref }}"] + ol {
+   .toc li a[data-node="{{ section-ref }}"] + ol {
        display: block;
    }
 
-   .toc li a[data-section="{{ section-ref }}"] + ol li {
+   .toc li a[data-node="{{ section-ref }}"] + ol li {
        font-size: 16px;
        margin: 0 10px;
    }

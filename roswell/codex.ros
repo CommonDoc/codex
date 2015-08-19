@@ -1,0 +1,26 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+
+(ql:quickload :codex :silent t)
+
+(defun help ()
+  (format t "Usage:
+    codex [OPTION | SYSTEM-NAME]
+
+  Generates the documentation of the given SYSTEM-NAME using #'CODEX:DOCUMENT.
+
+Options:
+    -h, --help
+        Show this help.~%"))
+
+(defun main (&optional $1 &rest argv)
+  (declare (ignore argv))
+  (if (or (not $1)
+          (member $1 '("help" "-h" "-help" "--help") :test #'string=))
+      (help)
+      (handler-case (codex:document $1)
+        (error (condition)
+          (format t "~A~%" condition)))))

@@ -2,11 +2,11 @@
 
 (defparameter +manifest-template+
 "(:docstring-markup-format :scriba
- :systems (:codex)
+ :systems (:~A)
  :documents ((:title ~S
               :authors (~S)
               :output-format (:type :multi-html
-                              :template :gamma)
+                              :template :minima)
               :sources (\"manual.scr\"))))")
 
 (defparameter +manual-template+
@@ -46,7 +46,10 @@ system."
                             :direction :output
                             :if-exists :error
                             :if-does-not-exist :create)
-      (format stream +manifest-template+ title author))
+      (format stream +manifest-template+
+              (string-downcase (symbol-name system-name))
+              title
+              author))
     (with-open-file (stream manual-pathname
                             :direction :output
                             :if-exists :error

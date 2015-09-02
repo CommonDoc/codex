@@ -58,15 +58,6 @@ Refers to an argument of a function, macro or method. For example
 The @cl:param(list) argument holds...
 ```
 
-# Themes
-
-## Minima
-
-![Minima screenshot](docs/minima.png)
-
-Lovingly hand-picked local serifs trace that fine line between "I'm a free
-spirit with a stoic personality" and "God save the Queen".
-
 # Implementation
 
 Codex uses [docparser][docparser] to extract documentation from systems, and

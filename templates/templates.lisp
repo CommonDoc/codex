@@ -142,22 +142,6 @@
                        #p"highlight.css"))
   :documentation "Modern template.")
 
-(define-built-in-template traditional
-  :document-template (djula:compile-template* "traditional/document.html")
-  :section-template (djula:compile-template* "traditional/section.html")
-  :static-files (list
-                 (cons #p"traditional/style.css"
-                       #p"style.css")
-                 (cons #p"static/reset.css"
-                       #p"style.css")
-                 (cons #p"static/nodes.css"
-                       #p"style.css")
-                 (cons #p"static/highlight-lisp/highlight-lisp.js"
-                       #p"highlight.js")
-                 (cons #p"static/highlight-lisp/themes/github.css"
-                       #p"highlight.css"))
-  :documentation "Traditional template.")
-
 ;;; Template database
 
 (defvar *template-database*
@@ -166,8 +150,6 @@
           (find-class 'minima))
     (setf (gethash :gamma table)
           (find-class 'gamma))
-    (setf (gethash :traditional table)
-          (find-class 'traditional))
     table)
   "A hash table of table names (Keywords) to template classes.")
 

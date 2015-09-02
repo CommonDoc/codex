@@ -1,0 +1,23 @@
+@begin(section)
+@title(Templates)
+
+@begin(section)
+@title(Minima)
+
+@image[src="minima.png"]()
+
+Minima is, as the name implies, a minimalist theme.
+
+@end(section)
+
+@begin(section)
+@title(Gamma)
+
+@image[src="gamma.png"]()
+
+Gamma is the template you're looking at. It's inspired by the
+@link[uri="https://stripe.com/docs"](Stripe documentation).
+
+@end(section)
+
+@end(section)

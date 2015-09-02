@@ -4,4 +4,8 @@
               :authors ("Fernando Borretti")
               :output-format (:type :multi-html
                               :template :gamma)
-              :sources ("manual.scr"))))
+              :sources ("overview.scr"
+                        "tutorial.scr"
+                        "templates.scr"
+                        "authoring-templates.scr"
+                        "internals.scr"))))

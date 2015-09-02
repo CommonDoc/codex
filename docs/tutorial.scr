@@ -1,0 +1,115 @@
+@begin(section)
+@title(Tutorial)
+
+This tutorial goes through the process of documenting a Lisp project with Codex.
+
+@begin(section)
+@title(Getting Started)
+
+First, ceate a folder named @c(docs) in your project's root directory (the same
+directory as the ASDF file). There, you need to create two files:
+@c(manifest.lisp) and @c(manual.scr).
+
+The @c(manifest.lisp) file is read by Codex to figure out how to generate your
+docs, and in your case looks like this:
+
+@code[lang=lisp](@include[path="includes/manifest.lisp"]())
+
+What this tells Codex is, mainly:
+
+@begin(list)
+
+@item(Use Scriba to parse the docstrings.)
+
+@item(Before generating the docs, load and extract docstrings from the
+@c(my-library) system.)
+
+@item(Generate a document titled "My Library" from the @c(manual.scr) file.)
+
+@item(Write the document to mutiple HTML files using the Minima template.)
+
+@end(list)
+
+The @c(manual.scr) file will be fairly bare-bones for now:
+
+@code[lang=scribe](@include[path="includes/overview.scr"]())
+
+@end(section)
+
+@begin(section)
+@title(Writing with Scriba)
+
+Scriba is the preferred markup format for Codex documentation. It's similar to
+Scribe and Texinfo, has a simple and general syntax, and supports arbitrary
+CommonDoc macros. Additionally, it can be used inside Lisp docstrings without
+escaping anything.
+
+@end(section)
+
+@begin(section)
+@title(Inserting API Documentation)
+
+To insert documentation of some Common Lisp construct @l(ndash) a function,
+class, macro, condition, etc. @l(ndash) you use the @c(cl:with-package) and
+@c(cl:doc) macros. For instance:
+
+@code[lang=scriba](@include[path="includes/nodes.scr"]())
+
+This tells Codex to find a function named @c(my-function) and a macro named
+@c(my-macro) in the @c(my-app) package, and insert their API documentation. In
+the case of functions and macros, the only documentation that is inserted is
+their name, lambda list and documentation string, but other objects have more
+complex API documentation. For instance, classes include documentatio strings
+for all their slots.
+
+The @c(cl:doc) macro takes its arguments as a space-separated list of strings in
+the body. The first argument is the documentation type (e.g., "function" or
+"class"), and the second the symbol name of the thing to insert. For methods,
+you can add the lambda list of the method you want to insert.
+
+Belows is the full list of API documentation types:
+
+@begin(list)
+@term(@c(function))
+@term(@c(macro))
+@term(@c(generic))
+@term(@c(method))
+@term(@c(variable))
+@term(@c(struct))
+@term(@c(class))
+@term(@c(condition))
+@term(@c(type))
+@term(@c(cfunction))
+@term(@c(ctype))
+@term(@c(cstruct))
+@term(@c(cunion))
+@term(@c(cenum))
+@term(@c(cbitfield))
+@end(list)
+
+The documentation types prefixed with a 'c' refer to CFFI constructs, i.e.,
+@c(cfunction) refers to a C function declared with CFFI's @c(defcfun) macro.
+
+@end(section)
+
+@begin(section)
+@title(Docstrings)
+
+Codex parses documentation strings using the format you specify in the manifest
+with the @c(:docstring-markup-format) option. In this case, we've chosen Scriba,
+which means we can insert Scriba markup in docstrings. For example:
+
+@code[lang=lisp](@include[path="includes/docstring.lisp"]())
+
+@end(section)
+
+@begin(section)
+@title(Building)
+
+Finally, run @c((codex:document :my-system)). You'll see some compilation output
+and a lot of lines with "Inserting documentation for...". When that's done, you
+can open the resulting HTML in your browser.
+
+@end(section)
+
+@end(section)

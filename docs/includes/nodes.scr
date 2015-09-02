@@ -1,0 +1,4 @@
+@cl:with-package[name="my-app"](
+@cl:doc(function my-function)
+@cl:doc(macro my-macro)
+)

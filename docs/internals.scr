@@ -1,0 +1,34 @@
+@begin(section)
+@title(Internals)
+
+@begin(section)
+@title(Manifest)
+
+The manifest and its components are represented by the following classes:
+
+@cl:with-package[name="codex.manifest"](
+@cl:doc(class manifest)
+@cl:doc(class document)
+@cl:doc(class output-format)
+@cl:doc(class html)
+@cl:doc(class single-html)
+@cl:doc(class multi-html)
+)
+
+@end(section)
+
+@begin(section)
+@title(Errors)
+
+The following is a list of the error conditions Codex can signal:
+
+@cl:with-package[name="codex.error"](
+@cl:doc(condition codex-error)
+@cl:doc(condition manifest-error)
+@cl:doc(condition unsupported-output-format)
+@cl:doc(condition template-error)
+)
+
+@end(section)
+
+@end(section)

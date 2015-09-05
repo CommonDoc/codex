@@ -20,4 +20,5 @@ Copyright (c) 2014-2015 Fernando Borretti
 
 Licensed under the MIT License.
 
+[scriba]: https://github.com/CommonDoc/scriba
 [docs]: http://commondoc.github.io/codex/docs/overview.html

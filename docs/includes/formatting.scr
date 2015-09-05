@@ -1,0 +1,5 @@
+This text is @b(bold), this is @i(italics), and this is @c(code). You might also
+want @u(underlined) text.
+
+The speed of light is 3x10@sup(8) meters per second. The symbol for the
+permittivity of vacuum is ε@sub(0).

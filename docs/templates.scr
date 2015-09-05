@@ -8,7 +8,8 @@ Codex ships with two templates, @b(Minima) and @b(Gamma).
 
 @image[src="minima.png"]()
 
-Minima is, as the name implies, a minimalist theme.
+Minima is, as the name implies, a minimalist theme. It's name in manifest files
+is @c(:minima).
 
 @end(section)
 
@@ -19,6 +20,8 @@ Minima is, as the name implies, a minimalist theme.
 
 Gamma is the template you're looking at. It's inspired by the
 @link[uri="https://stripe.com/docs"](Stripe documentation).
+
+You can use it by setting @c(:template) to @c(:gamma) in manifest.
 
 @end(section)
 

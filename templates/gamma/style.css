@@ -78,7 +78,7 @@ a {
     font-size: 16px;
 }
 
-.content > * {
+.content > *, .content blockquote > * {
     margin-bottom: 25px;
 }
 
@@ -147,6 +147,11 @@ tr:first-child td {
     font-weight: bold;
 
     border-bottom: 1px solid #ccc;
+}
+
+blockquote {
+    padding-left: 40px;
+    border-left: 2px solid #ccc;
 }
 
 img {

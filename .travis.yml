@@ -44,7 +44,6 @@ script:
         -e '(coveralls:with-coveralls (:exclude (list "t" "src/error.lisp"))
               (ql:quickload :codex-templates)
               (ql:quickload :codex-test))'
-        -q
 
 notifications:
   email:

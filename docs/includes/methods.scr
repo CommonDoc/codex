@@ -1,0 +1,6 @@
+@cl:with-package[name="serialize-lib"](
+@cl:doc(generic serialize)
+@cl:doc(method serialize (object integer) stream)
+@cl:doc(method serialize (object float) stream)
+@cl:doc(method serialize (object string) stream)
+)

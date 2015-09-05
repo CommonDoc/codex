@@ -65,7 +65,9 @@ for all their slots.
 The @c(cl:doc) macro takes its arguments as a space-separated list of strings in
 the body. The first argument is the documentation type (e.g., "function" or
 "class"), and the second the symbol name of the thing to insert. For methods,
-you can add the lambda list of the method you want to insert.
+you can add the lambda list of the method you want to insert. For example:
+
+@code[lang=scriba](@include[path="includes/methods.scr"]())
 
 Belows is the full list of API documentation types:
 
@@ -100,6 +102,20 @@ with the @c(:docstring-markup-format) option. In this case, we've chosen Scriba,
 which means we can insert Scriba markup in docstrings. For example:
 
 @code[lang=lisp](@include[path="includes/docstring.lisp"]())
+
+@end(section)
+
+@begin(section)
+@title(Linking to the CLHS)
+
+You can use the @c(cl:spec) macro to link to a part of the Common Lisp
+HyperSpec.
+
+For example, the following:
+
+@code[lang=lisp](@include[path="includes/spec.scr"]())
+
+will produce links to @cl:spec(call-next-method) and @cl:spec(complex).
 
 @end(section)
 

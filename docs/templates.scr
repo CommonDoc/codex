@@ -1,6 +1,8 @@
 @begin(section)
 @title(Templates)
 
+Codex ships with two templates, @b(Minima) and @b(Gamma).
+
 @begin(section)
 @title(Minima)
 

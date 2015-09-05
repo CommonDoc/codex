@@ -12,7 +12,8 @@
                :pandocl
                :codex-templates
                :cl-slug
-               :cl-ppcre)
+               :cl-ppcre
+               :alexandria)
   :components ((:module "src"
                 :serial t
                 :components

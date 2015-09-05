@@ -37,7 +37,7 @@
 
 (defclass html (output-format)
   ((html-template :reader output-html-template
-                  :initarg :template
+                  :initarg :template-name
                   :type keyword
                   :documentation "The name of the HTML template.")
    (template-options :reader output-html-template-options
@@ -99,19 +99,19 @@ package."
 
 (defun parse-output-format (plist)
   "Create an instance of an output-format class from a plist."
-  (let ((format-name (getf plist :type))
-        (args (alexandria:remove-from-plist plist :type)))
-    (apply #'make-instance
-           (cons
-            (cond
-              ((eq format-name :single-html)
-               'single-html)
-              ((eq format-name :multi-html)
-               'multi-html)
-              (t
-               (error 'codex.error:unsupported-output-format
-                      :format-name format-name)))
-            args))))
+  (let* ((format-name (getf plist :type))
+         (args (alexandria:remove-from-plist plist :type))
+         (class-name (cond
+                       ((eq format-name :single-html)
+                        'single-html)
+                       ((eq format-name :multi-html)
+                        'multi-html)
+                       (t
+                        (error 'codex.error:unsupported-output-format
+                               :format-name format-name)))))
+    (make-instance class-name
+                   :template-name (getf plist :template)
+                   :template-options (alexandria:remove-from-plist plist :template))))
 
 (defun parse-document (document-plist)
   "Parse a manifest's document plist into a document object."

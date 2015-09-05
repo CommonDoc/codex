@@ -25,7 +25,11 @@
   ((output-directory :reader output-directory
                      :initarg :output-directory
                      :type pathname
-                     :documentation "The directory where the output will be produced."))
+                     :documentation "The directory where the output will be produced.")
+   (options :reader options
+            :initarg :options
+            :type property-list
+            :documentation "A plist of template options."))
   (:documentation "Codex templates."))
 
 (defclass built-in-template (codex-template)

@@ -10,7 +10,8 @@
                 :document-title
                 :document-sources
                 :document-output-format
-                :output-html-template)
+                :output-html-template
+                :output-html-template-options)
   (:export :document
            :quickstart)
   (:documentation "The main interface."))
@@ -71,7 +72,8 @@
       (setf doc (common-doc.ops:fill-unique-refs doc))
       ;; Now we have a document, lets emit the HTML
       (if html-template
-          (with-template (html-template :output-directory build-directory)
+          (with-template (html-template :output-directory build-directory
+                                        :options (output-html-template-options output-format))
             (multi-emit doc build-directory :max-depth 1)
             (copy-images doc build-directory))
           (error 'codex.error:template-error

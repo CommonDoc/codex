@@ -29,35 +29,6 @@ Libraries or applications that use Codex:
 * [clake](https://github.com/Rudolph-Miller/clake)
 * [roswell-scripts](https://github.com/Rudolph-Miller/roswell-scripts)
 
-# Usage
-
-## Macros
-
-### `cl:with-package`
-
-Sets the current package for node insertion. See below.
-
-### `cl:doc`
-
-Insert the documentation of a symbol. For example, if your app defines a class
-`my-class` in the package `pack`, the following invocation will expand to class
-documentation, including the docstring of the class itself, and documentation of
-its slots:
-
-```
-@cl:with-package[name=pack](
-  @cl:doc(class my-class)
-)
-```
-
-### `cl:param`
-
-Refers to an argument of a function, macro or method. For example
-
-```
-The @cl:param(list) argument holds...
-```
-
 # Implementation
 
 Codex uses [docparser][docparser] to extract documentation from systems, and

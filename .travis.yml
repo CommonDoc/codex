@@ -8,12 +8,6 @@ env:
     - COVERAGE_EXCLUDE=t
   matrix:
     - LISP=sbcl-bin COVERALLS=true
-    - LISP=ccl-bin
-    - LISP=abcl
-    - LISP=clisp
-    - LISP=ecl
-    - LISP=allegro
-    - LISP=cmucl
 
 install:
   # Roswell & coveralls

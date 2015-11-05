@@ -64,11 +64,11 @@
   "Create metadata for HTML classes."
   (make-meta
    (list
-    (cons "class" (if (listp class)
-                      (format nil "~{codex-~A~#[~:; ~]~}" class)
-                      (concatenate 'string
-                                   "codex-"
-                                   class))))))
+    (cons "html:class" (if (listp class)
+                           (format nil "~{codex-~A~#[~:; ~]~}" class)
+                           (concatenate 'string
+                                        "codex-"
+                                        class))))))
 
 (defmethod name-node (node)
   "Create a node representing the name of a node."

@@ -39,29 +39,8 @@ The @c(manual.scr) file will be fairly bare-bones for now:
 @begin(section)
 @title(Writing with Scriba)
 
-Scriba is the preferred markup format for Codex documentation. It's similar to
-Scribe and Texinfo, has a simple and general syntax, and supports arbitrary
-CommonDoc macros. Additionally, it can be used inside Lisp docstrings without
-escaping anything.
-
-@begin(section)
-@title(Formatting)
-
-The following:
-
-@code[lang=scribe](@include[path="includes/formatting.scr"]())
-
-Will produce this:
-
-@begin(quote)
-This text is @b(bold), this is @i(italics), and this is @c(code). You might also
-want @u(underlined) text.
-
-The speed of light is 3x10@sup(8) meters per second. The symbol for the
-permittivity of vacuum is ε@sub(0).
-@end(quote)
-
-@end(section)
+You can find the Scriba reference
+@link[uri="http://commondoc.github.io/scriba/docs/reference.html"](here).
 
 @end(section)
 

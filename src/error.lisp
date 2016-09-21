@@ -5,12 +5,14 @@
   (:export :codex-error
            :manifest-error
            :unsupported-output-format
-           :template-error)
+           :template-error
+           :no-docstring)
   ;; Accessors
   (:export :system-name
            :message
            :format-name
-           :template-name)
+           :template-name
+           :node)
   (:documentation "Codex errors."))
 (in-package :codex.error)
 
@@ -60,3 +62,15 @@
              (template-name condition)
              (message condition))))
   (:documentation "Signalled by errors related to templates."))
+
+
+(define-condition no-docstring (codex-error)
+  ((node :reader node
+         :initarg :node
+         :documentation "The node without docstring."))
+  (:report
+   (lambda (c s)
+     (let ((node (node c)))
+       (format s "No docstring in node ~a(~a)"
+               node (docparser:node-name node)))))
+  (:documentation "Signalled when a node has no docstring."))

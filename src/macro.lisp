@@ -21,7 +21,8 @@
            :cl-doc
            :with-package
            :param
-           :spec)
+           :spec
+           :use-docstring)
   (:documentation "CommonDoc macros for Codex."))
 (in-package :codex.macro)
 
@@ -79,13 +80,29 @@
                              (docparser:render-humanize
                               (docparser:node-name node))))))
 
+(defun check-node-docstring (node)
+  "Check and return the node's docstring.
+If there is none, codex.error:no-docstring condition is signalled."
+  (let ((docstring (docparser:node-docstring node)))
+    (if docstring docstring
+        (error 'codex.error:no-docstring :node node))))
+
 (defun docstring-node (node)
   "Create a node representing a node's docstring."
   (make-instance 'content-node
                  :metadata (make-class-metadata "docstring")
-                 :children (children
-                            (codex.markup:parse-string
-                             (docparser:node-docstring node)))))
+                 :children
+                 (restart-case
+                     (children
+                      (codex.markup:parse-string
+                       (check-node-docstring node)))
+                   (use-docstring (docstring)
+                     :report "Enter a new docstring"
+                     :interactive (lambda ()
+                                    (format *query-io* "Enter a new docstring: ")
+                                    (force-output *query-io*)
+                                    (list (read-line *query-io*)))
+                     (list (make-text docstring))))))
 
 (defun list-to-code-node (class list)
   (make-instance 'code

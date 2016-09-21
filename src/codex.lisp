@@ -119,7 +119,7 @@ is found.")
     *undocumented-list*))
 
 (defun document (system-name &key (skip-undocumented *skip-undocumented*))
-  "Generate documentation for a system."
+  "Generate documentation for a system. @c(skip-undocumented) overrides @c(*skip-undocumented*)"
   (let ((manifest-pathname (codex.manifest:system-manifest-pathname system-name)))
     (unless (probe-file manifest-pathname)
       (error 'codex.error:manifest-error

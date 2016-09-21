@@ -122,7 +122,13 @@ will produce links to @cl:spec(call-next-method) and @cl:spec(complex).
 
 Finally, run @c((codex:document :my-system)). You'll see some compilation output
 and a lot of lines with "Inserting documentation for...". When that's done, you
-can open the resulting HTML in your browser.
+can open the resulting HTML in your browser. Codex signals a condition when
+undocumented node (in example, function, class or class slot) is
+encountered. Then you can choose @c(use-docstring) restart and enter a new
+docstring interactively. Also you may wish to silently skip all undocumented
+nodes. This can be achieved by specifing @c(:skip-undocumented t) key to
+@c(codex:document) or setting @c(codex:*skip-undocumented*) variable to T. In
+any case Codex will print summary on undocumented nodes encountered.
 
 @end(section)
 

@@ -13,9 +13,17 @@
                 :output-html-template
                 :output-html-template-options)
   (:export :document
-           :quickstart)
+           :quickstart
+           :*skip-undocumented*)
   (:documentation "The main interface."))
 (in-package :codex)
+
+(defvar *undocumented-list* nil
+  "List of undocumented nodes")
+
+(defvar *skip-undocumented* nil
+  "If this variable is not NIL, do not call a debugger when undocumented node
+is found.")
 
 (defun load-document (document directory)
   "Load a CommonDoc document from the sources of a Codex document."
@@ -81,23 +89,45 @@
                  :message "No such template known."))
       doc)))
 
+(defun undocumented-handler (c)
+  "Handle undocumented nodes"
+  (push (codex.error:node c)
+        *undocumented-list*)
+  (if (and *skip-undocumented*
+           (find-restart 'codex.macro:use-docstring))
+      (invoke-restart 'codex.macro:use-docstring "")))
+
+(defun print-undocumented (undocumented)
+  (flet ((print-node (node)
+           (format t "No docstring for ~a (of type ~a)~%"
+                   (docparser:node-name node)
+                   (type-of node))))
+    (mapc #'print-node undocumented)))
+
 (defun build-manifest (manifest directory)
-  "Build a manifest."
+  "Build a manifest. Return a list of nodes which do not have a docstring."
   ;; First, load all the systems, extracting documentation information into the
   ;; global index
   (let ((codex.macro:*index* (docparser:parse (codex.manifest:manifest-systems manifest)))
-        (*current-markup-format* (codex.manifest:manifest-markup-format manifest)))
+        (*current-markup-format* (codex.manifest:manifest-markup-format manifest))
+        *undocumented-list*)
     ;; Go through each document, building it
     (loop for document in (codex.manifest:manifest-documents manifest) do
-      (build-document document directory))))
+         (handler-bind
+             ((codex.error:no-docstring #'undocumented-handler))
+           (build-document document directory)))
+    *undocumented-list*))
 
-(defun document (system-name)
-  "Generate documentation for a system."
+(defun document (system-name &key (skip-undocumented *skip-undocumented*))
+  "Generate documentation for a system. @c(skip-undocumented) overrides @c(*skip-undocumented*)"
   (let ((manifest-pathname (codex.manifest:system-manifest-pathname system-name)))
     (unless (probe-file manifest-pathname)
       (error 'codex.error:manifest-error
              :system-name system-name
              :message "No manifest."))
     (let ((manifest (codex.manifest:parse-manifest manifest-pathname))
-          (directory (uiop:pathname-directory-pathname manifest-pathname)))
-      (build-manifest manifest directory))))
+          (directory (uiop:pathname-directory-pathname manifest-pathname))
+          (*skip-undocumented* skip-undocumented))
+      (print-undocumented
+       (build-manifest manifest directory))))
+  nil)

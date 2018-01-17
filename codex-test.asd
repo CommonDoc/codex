@@ -4,6 +4,7 @@
   :description "Tests for Codex."
   :depends-on (:codex
                :vertex
+               :cffi
                :common-html
                :fiveam)
   :components ((:module "t"

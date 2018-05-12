@@ -118,9 +118,14 @@ is found.")
            (build-document document directory)))
     *undocumented-list*))
 
-(defun document (system-name &key (skip-undocumented *skip-undocumented*))
-  "Generate documentation for a system. @c(skip-undocumented) overrides @c(*skip-undocumented*)"
-  (let ((manifest-pathname (codex.manifest:system-manifest-pathname system-name)))
+(defun document (system-name &key (skip-undocumented *skip-undocumented*)
+                               manifest-path)
+  "Generate documentation for a system. @c(skip-undocumented) overrides @c(*skip-undocumented*)
+@c(manifest-path) overrides @c(*default-manifest-pathname*) which is
+@c(#p\"docs/manifest.lisp\")"
+  (check-type manifest-path (or null pathname))
+  (let ((manifest-pathname (codex.manifest:system-manifest-pathname system-name
+                                                                    :manifest-path manifest-path)))
     (unless (probe-file manifest-pathname)
       (error 'codex.error:manifest-error
              :system-name system-name

@@ -6,8 +6,10 @@ This tutorial goes through the process of documenting a Lisp project with Codex.
 @begin(section)
 @title(Getting Started)
 
-First, ceate a folder named @c(docs) in your project's root directory (the same
-directory as the ASDF file). There, you need to create two files:
+First, ceate a folder for your documents. The default is named @c(docs) in
+your project's root directory (the same directory as the ASDF file), but if
+you use another directory, an additional argument will need to be passed to
+@c(codex:document) at the end of this tutorial. There, you need to create two files:
 @c(manifest.lisp) and @c(manual.scr).
 
 The @c(manifest.lisp) file is read by Codex to figure out how to generate your
@@ -125,15 +127,20 @@ will produce links to @cl:spec(call-next-method) and @cl:spec(complex).
 @begin(section)
 @title(Building)
 
-Finally, run @c((codex:document :my-system)). You'll see some compilation output
-and a lot of lines with "Inserting documentation for...". When that's done, you
-can open the resulting HTML in your browser. Codex signals a condition when
-undocumented node (in example, function, class or class slot) is
-encountered. Then you can choose @c(use-docstring) restart and enter a new
-docstring interactively. Also you may wish to silently skip all undocumented
-nodes. This can be achieved by specifing @c(:skip-undocumented t) key to
-@c(codex:document) or setting @c(codex:*skip-undocumented*) variable to T. In
-any case Codex will print summary on undocumented nodes encountered.
+Finally, run @c((codex:document :my-system)); or if you put your documents in
+a non-default directory or named your manifest file something other than
+@c(manifest.lisp), run @c((codex:document :my-system :manifest-path PATH))
+where PATH is the path of the manifest file relative to the the ASDF file
+of @c(:my-system) (e.g. @c(#p"../project-docs/code/code-docs-manifest.lisp")).
+You'll see some compilation output and a lot of lines with
+"Inserting documentation for...". When that's done, you can open the resulting
+HTML in your browser. Codex signals a condition when undocumented node (in
+example, function, class or class slot) is encountered. Then you can choose
+@c(use-docstring) restart and enter a new docstring interactively. Also you
+may wish to silently skip all undocumented nodes. This can be achieved by
+specifing @c(:skip-undocumented t) key to @c(codex:document) or setting
+@c(codex:*skip-undocumented*) variable to T. In any case Codex will print
+summary on undocumented nodes encountered.
 
 @end(section)
 

@@ -140,7 +140,8 @@ package."
   #p"docs/manifest.lisp"
   "The pathname of the Codex manifest in a system.")
 
-(defun system-manifest-pathname (system-name)
-  "Return the absolute pathname to a system's Codex manifest."
+(defun system-manifest-pathname (system-name &key manifest-path)
+  "Return the absolute pathname to a system's Codex manifest. @c(manifest-path)
+overrides @c(*default-manifest-pathname*) which is @c(#p\"docs/manifest.lisp\")"
   (asdf:system-relative-pathname system-name
-                                 *default-manifest-pathname*))
+                                 (if manifest-path manifest-path *default-manifest-pathname*)))

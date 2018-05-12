@@ -71,9 +71,12 @@ Belows is the full list of API documentation types:
 
 @begin(list)
 @term(@c(function))
+@term(@c(setf-function))
 @term(@c(macro))
 @term(@c(generic))
+@term(@c(setf-generic))
 @term(@c(method))
+@term(@c(setf-method))
 @term(@c(variable))
 @term(@c(struct))
 @term(@c(class))
@@ -89,6 +92,8 @@ Belows is the full list of API documentation types:
 
 The documentation types prefixed with a 'c' refer to CFFI constructs, i.e.,
 @c(cfunction) refers to a C function declared with CFFI's @c(defcfun) macro.
+The documentation types prefixed with a 'setf-' refer to setf versions
+of their suffix, i.e., @c(setf-function) refers to a setf function.
 
 @end(section)
 

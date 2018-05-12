@@ -72,13 +72,18 @@
                                         class))))))
 
 (defmethod name-node (node)
-  "Create a node representing the name of a node."
+  "Create a node representing the name of a node. If it is a setf operation,
+\"setf \" is automatically prepended before the name text."
   (make-instance 'code
                  :metadata (make-class-metadata "name")
                  :children (list
                             (make-text
-                             (docparser:render-humanize
-                              (docparser:node-name node))))))
+                             (concatenate 'string
+                                          (if (and (typep node 'docparser:operator-node)
+                                                   (docparser:operator-setf-p node))
+                                              "setf " "")
+                                          (docparser:render-humanize
+                                           (docparser:node-name node)))))))
 
 (defun check-node-docstring (node)
   "Check and return the node's docstring.
@@ -222,21 +227,24 @@ create an error message."
 ;;; Macroexpansions
 
 (defparameter +type-name-to-class-map+
-  (list (cons "function"  'docparser:function-node)
-        (cons "macro"     'docparser:macro-node)
-        (cons "generic"   'docparser:generic-function-node)
-        (cons "method"    'docparser:method-node)
-        (cons "variable"  'docparser:variable-node)
-        (cons "struct"    'docparser:struct-node)
-        (cons "class"     'docparser:class-node)
-        (cons "condition" 'docparser:condition-node)
-        (cons "type"      'docparser:type-node)
-        (cons "cfunction" 'docparser:cffi-function)
-        (cons "ctype"     'docparser:cffi-type)
-        (cons "cstruct"   'docparser:cffi-struct)
-        (cons "cunion"    'docparser:cffi-union)
-        (cons "cenum"     'docparser:cffi-enum)
-        (cons "cbitfield" 'docparser:cffi-bitfield))
+  (list (cons "function"      'docparser:function-node)
+        (cons "setf-function" 'docparser:function-node)
+        (cons "macro"         'docparser:macro-node)
+        (cons "generic"       'docparser:generic-function-node)
+        (cons "setf-generic"  'docparser:generic-function-node)
+        (cons "method"        'docparser:method-node)
+        (cons "setf-method"   'docparser:method-node)
+        (cons "variable"      'docparser:variable-node)
+        (cons "struct"        'docparser:struct-node)
+        (cons "class"         'docparser:class-node)
+        (cons "condition"     'docparser:condition-node)
+        (cons "type"          'docparser:type-node)
+        (cons "cfunction"     'docparser:cffi-function)
+        (cons "ctype"         'docparser:cffi-type)
+        (cons "cstruct"       'docparser:cffi-struct)
+        (cons "cunion"        'docparser:cffi-union)
+        (cons "cenum"         'docparser:cffi-enum)
+        (cons "cbitfield"     'docparser:cffi-bitfield))
   "Associate the string names of Docparser classes to the corresponding
 docparser class names.")
 
@@ -293,12 +301,18 @@ docparser class names.")
                   (make-text " found."))))
 
 (defun find-node (type symbol rest)
-  (let ((class (find-node-type-by-name type)))
+  (let ((class (find-node-type-by-name type))
+        (is-setf (alexandria:starts-with-subseq "setf-" type)))
     (if class
-        (let ((nodes (docparser:query *index*
-                                      :package-name *current-package-name*
-                                      :symbol-name (string-upcase symbol)
-                                      :class class)))
+        ;; Use docparser to find suitable nodes and then filter out ones whose
+        ;; are operator-nodes but their setfp slot doesn't match type (is-setf).
+        (let ((nodes (remove-if #'(lambda (nd)
+                                    (and (typep nd 'docparser:operator-node)
+                                         (not (equal is-setf (docparser:operator-setf-p nd)))))
+                                (docparser:query *index*
+                                                 :package-name *current-package-name*
+                                                 :symbol-name (string-upcase symbol)
+                                                 :class class))))
           (if (> (length nodes) 0)
               (if (eq class 'docparser:method-node)
                   ;; Search for the proper method using the arglist
@@ -316,7 +330,7 @@ docparser class names.")
                         (if method
                             (expand-node method)
                             (no-method-found symbol lambda-list))))
-                  ;; Not a method
+                  ;; Not a method.
                   (expand-node (elt nodes 0)))
               ;; No node with that name, report an error
               (node-not-found symbol)))

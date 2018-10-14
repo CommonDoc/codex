@@ -35,6 +35,40 @@
     font-size: 16px;
 }
 
+/* Class slot option table styling */
+
+.codex-class-slot-option-node {
+    display: block;
+    margin: 15px;
+    align-items: flex-start;
+    padding: 0px 15px 15px 15px;
+}
+
+.codex-class-slot-option-table {
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px;
+    text-align: left;
+    margin-left: 15px;
+    padding: 5px 5px 5px 5px;
+}
+
+.codex-class-slot-option-row {
+}
+
+.codex-class-slot-option-label-cell {
+    font-style: italic;
+}
+
+.codex-class-slot-option-value-cell {
+}
+
+.codex-class-slot-option-symbol-cell {
+}
+
+.codex-class-slot-option-list-cell {
+}
+
 /* Documentation node colors */
 
 .codex-function {

@@ -176,14 +176,28 @@ explicitly supported by this method."
                   (docstring-node node))))
 
 (defun expand-record-node (class node)
-  (make-doc-node (list "record" class)
-                 (name-node node)
-                 (docstring-node node)
-                 (make-instance 'unordered-list
-                                :metadata (make-class-metadata "slot-list")
-                                :children
-                                (loop for slot in (docparser:record-slots node)
-                                  collecting (expand-node slot)))))
+  (let ((beginning (list (list "record" class)
+                         (name-node node)))
+        (middle (when (typep node 'docparser:class-node)
+                  (list (make-instance 'content-node
+                                       :metadata (make-class-metadata "superclass-node")
+                                       :children
+                                       (list (make-instance 'code
+                                                            :metadata
+                                                            (make-class-metadata "superclass-label")
+                                                            :children
+                                                            (list (make-text "Superclasses:")))
+                                             (list-to-code-node
+                                              "superclass-list"
+                                              (append (docparser:class-node-superclasses node)
+                                                      (list t))))))))
+        (end (list (docstring-node node)
+                   (make-instance 'unordered-list
+                                  :metadata (make-class-metadata "slot-list")
+                                  :children
+                                  (loop for slot in (docparser:record-slots node)
+                                     collecting (expand-node slot))))))
+    (apply #'make-doc-node (append beginning middle end))))
 
 (defmethod expand-node ((node docparser:struct-node))
   "Expand a structure definition node."

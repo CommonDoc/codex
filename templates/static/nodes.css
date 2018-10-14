@@ -10,7 +10,7 @@
     margin-bottom: 10px;
 }
 
-.codex-lambda-list, .codex-type-def {
+.codex-lambda-list, .codex-superclass-list, .codex-type-def {
     display: inline-block;
     margin-left: 15px;
     margin-top: 0;
@@ -27,6 +27,11 @@
 
 .codex-name {
     font-weight: bold;
+    font-size: 16px;
+}
+
+.codex-superclass-label {
+    font-style: italic;
     font-size: 16px;
 }
 

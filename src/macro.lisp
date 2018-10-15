@@ -13,7 +13,9 @@
                 ;; Functions
                 :make-text
                 :make-meta
-                :make-web-link)
+                :make-web-link
+                :make-row
+                :make-cell)
   (:import-from :common-doc.macro
                 :macro-node
                 :expand-macro)
@@ -118,6 +120,15 @@ If there is none, codex.error:no-docstring condition is signalled."
                                (let ((*print-case* :downcase))
                                  (princ-to-string list)))))))
 
+(defun write-to-code-node (class obj)
+  (make-instance 'code
+                 :metadata (make-class-metadata class)
+                 :children (list
+                            (make-text
+                             (with-standard-io-syntax
+                               (let ((*print-case* :downcase))
+                                 (write-to-string obj)))))))
+
 (defun make-doc-node (classes &rest children)
   (make-instance 'content-node
                  :metadata (make-class-metadata (append (list "doc-node")
@@ -168,12 +179,100 @@ explicitly supported by this method."
 
 (defmethod expand-node ((node docparser:class-slot-node))
   "Expand a class slot node."
-  (make-instance 'list-item
-                 :metadata (make-class-metadata (list "slot" "class-slot"))
-                 :children
-                 (list
-                  (name-node node)
-                  (docstring-node node))))
+  ;; The slot options are going to be in a table of option-value pairs on each
+  ;; row. The first row is a header.
+  ;;
+  ;; The options will be in the following order:
+  ;;
+  ;; 1. allocation
+  ;; 2. type
+  ;; 3. initarg, if available
+  ;; 4. initform, if available
+  ;; 5. readers, if available
+  ;; 6. writers, if available
+  ;; 7. accessors, if available
+  (let* ((left-col-metadata (make-class-metadata "class-slot-option-label-cell"))
+         (header-metadata (make-class-metadata "class-slot-option-header-cell"))
+         (symbol-metadata (make-class-metadata '("class-slot-option-value-cell"
+                                                 "class-slot-option-symbol-cell")))
+         (list-metadata (make-class-metadata '("class-slot-option-value-cell"
+                                               "class-slot-option-list-cell")))
+         (row-metadata (make-class-metadata "class-slot-option-row"))
+         (rows (append
+                (list (make-row (list (make-cell (list (make-text "Option"))
+                                                 :metadata header-metadata)
+                                      (make-cell (list (make-text "Value"))
+                                                 :metadata header-metadata))
+                                :metadata row-metadata))
+                (list (make-row (list (make-cell (list (make-text "Allocation:"))
+                                                 :metadata left-col-metadata)
+                                      (make-cell (list (make-text
+                                                        (docparser:render-humanize
+                                                         (docparser:slot-allocation node))))
+                                                 :metadata symbol-metadata))
+                                :metadata row-metadata))
+                (list (make-row (list (make-cell (list (make-text "Type:"))
+                                                 :metadata left-col-metadata)
+                                      (make-cell (list (write-to-code-node
+                                                        "class-slot-symbol-list"
+                                                        (docparser:slot-type node)))
+                                                 :metadata symbol-metadata))
+                                :metadata row-metadata))
+                ;; Only include initarg, initform, readers, writers, and
+                ;; accessors if they are available.
+                (when (docparser:slot-initarg node)
+                  (list (make-row (list (make-cell (list (make-text "Initarg:"))
+                                                   :metadata left-col-metadata)
+                                        (make-cell (list (write-to-code-node
+                                                          "class-slot-symbol-list"
+                                                          (docparser:slot-initarg node)))
+                                                   :metadata symbol-metadata))
+                                  :metadata row-metadata)))
+                (when (second (multiple-value-list (docparser:slot-initform node)))
+                  (list (make-row (list (make-cell (list (make-text "Initform:"))
+                                                   :metadata left-col-metadata)
+                                        (make-cell (list (write-to-code-node
+                                                          "class-slot-symbol-list"
+                                                          (docparser:slot-initform node)))
+                                                   :metadata symbol-metadata))
+                                  :metadata row-metadata)))
+                (when (docparser:slot-readers node)
+                  (list (make-row (list (make-cell (list (make-text "Readers:"))
+                                                   :metadata left-col-metadata)
+                                        (make-cell (list (list-to-code-node
+                                                          "class-slot-symbol-list"
+                                                          (docparser:slot-readers node)))
+                                                   :metadata symbol-metadata))
+                                  :metadata row-metadata)))
+                (when (docparser:slot-writers node)
+                  (list (make-row (list (make-cell (list (make-text "Writers:"))
+                                                   :metadata left-col-metadata)
+                                        (make-cell (list (list-to-code-node
+                                                          "class-slot-symbol-list"
+                                                          (docparser:slot-writers node)))
+                                                   :metadata symbol-metadata))
+                                  :metadata row-metadata)))
+                (when (docparser:slot-accessors node)
+                  (list (make-row (list (make-cell (list (make-text "Accessors:"))
+                                                   :metadata left-col-metadata)
+                                        (make-cell (list (list-to-code-node
+                                                          "class-slot-symbol-list"
+                                                          (docparser:slot-accessors node)))
+                                                   :metadata symbol-metadata))
+                                  :metadata row-metadata))))))
+    (make-instance 'list-item
+                   :metadata (make-class-metadata (list "slot" "class-slot"))
+                   :children
+                   (list (name-node node)
+                         (docstring-node node)
+                         (make-instance 'content-node
+                                        :metadata (make-class-metadata "class-slot-option-node")
+                                        :children
+                                        (list
+                                         (common-doc:make-table rows
+                                                                :metadata
+                                                                (make-class-metadata
+                                                                 "class-slot-option-table"))))))))
 
 (defun expand-record-node (class node)
   (let ((beginning (list (list "record" class)

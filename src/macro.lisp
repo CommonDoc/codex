@@ -171,11 +171,79 @@ explicitly supported by this method."
 
 (defmethod expand-node ((node docparser:struct-slot-node))
   "Expand a structure slot node. This doesn't have any docstrings."
-  (make-instance 'list-item
-                 :metadata (make-class-metadata (list "slot" "structure-slot"))
-                 :children
-                 (list
-                  (name-node node))))
+  ;; The slot options are going to be in a table of option-value pairs on each
+  ;; row if the version of docparser is new enough to be able to get them.
+  ;; Otherwise no table will be actually added to the document. The first row
+  ;; is a header.
+  ;;
+  ;; The options will be in the following order:
+  ;;
+  ;; 1. type
+  ;; 2. readonly
+  ;; 3. accessor, if available
+  ;; 4. initform, if available
+  (let* ((left-col-metadata (make-class-metadata "class-struct-slot-option-label-cell"))
+         (header-metadata (make-class-metadata "class-struct-slot-option-header-cell"))
+         (symbol-list-metadata (make-class-metadata '("class-struct-slot-option-value-cell"
+                                                      "class-struct-slot-option-symbol-list-cell")))
+         (row-metadata (make-class-metadata "class-struct-slot-option-row"))
+         (rows (append
+                (list (make-row (list (make-cell (list (make-text "Option"))
+                                                 :metadata header-metadata)
+                                      (make-cell (list (make-text "Value"))
+                                                 :metadata header-metadata))
+                                :metadata row-metadata))
+                (when (fboundp 'docparser::struct-slot-type)
+                  (list (make-row (list (make-cell (list (make-text "Type:"))
+                                                   :metadata left-col-metadata)
+                                        (make-cell (list (write-to-code-node
+                                                          "class-struct-slot-symbol-list"
+                                                          (docparser::struct-slot-type node)))
+                                                   :metadata symbol-list-metadata))
+                                  :metadata row-metadata)))
+                (when (fboundp 'docparser::struct-slot-read-only)
+                  (list (make-row (list (make-cell (list (make-text "Read Only:"))
+                                                   :metadata left-col-metadata)
+                                        (make-cell (list (write-to-code-node
+                                                          "class-struct-slot-symbol-list"
+                                                          (docparser::struct-slot-read-only node)))
+                                                   :metadata symbol-list-metadata))
+                                  :metadata row-metadata)))
+                ;; Only include accessor and initform if they are available.
+                (when (and (fboundp 'docparser::struct-slot-accessor)
+                           (docparser::struct-slot-accessor node))
+                  (list (make-row (list (make-cell (list (make-text "Accessor:"))
+                                                   :metadata left-col-metadata)
+                                        (make-cell (list (write-to-code-node
+                                                          "class-struct-slot-symbol-list"
+                                                          (docparser::struct-slot-accessor node)))
+                                                   :metadata symbol-list-metadata))
+                                  :metadata row-metadata)))
+                (when (and (slot-exists-p node 'docparser::initform)
+                           (second (multiple-value-list (docparser:slot-initform node))))
+                  (list (make-row (list (make-cell (list (make-text "Initform:"))
+                                                   :metadata left-col-metadata)
+                                        (make-cell (list (write-to-code-node
+                                                          "class-struct-slot-symbol-list"
+                                                          (docparser:slot-initform node)))
+                                                   :metadata symbol-list-metadata))
+                                  :metadata row-metadata))))))
+    (make-instance 'list-item
+                   :metadata (make-class-metadata (list "slot" "structure-slot"))
+                   :children
+                   (append
+                    (list (name-node node))
+                    (when (< 1 (list-length rows))
+                      (list (make-instance 'content-node
+                                           :metadata
+                                           (make-class-metadata "class-struct-slot-option-node")
+                                           :children
+                                           (list
+                                            (common-doc:make-table
+                                             rows
+                                             :metadata
+                                             (make-class-metadata
+                                              "class-struct-slot-option-table"))))))))))
 
 (defmethod expand-node ((node docparser:class-slot-node))
   "Expand a class slot node."
@@ -191,13 +259,11 @@ explicitly supported by this method."
   ;; 5. readers, if available
   ;; 6. writers, if available
   ;; 7. accessors, if available
-  (let* ((left-col-metadata (make-class-metadata "class-slot-option-label-cell"))
-         (header-metadata (make-class-metadata "class-slot-option-header-cell"))
-         (symbol-metadata (make-class-metadata '("class-slot-option-value-cell"
-                                                 "class-slot-option-symbol-cell")))
-         (list-metadata (make-class-metadata '("class-slot-option-value-cell"
-                                               "class-slot-option-list-cell")))
-         (row-metadata (make-class-metadata "class-slot-option-row"))
+  (let* ((left-col-metadata (make-class-metadata "class-struct-slot-option-label-cell"))
+         (header-metadata (make-class-metadata "class-struct-slot-option-header-cell"))
+         (symbol-list-metadata (make-class-metadata '("class-struct-slot-option-value-cell"
+                                                      "class-struct-slot-option-symbol-list-cell")))
+         (row-metadata (make-class-metadata "class-struct-slot-option-row"))
          (rows (append
                 (list (make-row (list (make-cell (list (make-text "Option"))
                                                  :metadata header-metadata)
@@ -209,14 +275,14 @@ explicitly supported by this method."
                                       (make-cell (list (make-text
                                                         (docparser:render-humanize
                                                          (docparser:slot-allocation node))))
-                                                 :metadata symbol-metadata))
+                                                 :metadata symbol-list-metadata))
                                 :metadata row-metadata))
                 (list (make-row (list (make-cell (list (make-text "Type:"))
                                                  :metadata left-col-metadata)
                                       (make-cell (list (write-to-code-node
-                                                        "class-slot-symbol-list"
+                                                        "class-struct-slot-symbol-list"
                                                         (docparser:slot-type node)))
-                                                 :metadata symbol-metadata))
+                                                 :metadata symbol-list-metadata))
                                 :metadata row-metadata))
                 ;; Only include initarg, initform, readers, writers, and
                 ;; accessors if they are available.
@@ -224,41 +290,41 @@ explicitly supported by this method."
                   (list (make-row (list (make-cell (list (make-text "Initarg:"))
                                                    :metadata left-col-metadata)
                                         (make-cell (list (write-to-code-node
-                                                          "class-slot-symbol-list"
+                                                          "class-struct-slot-symbol-list"
                                                           (docparser:slot-initarg node)))
-                                                   :metadata symbol-metadata))
+                                                   :metadata symbol-list-metadata))
                                   :metadata row-metadata)))
                 (when (second (multiple-value-list (docparser:slot-initform node)))
                   (list (make-row (list (make-cell (list (make-text "Initform:"))
                                                    :metadata left-col-metadata)
                                         (make-cell (list (write-to-code-node
-                                                          "class-slot-symbol-list"
+                                                          "class-struct-slot-symbol-list"
                                                           (docparser:slot-initform node)))
-                                                   :metadata symbol-metadata))
+                                                   :metadata symbol-list-metadata))
                                   :metadata row-metadata)))
                 (when (docparser:slot-readers node)
                   (list (make-row (list (make-cell (list (make-text "Readers:"))
                                                    :metadata left-col-metadata)
                                         (make-cell (list (list-to-code-node
-                                                          "class-slot-symbol-list"
+                                                          "class-struct-slot-symbol-list"
                                                           (docparser:slot-readers node)))
-                                                   :metadata symbol-metadata))
+                                                   :metadata symbol-list-metadata))
                                   :metadata row-metadata)))
                 (when (docparser:slot-writers node)
                   (list (make-row (list (make-cell (list (make-text "Writers:"))
                                                    :metadata left-col-metadata)
                                         (make-cell (list (list-to-code-node
-                                                          "class-slot-symbol-list"
+                                                          "class-struct-slot-symbol-list"
                                                           (docparser:slot-writers node)))
-                                                   :metadata symbol-metadata))
+                                                   :metadata symbol-list-metadata))
                                   :metadata row-metadata)))
                 (when (docparser:slot-accessors node)
                   (list (make-row (list (make-cell (list (make-text "Accessors:"))
                                                    :metadata left-col-metadata)
                                         (make-cell (list (list-to-code-node
-                                                          "class-slot-symbol-list"
+                                                          "class-struct-slot-symbol-list"
                                                           (docparser:slot-accessors node)))
-                                                   :metadata symbol-metadata))
+                                                   :metadata symbol-list-metadata))
                                   :metadata row-metadata))))))
     (make-instance 'list-item
                    :metadata (make-class-metadata (list "slot" "class-slot"))
@@ -266,30 +332,193 @@ explicitly supported by this method."
                    (list (name-node node)
                          (docstring-node node)
                          (make-instance 'content-node
-                                        :metadata (make-class-metadata "class-slot-option-node")
+                                        :metadata
+                                        (make-class-metadata "class-struct-slot-option-node")
                                         :children
                                         (list
-                                         (common-doc:make-table rows
-                                                                :metadata
-                                                                (make-class-metadata
-                                                                 "class-slot-option-table"))))))))
+                                         (common-doc:make-table
+                                          rows
+                                          :metadata
+                                          (make-class-metadata
+                                           "class-struct-slot-option-table"))))))))
 
 (defun expand-record-node (class node)
+  ;; The middle holds the class/struct attributes. Some entries can only be
+  ;; gotten in newer versions of docparser, so they are only gotten if
+  ;; possible.
   (let ((beginning (list (list "record" class)
                          (name-node node)))
-        (middle (when (typep node 'docparser:class-node)
-                  (list (make-instance 'content-node
-                                       :metadata (make-class-metadata "superclass-node")
-                                       :children
-                                       (list (make-instance 'code
-                                                            :metadata
-                                                            (make-class-metadata "superclass-label")
-                                                            :children
-                                                            (list (make-text "Superclasses:")))
-                                             (list-to-code-node
-                                              "superclass-list"
-                                              (append (docparser:class-node-superclasses node)
-                                                      (list t))))))))
+        (middle (let* ((left-col-metadata (make-class-metadata
+                                           "class-struct-slot-option-label-cell"))
+                       (header-metadata (make-class-metadata
+                                         "class-struct-slot-option-header-cell"))
+                       (symbol-list-metadata (make-class-metadata
+                                              '("class-struct-slot-option-value-cell"
+                                                "class-struct-slot-option-symbol-list-cell")))
+                       (row-metadata (make-class-metadata "class-struct-slot-option-row"))
+                       (header-row (list (make-row (list (make-cell (list (make-text "Option"))
+                                                                    :metadata header-metadata)
+                                                         (make-cell (list (make-text "Value"))
+                                                                    :metadata header-metadata))
+                                                   :metadata row-metadata)))
+                       (rows (if (typep node 'docparser:class-node)
+                                 ;; For classes, they are, in order
+                                 ;;
+                                 ;; 1. superclasses
+                                 ;; 2. metaclass, if available
+                                 ;; 3. default-initargs, if possible
+                                 (append
+                                  (list (make-row
+                                         (list (make-cell (list (make-text "Superclasses:"))
+                                                          :metadata left-col-metadata)
+                                               (make-cell
+                                                (list
+                                                 (list-to-code-node
+                                                  "class-struct-slot-symbol-list"
+                                                  (append (docparser:class-node-superclasses node)
+                                                          (list t))))
+                                                :metadata symbol-list-metadata))
+                                         :metadata row-metadata))
+                                  (when (fboundp 'docparser::class-node-metaclass)
+                                    (list (make-row
+                                           (list (make-cell (list (make-text "Metaclass:"))
+                                                            :metadata left-col-metadata)
+                                                 (make-cell
+                                                  (list (write-to-code-node
+                                                         "class-struct-slot-symbol-list"
+                                                         (docparser::class-node-metaclass node)))
+                                                  :metadata symbol-list-metadata))
+                                           :metadata row-metadata)))
+                                  (when (fboundp 'docparser::class-node-default-initargs)
+                                    (list (make-row
+                                           (list (make-cell
+                                                  (list (make-text "Default Initargs:"))
+                                                  :metadata left-col-metadata)
+                                                 (make-cell
+                                                  (list (write-to-code-node
+                                                         "class-struct-slot-symbol-list"
+                                                         (docparser::class-node-default-initargs
+                                                          node)))
+                                                  :metadata symbol-list-metadata))
+                                           :metadata row-metadata))))
+                                 ;; For structs, they are, in order (note none
+                                 ;; of them are available for older versions of
+                                 ;; docparser)
+                                 ;;
+                                 ;; 1. constructor
+                                 ;; 2. predicate
+                                 ;; 3. copier
+                                 ;; 4. print-function, if available
+                                 ;; 5. print-object, if available
+                                 ;; 6. type, if something other than nil
+                                 ;; 7. named, if meaningful
+                                 ;; 8. initial-offset, if meaningful
+                                 (when (every #'fboundp
+                                              '(docparser::struct-node-constructor
+                                                docparser::struct-node-predicate
+                                                docparser::struct-node-copier
+                                                docparser::struct-node-print-function
+                                                docparser::struct-node-print-object
+                                                docparser::struct-node-type
+                                                docparser::struct-node-named
+                                                docparser::struct-node-initial-offset))
+                                   (append
+                                    (list (make-row
+                                           (list (make-cell (list (make-text "Constructor:"))
+                                                            :metadata left-col-metadata)
+                                                 (make-cell
+                                                  (list
+                                                   (list-to-code-node
+                                                    "class-struct-slot-symbol-list"
+                                                    (docparser::struct-node-constructor node)))
+                                                  :metadata symbol-list-metadata))
+                                           :metadata row-metadata))
+                                    (list (make-row
+                                           (list (make-cell (list (make-text "Predicate:"))
+                                                            :metadata left-col-metadata)
+                                                 (make-cell
+                                                  (list
+                                                   (list-to-code-node
+                                                    "class-struct-slot-symbol-list"
+                                                    (docparser::struct-node-predicate node)))
+                                                  :metadata symbol-list-metadata))
+                                           :metadata row-metadata))
+                                    (list (make-row
+                                           (list (make-cell (list (make-text "Copier:"))
+                                                            :metadata left-col-metadata)
+                                                 (make-cell
+                                                  (list
+                                                   (list-to-code-node
+                                                    "class-struct-slot-symbol-list"
+                                                    (docparser::struct-node-copier node)))
+                                                  :metadata symbol-list-metadata))
+                                           :metadata row-metadata))
+                                    (when (docparser::struct-node-print-function node)
+                                      (list (make-row
+                                             (list (make-cell (list (make-text "Print Function:"))
+                                                              :metadata left-col-metadata)
+                                                   (make-cell
+                                                    (list
+                                                     (list-to-code-node
+                                                      "class-struct-slot-symbol-list"
+                                                      (docparser::struct-node-print-function
+                                                       node)))
+                                                    :metadata symbol-list-metadata))
+                                             :metadata row-metadata)))
+                                    (when (docparser::struct-node-print-object node)
+                                      (list (make-row
+                                             (list (make-cell (list (make-text "Print Object:"))
+                                                              :metadata left-col-metadata)
+                                                   (make-cell
+                                                    (list
+                                                     (list-to-code-node
+                                                      "class-struct-slot-symbol-list"
+                                                      (docparser::struct-node-print-object node)))
+                                                    :metadata symbol-list-metadata))
+                                             :metadata row-metadata)))
+                                    (when (docparser::struct-node-type node)
+                                      (list (make-row
+                                             (list (make-cell (list (make-text "Type:"))
+                                                              :metadata left-col-metadata)
+                                                   (make-cell
+                                                    (list
+                                                     (write-to-code-node
+                                                      "class-struct-slot-symbol-list"
+                                                      (docparser::struct-node-type node)))
+                                                    :metadata symbol-list-metadata))
+                                             :metadata row-metadata)
+                                            (make-row
+                                             (list (make-cell (list (make-text "Named:"))
+                                                              :metadata left-col-metadata)
+                                                   (make-cell
+                                                    (list
+                                                     (list-to-code-node
+                                                      "class-struct-slot-symbol-list"
+                                                      (docparser::struct-node-named node)))
+                                                    :metadata symbol-list-metadata))
+                                             :metadata row-metadata)
+                                            (make-row
+                                             (list (make-cell (list (make-text "Initial Offset:"))
+                                                              :metadata left-col-metadata)
+                                                   (make-cell
+                                                    (list
+                                                     (list-to-code-node
+                                                      "class-struct-slot-symbol-list"
+                                                      (docparser::struct-node-initial-offset
+                                                       node)))
+                                                    :metadata symbol-list-metadata))
+                                             :metadata row-metadata))))))))
+                  (when rows
+                    (list (make-instance 'content-node
+                                         :metadata
+                                         (make-class-metadata "class-struct-slot-option-node")
+                                         :children
+                                         (list
+                                          (common-doc:make-table
+                                           (cons header-row rows)
+                                           :metadata
+                                           (make-class-metadata
+                                            "class-struct-slot-option-table"))))))))
         (end (list (docstring-node node)
                    (make-instance 'unordered-list
                                   :metadata (make-class-metadata "slot-list")

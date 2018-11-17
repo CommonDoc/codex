@@ -33,7 +33,7 @@
 
 /* Class and struct option and slot option table styling */
 
-.codex-class-struct-slot-option-node] {
+.codex-class-struct-slot-option-node {
     display: block;
     margin: 15px;
     align-items: flex-start;

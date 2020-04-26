@@ -1,7 +1,7 @@
 # Codex
 
-[![Build Status](https://travis-ci.org/CommonDoc/codex.svg?branch=master)](https://travis-ci.org/CommonDoc/codex)
-[![Coverage Status](https://coveralls.io/repos/CommonDoc/codex/badge.svg?branch=master)](https://coveralls.io/r/CommonDoc/codex?branch=master)
+[![Build Status](https://travis-ci.com/shamazmazum/codex.svg?branch=master)](https://travis-ci.com/shamazmazum/codex)
+[![Coverage Status](https://coveralls.io/repos/github/shamazmazum/codex/badge.svg?branch=master)](https://coveralls.io/github/shamazmazum/codex?branch=master)
 
 A documentation system for Common Lisp.
 

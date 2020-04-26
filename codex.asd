@@ -27,4 +27,8 @@
   :long-description
   #.(uiop:read-file-string
      (uiop:subpathname *load-pathname* "README.md"))
-  :in-order-to ((test-op (test-op codex-test))))
+  :in-order-to ((test-op (load-op codex-test)))
+  :perform (test-op (op system)
+                    (declare (ignore op system))
+                    (format *standard-output*
+                            "You have to run the tests manually with (codex-test:do-tests)")))

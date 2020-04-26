@@ -43,8 +43,8 @@ script:
                     (uiop:quit -1)))'
         -e '(coveralls:with-coveralls (:exclude (list "t" "src/error.lisp"))
               (ql:quickload :codex-templates)
-              (ql:quickload :codex-test))'
-
-notifications:
-  email:
-    - eudoxiahp@gmail.com
+              (ql:quickload :codex-test)
+              (funcall
+               (symbol-function
+                (intern (symbol-name (quote :do-tests))
+                        (find-package :codex-test)))))'

@@ -1,7 +1,11 @@
 (in-package :cl-user)
 (defpackage codex-test
-  (:use :cl :fiveam))
+  (:use :cl :fiveam)
+  (:export :do-tests))
 (in-package :codex-test)
+
+(defun do-tests ()
+  (run! 'tests))
 
 ;;; Constants
 
@@ -72,12 +76,7 @@
             (merge-pathnames  #p"doc-a/html/section-a.html"
                               +doc-build-directory+))))
   (is-false
-   (search "No node with name"
-           (uiop:read-file-string
-            (merge-pathnames  #p"doc-b/html/section-a.html"
-                              +doc-build-directory+))))
-  (is-false
-   (search "Unsupported node type"
+   (search "No node type with name"
            (uiop:read-file-string
             (merge-pathnames  #p"doc-b/html/section-a.html"
                               +doc-build-directory+))))
@@ -91,5 +90,3 @@
            (uiop:read-file-string
             (merge-pathnames  #p"doc-b/html/section-b.html"
                               +doc-build-directory+)))))
-
-(run! 'tests)

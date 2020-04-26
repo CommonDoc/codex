@@ -46,7 +46,7 @@
   (declare (ignore tc a))
   t)
 
-(define-condition my-error ()
+(define-condition my-error (simple-condition)
   ((first-slot :accessor first-slot
                :initarg :first-slot
                :documentation "docstring"))

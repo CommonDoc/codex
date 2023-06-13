@@ -126,7 +126,7 @@
                        #p"style.css")
                  (cons #p"static/highlight-lisp/highlight-lisp.js"
                        #p"highlight.js")
-                 (cons #p"static/highlight-lisp/themes/github.css"
+                 (cons #p"static/highlight-lisp/themes/github-readable-comments.css"
                        #p"highlight.css"))
   :documentation "Minimalist template.")
 
@@ -142,7 +142,7 @@
                        #p"style.css")
                  (cons #p"static/highlight-lisp/highlight-lisp.js"
                        #p"highlight.js")
-                 (cons #p"static/highlight-lisp/themes/github.css"
+                 (cons #p"static/highlight-lisp/themes/github-readable-comments.css"
                        #p"highlight.css"))
   :documentation "Modern template.")
 

@@ -58,15 +58,22 @@
                                            +templates-directory+))
           (output-pathname (merge-pathnames output
                                             (static-output-directory tmpl))))
+      ;; cl-fad:copy-file does almost the same thing, but cannot append.
+      ;; This can be solved in SBCL with restarts, but we want this
+      ;; code to be portable, don't we?
       (with-open-file (input-stream input-pathname
-                                    :direction :input)
+                                    :direction :input
+                                    :element-type '(unsigned-byte 8))
         (with-open-file (output-stream output-pathname
                                        :direction :output
+                                       :element-type '(unsigned-byte 8)
                                        ;; Important: The following allows us to
                                        ;; concatenate static files
                                        :if-exists :append
                                        :if-does-not-exist :create)
-          (uiop:copy-stream-to-stream input-stream output-stream))))))
+          (uiop:copy-stream-to-stream
+           input-stream output-stream
+           :element-type '(unsigned-byte 8)))))))
 
 (defmethod render ((tmpl built-in-template) (document document) content-string)
   "Render a built-in document template."
@@ -114,10 +121,25 @@
      (defmethod static-files ((template ,name))
        ,static-files)))
 
+(defun append-mathjax-fonts (&rest files)
+  (append
+   (mapcar
+    (lambda (pathname)
+      (cons
+       (uiop:enough-pathname pathname
+                             (asdf:system-relative-pathname
+                              :codex "templates/"))
+       (make-pathname :name (pathname-name pathname)
+                      :type (pathname-type pathname))))
+    (cl-fad:list-directory
+     (asdf:system-relative-pathname
+      :codex "templates/static/mathjax/woff-v2/")))
+   files))
+
 (define-built-in-template minima
   :document-template (djula:compile-template* "minima/document.html")
   :section-template (djula:compile-template* "minima/section.html")
-  :static-files (list
+  :static-files (append-mathjax-fonts
                  (cons #p"minima/style.css"
                        #p"style.css")
                  (cons #p"static/reset.css"
@@ -127,13 +149,17 @@
                  (cons #p"static/highlight-lisp/highlight-lisp.js"
                        #p"highlight.js")
                  (cons #p"static/highlight-lisp/themes/github.css"
-                       #p"highlight.css"))
+                       #p"highlight.css")
+                 (cons #p"static/mathjax/tex-chtml.js"
+                       #p"tex-chtml.js")
+                 (cons #p"static/mathjax/load-mathjax.js"
+                       #p"load-mathjax.js"))
   :documentation "Minimalist template.")
 
 (define-built-in-template gamma
   :document-template (djula:compile-template* "gamma/document.html")
   :section-template (djula:compile-template* "gamma/section.html")
-  :static-files (list
+  :static-files (append-mathjax-fonts
                  (cons #p"gamma/style.css"
                        #p"style.css")
                  (cons #p"static/reset.css"
@@ -143,7 +169,11 @@
                  (cons #p"static/highlight-lisp/highlight-lisp.js"
                        #p"highlight.js")
                  (cons #p"static/highlight-lisp/themes/github.css"
-                       #p"highlight.css"))
+                       #p"highlight.css")
+                 (cons #p"static/mathjax/tex-chtml.js"
+                       #p"tex-chtml.js")
+                 (cons #p"static/mathjax/load-mathjax.js"
+                       #p"load-mathjax.js"))
   :documentation "Modern template.")
 
 ;;; Template database

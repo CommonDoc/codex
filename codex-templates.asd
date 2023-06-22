@@ -5,6 +5,7 @@
   :version "0.1"
   :depends-on (:common-html
                :djula
+               :cl-fad
                :trivial-types)
   :components ((:module "templates"
                 :serial t

@@ -102,8 +102,6 @@
 
 ;;; Built-in templates
 
-(djula:add-template-directory +templates-directory+)
-
 (defmacro define-built-in-template (name &key document-template section-template
                                            static-files
                                            documentation)
@@ -136,9 +134,15 @@
       :codex "templates/static/mathjax/woff-v2/")))
    files))
 
+(defun template-pathname (pathname)
+  "Get a pathname of a file in templates directory."
+  (merge-pathnames (pathname pathname) +templates-directory+))
+
 (define-built-in-template minima
-  :document-template (djula:compile-template* "minima/document.html")
-  :section-template (djula:compile-template* "minima/section.html")
+  :document-template (djula:compile-template*
+                      (template-pathname #p"minima/document.html"))
+  :section-template  (djula:compile-template*
+                      (template-pathname #p"minima/section.html"))
   :static-files (append-mathjax-fonts
                  (cons #p"minima/style.css"
                        #p"style.css")
@@ -157,8 +161,10 @@
   :documentation "Minimalist template.")
 
 (define-built-in-template gamma
-  :document-template (djula:compile-template* "gamma/document.html")
-  :section-template (djula:compile-template* "gamma/section.html")
+  :document-template (djula:compile-template*
+                      (template-pathname #p"gamma/document.html"))
+  :section-template  (djula:compile-template*
+                      (template-pathname #p"gamma/section.html"))
   :static-files (append-mathjax-fonts
                  (cons #p"gamma/style.css"
                        #p"style.css")
